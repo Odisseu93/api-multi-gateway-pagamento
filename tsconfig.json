@@ -1,8 +1,16 @@
 {
   "extends": "@adonisjs/tsconfig/tsconfig.app.json",
+  "esModuleInterop": true,
   "compilerOptions": {
     "rootDir": "./",
     "jsx": "react",
-    "outDir": "./build"
+    "outDir": "./build",
+    "strict": true,
+    "paths": {
+      "#domain/*": ["./src/domain/*.ts"],
+      "#application/*": ["./src/application/*.ts"],
+      "#infrastructure/*": ["./src/infrastructure/*.ts"],
+      "#shared/*": ["./src/shared/*.ts"]
+    }
   }
 }

@@ -10,7 +10,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 - [x] **chore(config):** Inicializar projeto AdonisJS (última versão LTS) com TypeScript
   - `npm init adonisjs@latest . -- --kit=api`
-- [ ] **chore(config):** Configurar `tsconfig.json` (`strict: true`, `esModuleInterop: true`, path aliases)
+- [x] **chore(config):** Configurar `tsconfig.json` (`strict: true`, `esModuleInterop: true`, path aliases)
 - [ ] **chore(config):** Instalar e configurar ESLint (`@typescript-eslint/recommended`) + Prettier
   - `.eslintrc.json`, `.prettierrc`
   - Scripts no `package.json`: `lint`, `lint:fix`, `format`, `typecheck`
