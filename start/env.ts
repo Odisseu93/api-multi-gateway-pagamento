@@ -22,6 +22,20 @@ export default await Env.create(new URL('../', import.meta.url), {
   APP_KEY: Env.schema.secret(),
   APP_URL: Env.schema.string({ format: 'url', tld: false }),
 
-  // Session
-  SESSION_DRIVER: Env.schema.enum(['cookie', 'memory', 'database'] as const),
+  // Database (MySQL)
+  DB_HOST: Env.schema.string({ format: 'host' }),
+  DB_PORT: Env.schema.number(),
+  DB_USER: Env.schema.string(),
+  DB_PASSWORD: Env.schema.string(),
+  DB_DATABASE: Env.schema.string(),
+
+  // Gateway 1 — Bearer token auth
+  GATEWAY_1_URL: Env.schema.string({ format: 'url', tld: false }),
+  GATEWAY_1_EMAIL: Env.schema.string(),
+  GATEWAY_1_TOKEN: Env.schema.secret(),
+
+  // Gateway 2 — Header auth
+  GATEWAY_2_URL: Env.schema.string({ format: 'url', tld: false }),
+  GATEWAY_2_AUTH_TOKEN: Env.schema.secret(),
+  GATEWAY_2_AUTH_SECRET: Env.schema.secret(),
 })

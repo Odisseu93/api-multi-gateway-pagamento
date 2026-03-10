@@ -11,17 +11,17 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 - [x] **chore(config):** Inicializar projeto AdonisJS (última versão LTS) com TypeScript
   - `npm init adonisjs@latest . -- --kit=api`
 - [x] **chore(config):** Configurar `tsconfig.json` (`strict: true`, `esModuleInterop: true`, path aliases)
-- [ ] **chore(config):** Instalar e configurar ESLint (`@typescript-eslint/recommended`) + Prettier
-  - `.eslintrc.json`, `.prettierrc`
+- [x] **chore(config):** Instalar e configurar ESLint (`@typescript-eslint/recommended`) + Prettier
+  - `eslint.config.js` via `@adonisjs/eslint-config`, `prettier` via `@adonisjs/prettier-config`
   - Scripts no `package.json`: `lint`, `lint:fix`, `format`, `typecheck`
-- [ ] **chore(config):** Criar `.env.example` com todas as variáveis de ambiente necessárias
+- [x] **chore(config):** Criar `.env.example` com todas as variáveis de ambiente necessárias
   - `NODE_ENV`, `PORT`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`
   - `GATEWAY_1_URL`, `GATEWAY_2_URL`
   - `GATEWAY_1_EMAIL`, `GATEWAY_1_TOKEN`
   - `GATEWAY_2_AUTH_TOKEN`, `GATEWAY_2_AUTH_SECRET`
-- [ ] **chore(config):** Configurar `@adonisjs/auth` (token guard — `auth_access_tokens`)
-- [ ] **chore(config):** Configurar `@adonisjs/lucid` com MySQL
-- [ ] **chore(config):** Criar `.gitignore` e `.dockerignore` adequados
+- [x] **chore(config):** Configurar `@adonisjs/auth` (token guard — `auth_access_tokens`)
+- [x] **chore(config):** Configurar `@adonisjs/lucid` com MySQL
+- [x] **chore(config):** Criar `.gitignore` e `.dockerignore` adequados
 
 ---
 

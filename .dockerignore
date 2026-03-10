@@ -1,0 +1,26 @@
+# Dependencies and build output
+node_modules
+build
+tmp/*
+!tmp/.gitkeep
+
+# Secrets
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Dev tooling
+.fleet
+.idea
+.vscode
+npm-debug.log
+yarn-error.log
+coverage
+
+# Git
+.git
+.gitignore
+
+# Platform specific
+.DS_Store
