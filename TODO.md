@@ -41,24 +41,24 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 > Ordem de criação: `users` → `auth_access_tokens` → `gateways` → `clients` → `products` → `transactions` → `transaction_products`
 
-- [ ] **chore(db):** Migration `create_users_table`
+- [x] **chore(db):** Migration `create_users_table`
   - Colunas: `id`, `full_name`, `email` (UNIQUE), `password`, `role` (VARCHAR 20, DEFAULT 'USER'), `created_at`, `updated_at`
-- [ ] **chore(db):** Migration `create_auth_access_tokens_table`
+- [x] **chore(db):** Migration `create_auth_access_tokens_table`
   - Colunas: `id`, `tokenable_id` (FK → users ON DELETE CASCADE), `type`, `name`, `hash` (UNIQUE), `abilities`, `created_at`, `updated_at`, `last_used_at`, `expires_at`
-- [ ] **chore(db):** Migration `create_gateways_table`
+- [x] **chore(db):** Migration `create_gateways_table`
   - Colunas: `id`, `name`, `slug` (UNIQUE), `is_active` (DEFAULT true), `priority` (UNIQUE), `created_at`, `updated_at`
-- [ ] **chore(db):** Migration `create_clients_table`
+- [x] **chore(db):** Migration `create_clients_table`
   - Colunas: `id`, `user_id` (FK → users.id, UNIQUE — relação 1:1 obrigatória), `name`, `email` (UNIQUE), `created_at`, `updated_at`, `deleted_at`
   - Todo cliente precisa ser um usuário; registro criado automaticamente na primeira compra de um `role = USER`
-- [ ] **chore(db):** Migration `create_products_table`
+- [x] **chore(db):** Migration `create_products_table`
   - Colunas: `id`, `name`, `amount` (INT UNSIGNED — centavos), `is_active` (DEFAULT true), `created_at`, `updated_at`
-- [ ] **chore(db):** Migration `create_transactions_table`
+- [x] **chore(db):** Migration `create_transactions_table`
   - Colunas: `id`, `client_id` (FK), `gateway_id` (FK, NULLABLE), `external_id`, `status` (VARCHAR 20), `total_amount` (INT UNSIGNED), `card_last_numbers` (VARCHAR 10), `created_at`, `updated_at`
   - Índices: `client_id`, `gateway_id`, `external_id`, `status`, `created_at`
-- [ ] **chore(db):** Migration `create_transaction_products_table`
+- [x] **chore(db):** Migration `create_transaction_products_table`
   - Colunas: `id`, `transaction_id` (FK → transactions ON DELETE CASCADE), `product_id` (FK), `quantity` (INT UNSIGNED), `unit_amount` (INT UNSIGNED — snapshot), `created_at`, `updated_at`
   - Índice: `(transaction_id, product_id)`
-- [ ] **chore(db):** Criar Seeder com dados iniciais:
+- [x] **chore(db):** Criar Seeder com dados iniciais:
   - Usuário ADMIN padrão
   - Gateway 1 (slug: `gateway_1`, priority: 1, is_active: true)
   - Gateway 2 (slug: `gateway_2`, priority: 2, is_active: true)
