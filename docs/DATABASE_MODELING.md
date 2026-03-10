@@ -5,7 +5,7 @@
 O banco de dados foi estruturado para suportar todos os requisitos do **Nível 3**, contemplando:
 - Sistema de autenticação com controle de acesso por **roles** (ADMIN, MANAGER, FINANCE, USER)
 - Gerenciamento modular de múltiplos **gateways de pagamento** com prioridade configurável
-- Cadastro de **clientes** e **produtos**
+- Cadastro de **clientes** e **produtos** — todo cliente é obrigatoriamente um usuário do sistema
 - **Transações** compostas por múltiplos produtos e quantidades
 - Histórico de **reembolsos** rastreáveis por transação
 
@@ -17,15 +17,17 @@ O banco de dados foi estruturado para suportar todos os requisitos do **Nível 3
 ┌──────────────────────┐          ┌──────────────────────────────┐
 │        users         │          │           gateways            │
 ├──────────────────────┤          ├──────────────────────────────┤
-│ id (PK, BIGINT, AI)  │          │ id (PK, BIGINT, AI)          │
-│ name (VARCHAR 100)   │          │ name (VARCHAR 100)           │
-│ email (VARCHAR 150)  │          │ type (VARCHAR 50)            │
-│ password (VARCHAR)   │          │ is_active (BOOLEAN)          │
-│ role (ENUM)          │          │ priority (INT)               │
-│ created_at           │          │ credentials (JSON)           │
-│ updated_at           │          │ created_at                   │
-│ deleted_at           │          │ updated_at                   │
-└──────────────────────┘          └──────────────────────────────┘
+│ id (PK, BIGINT, AI)  │──────┐   │ id (PK, BIGINT, AI)          │
+│ name (VARCHAR 100)   │      │   │ name (VARCHAR 100)           │
+│ email (VARCHAR 150)  │      │   │ type (VARCHAR 50)            │
+│ password (VARCHAR)   │      │   │ is_active (BOOLEAN)          │
+│ role (ENUM)          │      │   │ priority (INT)               │
+│ created_at           │      │   │ credentials (JSON)           │
+│ updated_at           │      │   │ created_at                   │
+│ deleted_at           │      │   │ updated_at                   │
+└──────────────────────┘      │   └──────────────────────────────┘
+                              │ 1:1
+                              ▼
                                               │
                                               │ 1
                                               ▼ N
@@ -33,11 +35,11 @@ O banco de dados foi estruturado para suportar todos os requisitos do **Nível 3
 │       clients        │          │         transactions          │
 ├──────────────────────┤          ├──────────────────────────────┤
 │ id (PK, BIGINT, AI)  │◄────────►│ id (PK, BIGINT, AI)          │
-│ name (VARCHAR 100)   │  1    N  │ client_id (FK → clients)     │
-│ email (VARCHAR 150)  │          │ gateway_id (FK → gateways)   │
-│ created_at           │          │ external_id (VARCHAR 100)    │
-│ updated_at           │          │ status (ENUM)                │
-│ deleted_at           │          │ amount (BIGINT)              │
+│ user_id (FK → users) │  1    N  │ client_id (FK → clients)     │
+│ name (VARCHAR 100)   │          │ gateway_id (FK → gateways)   │
+│ email (VARCHAR 150)  │          │ external_id (VARCHAR 100)    │
+│ created_at           │          │ status (ENUM)                │
+│ updated_at           │          │ amount (BIGINT)              │
 └──────────────────────┘          │ card_last_numbers (CHAR 4)   │
                                   │ created_at                   │
                                   │ updated_at                   │
@@ -119,16 +121,19 @@ O banco de dados foi estruturado para suportar todos os requisitos do **Nível 3
 
 ### `clients` — Clientes (compradores)
 
-| Coluna       | Tipo              | Restrições         | Descrição                              |
-|--------------|-------------------|--------------------|----------------------------------------|
-| `id`         | `BIGINT UNSIGNED` | PK, AUTO_INCREMENT | Identificador único                    |
-| `name`       | `VARCHAR(100)`    | NOT NULL           | Nome do cliente                        |
-| `email`      | `VARCHAR(150)`    | NOT NULL, UNIQUE   | E-mail do cliente                      |
-| `created_at` | `TIMESTAMP`       | NOT NULL           | Data de criação                        |
-| `updated_at` | `TIMESTAMP`       | NOT NULL           | Data da última atualização             |
-| `deleted_at` | `TIMESTAMP`       | NULL               | Soft delete                            |
+| Coluna       | Tipo              | Restrições                          | Descrição                                    |
+|--------------|-------------------|-------------------------------------|----------------------------------------------|
+| `id`         | `BIGINT UNSIGNED` | PK, AUTO_INCREMENT                  | Identificador único                          |
+| `user_id`    | `BIGINT UNSIGNED` | NOT NULL, UNIQUE, FK → users.id     | Usuário do sistema vinculado a este cliente  |
+| `name`       | `VARCHAR(100)`    | NOT NULL                            | Nome completo do cliente                     |
+| `email`      | `VARCHAR(150)`    | NOT NULL, UNIQUE                    | E-mail do cliente (espelhado de `users`)     |
+| `created_at` | `TIMESTAMP`       | NOT NULL                            | Data de criação                              |
+| `updated_at` | `TIMESTAMP`       | NOT NULL                            | Data da última atualização                   |
+| `deleted_at` | `TIMESTAMP`       | NULL                                | Soft delete                                  |
 
-> **Nota:** O cliente é identificado pelo e-mail. Se um e-mail já existir no sistema, o registro existente é reutilizado ao criar uma nova transação.
+> **Nota:** A relação `users → clients` é **1:1** obrigatória pelo lado do cliente — todo cliente precisa ser um usuário, mas nem todo usuário precisa ser um cliente (ex.: ADMIN e MANAGER não realizam compras). O registro em `clients` é criado automaticamente no primeiro momento em que um usuário (`role = USER`) realiza uma compra.
+
+> **Nota:** O campo `email` em `clients` replica o e-mail de `users` para facilitar consultas históricas, mesmo se o e-mail do usuário for alterado no futuro.
 
 ---
 
@@ -201,6 +206,7 @@ O banco de dados foi estruturado para suportar todos os requisitos do **Nível 3
 | `users`                 | `role`              | INDEX   | Filtragem por role                                           |
 | `gateways`              | `priority`          | UNIQUE  | Garantir prioridades únicas                                  |
 | `gateways`              | `is_active`         | INDEX   | Filtragem rápida de gateways ativos                          |
+| `clients`               | `user_id`           | UNIQUE  | Garante relação 1:1 com `users`                              |
 | `clients`               | `email`             | UNIQUE  | Unicidade + lookup por e-mail                                |
 | `transactions`          | `client_id`         | INDEX   | Listagem de compras por cliente                              |
 | `transactions`          | `gateway_id`        | INDEX   | Relatórios por gateway                                       |
@@ -247,3 +253,5 @@ Retorna sucesso ao cliente
 | Soft delete (`deleted_at`) | Preserva histórico de usuários, clientes e produtos mesmo após exclusão lógica |
 | Tabela `refunds` separada | Centraliza o histórico de reembolsos e permite múltiplas tentativas rastreáveis |
 | `status` como `ENUM` em `transactions` | Restringe valores inválidos a nível de banco, garantindo integridade dos dados |
+| `clients.user_id` (FK → users, UNIQUE) | Garante que todo cliente é obrigatoriamente um usuário; índice UNIQUE impõe relação 1:1 no banco |
+| `clients.email` duplicado | Facilita consultas históricas de compras por e-mail sem JOIN em `users`, mesmo após eventual alteração de e-mail do usuário |

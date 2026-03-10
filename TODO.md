@@ -8,7 +8,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ## 1. Setup do Projeto
 
-- [ ] **chore(config):** Inicializar projeto AdonisJS (última versão LTS) com TypeScript
+- [x] **chore(config):** Inicializar projeto AdonisJS (última versão LTS) com TypeScript
   - `npm init adonisjs@latest . -- --kit=api`
 - [ ] **chore(config):** Configurar `tsconfig.json` (`strict: true`, `esModuleInterop: true`, path aliases)
 - [ ] **chore(config):** Instalar e configurar ESLint (`@typescript-eslint/recommended`) + Prettier
@@ -48,7 +48,8 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 - [ ] **chore(db):** Migration `create_gateways_table`
   - Colunas: `id`, `name`, `slug` (UNIQUE), `is_active` (DEFAULT true), `priority` (UNIQUE), `created_at`, `updated_at`
 - [ ] **chore(db):** Migration `create_clients_table`
-  - Colunas: `id`, `name`, `email` (INDEX), `created_at`, `updated_at`
+  - Colunas: `id`, `user_id` (FK → users.id, UNIQUE — relação 1:1 obrigatória), `name`, `email` (UNIQUE), `created_at`, `updated_at`, `deleted_at`
+  - Todo cliente precisa ser um usuário; registro criado automaticamente na primeira compra de um `role = USER`
 - [ ] **chore(db):** Migration `create_products_table`
   - Colunas: `id`, `name`, `amount` (INT UNSIGNED — centavos), `is_active` (DEFAULT true), `created_at`, `updated_at`
 - [ ] **chore(db):** Migration `create_transactions_table`
