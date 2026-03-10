@@ -27,8 +27,8 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ## 2. Infraestrutura – Docker
 
-- [ ] **chore(docker):** Criar `Dockerfile` multi-stage (builder + production) com Node Alpine
-- [ ] **chore(docker):** Criar `docker-compose.yml` com os serviços:
+- [x] **chore(docker):** Criar `Dockerfile` multi-stage (builder + production) com Node Alpine
+- [x] **chore(docker):** Criar `docker-compose.yml` com os serviços:
   - `db` — MySQL 8 com healthcheck e volume de persistência
   - `api` — build da aplicação; `depends_on: db (service_healthy)`; migrations no startup
   - `gateways-mock` — imagem `matheusprotzen/gateways-mock` (com autenticação, sem `REMOVE_AUTH`)

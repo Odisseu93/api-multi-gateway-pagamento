@@ -1,0 +1,77 @@
+services:
+  # ─────────────────────────────────────────────
+  # MySQL 8 database
+  # ─────────────────────────────────────────────
+  db:
+    image: mysql:8
+    container_name: payment_api_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p${DB_PASSWORD}']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ─────────────────────────────────────────────
+  # Gateway mocks (Gateway 1: 3001, Gateway 2: 3002)
+  # Level 3 — with authentication (no REMOVE_AUTH)
+  # ─────────────────────────────────────────────
+  gateways-mock:
+    image: matheusprotzen/gateways-mock
+    container_name: payment_api_gateways
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+      - '3002:3002'
+
+  # ─────────────────────────────────────────────
+  # API application
+  # ─────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: payment_api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '${PORT:-3333}:3333'
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: 3333
+      HOST: 0.0.0.0
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      APP_KEY: ${APP_KEY}
+      APP_URL: ${APP_URL}
+
+      # Database
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+
+      # Gateway 1
+      GATEWAY_1_URL: http://gateways-mock:3001
+      GATEWAY_1_EMAIL: ${GATEWAY_1_EMAIL}
+      GATEWAY_1_TOKEN: ${GATEWAY_1_TOKEN}
+
+      # Gateway 2
+      GATEWAY_2_URL: http://gateways-mock:3002
+      GATEWAY_2_AUTH_TOKEN: ${GATEWAY_2_AUTH_TOKEN}
+      GATEWAY_2_AUTH_SECRET: ${GATEWAY_2_AUTH_SECRET}
+
+volumes:
+  db_data:
