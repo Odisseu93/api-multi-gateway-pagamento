@@ -58,6 +58,8 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 - [x] **chore(db):** Migration `create_transaction_products_table`
   - Colunas: `id`, `transaction_id` (FK → transactions ON DELETE CASCADE), `product_id` (FK), `quantity` (INT UNSIGNED), `unit_amount` (INT UNSIGNED — snapshot), `created_at`, `updated_at`
   - Índice: `(transaction_id, product_id)`
+- [x] **chore(db):** Migration `create_refunds_table`
+  - Colunas: `id`, `transaction_id` (FK → transactions), `external_id`, `status` (VARCHAR 20), `amount` (INT UNSIGNED), `created_at`
 - [x] **chore(db):** Criar Seeder com dados iniciais:
   - Usuário ADMIN padrão
   - Gateway 1 (slug: `gateway_1`, priority: 1, is_active: true)
@@ -67,27 +69,30 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ## 4. Domínio – Entidades, Value Objects e Interfaces
 
-- [ ] **feat(domain):** Entidade `User` (`id`, `fullName`, `email`, `password`, `role`)
-- [ ] **feat(domain):** Entidade `Gateway` (`id`, `name`, `slug`, `isActive`, `priority`)
-- [ ] **feat(domain):** Entidade `Client` (`id`, `name`, `email`)
-- [ ] **feat(domain):** Entidade `Product` (`id`, `name`, `amount`, `isActive`)
-- [ ] **feat(domain):** Entidade `Transaction` (`id`, `clientId`, `gatewayId`, `externalId`, `status`, `totalAmount`, `cardLastNumbers`)
-- [ ] **feat(domain):** Entidade `TransactionProduct` (`transactionId`, `productId`, `quantity`, `unitAmount`)
-- [ ] **feat(domain):** Value Object `Money` (valor em centavos, imutável)
-- [ ] **feat(domain):** Enum `Role` (`ADMIN`, `MANAGER`, `FINANCE`, `USER`)
-- [ ] **feat(domain):** Enum `TransactionStatus` (`pending`, `completed`, `failed`, `refunded`)
-- [ ] **feat(domain):** Interface `IUserRepository`
-- [ ] **feat(domain):** Interface `IGatewayRepository`
-- [ ] **feat(domain):** Interface `IClientRepository`
-- [ ] **feat(domain):** Interface `IProductRepository`
-- [ ] **feat(domain):** Interface `ITransactionRepository`
-- [ ] **feat(domain):** Interface `IPaymentGatewayAdapter` (`charge()`, `refund()`)
+- [x] **feat(domain):** Entidade `User`
+- [x] **feat(domain):** Entidade `Gateway`
+- [x] **feat(domain):** Entidade `Client`
+- [x] **feat(domain):** Entidade `Product`
+- [x] **feat(domain):** Entidade `Transaction`
+- [x] **feat(domain):** Entidade `TransactionProduct`
+- [x] **feat(domain):** Entidade `Refund`
+- [x] **feat(domain):** Value Object `Money` (valor em centavos, imutável)
+- [x] **feat(domain):** Value Object `CardLastNumbers` (validação e extração dos 4 últimos dígitos)
+- [x] **feat(domain):** Enum `Role` (`ADMIN`, `MANAGER`, `FINANCE`, `USER`)
+- [x] **feat(domain):** Enum `TransactionStatus` (`pending`, `paid`, `failed`, `refunded`)
+- [x] **feat(domain):** Enum `RefundStatus` (`requested`, `approved`, `failed`)
+- [x] **feat(domain):** Interface `IUserRepository`
+- [x] **feat(domain):** Interface `IGatewayRepository`
+- [x] **feat(domain):** Interface `IClientRepository`
+- [x] **feat(domain):** Interface `IProductRepository`
+- [x] **feat(domain):** Interface `ITransactionRepository`
+- [x] **feat(domain):** Interface `IPaymentGatewayAdapter` (`charge()`, `refund()`)
 
 ---
 
 ## 5. Infrastructure – Lucid Models e Repositories
 
-- [ ] **feat(infra):** Lucid Model `User` (relação `hasMany` com `AccessToken`)
+- [x] **feat(infra):** Lucid Model `User` (relação `hasMany` com `AccessToken`)
 - [ ] **feat(infra):** Lucid Model `Gateway`
 - [ ] **feat(infra):** Lucid Model `Client` (relação `hasMany` com `Transaction`)
 - [ ] **feat(infra):** Lucid Model `Product`
