@@ -26,7 +26,7 @@ test.group('InMemoryRefundRepository', (group) => {
   // create
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('create() deve retornar o refund com id atribuído e dados corretos', async ({ assert }) => {
+  test('create() should return the refund with an assigned id and correct data', async ({ assert }) => {
     const refund = await repo.create(makeRefundData())
 
     assert.equal(refund.id, 1)
@@ -37,13 +37,13 @@ test.group('InMemoryRefundRepository', (group) => {
     assert.instanceOf(refund.createdAt, Date)
   })
 
-  test('create() deve aceitar externalId nulo', async ({ assert }) => {
+  test('create() should accept a null externalId', async ({ assert }) => {
     const refund = await repo.create(makeRefundData({ externalId: null }))
 
     assert.isNull(refund.externalId)
   })
 
-  test('create() deve gerar ids incrementais', async ({ assert }) => {
+  test('create() should generate incremental ids', async ({ assert }) => {
     const r1 = await repo.create(makeRefundData({ transactionId: 1 }))
     const r2 = await repo.create(makeRefundData({ transactionId: 2 }))
 
@@ -55,7 +55,7 @@ test.group('InMemoryRefundRepository', (group) => {
   // findById
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findById() deve retornar o refund correto', async ({ assert }) => {
+  test('findById() should return the correct refund', async ({ assert }) => {
     const created = await repo.create(makeRefundData())
     const found = await repo.findById(created.id!)
 
@@ -63,7 +63,7 @@ test.group('InMemoryRefundRepository', (group) => {
     assert.equal(found?.status, RefundStatus.REQUESTED)
   })
 
-  test('findById() deve retornar null para id inexistente', async ({ assert }) => {
+  test('findById() should return null for a non-existent id', async ({ assert }) => {
     assert.isNull(await repo.findById(999))
   })
 
@@ -71,7 +71,7 @@ test.group('InMemoryRefundRepository', (group) => {
   // findByTransactionId
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByTransactionId() deve retornar todos os refunds da transação', async ({ assert }) => {
+  test('findByTransactionId() should return all refunds for the transaction', async ({ assert }) => {
     await repo.create(makeRefundData({ transactionId: 10 }))
     await repo.create(makeRefundData({ transactionId: 10 }))
     await repo.create(makeRefundData({ transactionId: 20 }))
@@ -81,7 +81,7 @@ test.group('InMemoryRefundRepository', (group) => {
     assert.isTrue(refunds.every((r) => r.transactionId === 10))
   })
 
-  test('findByTransactionId() deve retornar array vazio para transação sem refunds', async ({
+  test('findByTransactionId() should return an empty array for a transaction with no refunds', async ({
     assert,
   }) => {
     assert.isEmpty(await repo.findByTransactionId(999))
@@ -91,21 +91,21 @@ test.group('InMemoryRefundRepository', (group) => {
   // updateStatus
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('updateStatus() deve mudar o status para approved', async ({ assert }) => {
+  test('updateStatus() should change the status to approved', async ({ assert }) => {
     const refund = await repo.create(makeRefundData())
     const updated = await repo.updateStatus(refund.id!, RefundStatus.APPROVED)
 
     assert.equal(updated.status, RefundStatus.APPROVED)
   })
 
-  test('updateStatus() deve mudar o status para failed', async ({ assert }) => {
+  test('updateStatus() should change the status to failed', async ({ assert }) => {
     const refund = await repo.create(makeRefundData())
     const updated = await repo.updateStatus(refund.id!, RefundStatus.FAILED)
 
     assert.equal(updated.status, RefundStatus.FAILED)
   })
 
-  test('updateStatus() deve atualizar o externalId quando fornecido', async ({ assert }) => {
+  test('updateStatus() should update the externalId when provided', async ({ assert }) => {
     const refund = await repo.create(makeRefundData({ externalId: null }))
     const updated = await repo.updateStatus(refund.id!, RefundStatus.APPROVED, 'ref-ext-confirmed')
 
@@ -113,7 +113,7 @@ test.group('InMemoryRefundRepository', (group) => {
     assert.equal(updated.status, RefundStatus.APPROVED)
   })
 
-  test('updateStatus() deve lançar erro para id inexistente', async ({ assert }) => {
+  test('updateStatus() should throw an error for a non-existent id', async ({ assert }) => {
     await assert.rejects(
       () => repo.updateStatus(999, RefundStatus.APPROVED),
       /not found/i

@@ -52,7 +52,7 @@ test.group('InMemoryGatewayRepository', (group) => {
   // findById
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findById() deve retornar o gateway correto', async ({ assert }) => {
+  test('findById() should return the correct gateway', async ({ assert }) => {
     const { gw1 } = await seed()
     const found = await repo.findById(gw1.id)
 
@@ -60,7 +60,7 @@ test.group('InMemoryGatewayRepository', (group) => {
     assert.equal(found?.type, 'gateway_1')
   })
 
-  test('findById() deve retornar null para id inexistente', async ({ assert }) => {
+  test('findById() should return null for a non-existent id', async ({ assert }) => {
     assert.isNull(await repo.findById(999))
   })
 
@@ -68,7 +68,7 @@ test.group('InMemoryGatewayRepository', (group) => {
   // findByType
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByType() deve retornar o gateway pelo tipo', async ({ assert }) => {
+  test('findByType() should return the gateway by type', async ({ assert }) => {
     await seed()
     const found = await repo.findByType('gateway_2')
 
@@ -76,7 +76,7 @@ test.group('InMemoryGatewayRepository', (group) => {
     assert.equal(found?.priority, 2)
   })
 
-  test('findByType() deve retornar null para tipo inexistente', async ({ assert }) => {
+  test('findByType() should return null for an unknown type', async ({ assert }) => {
     assert.isNull(await repo.findByType('unknown'))
   })
 
@@ -84,19 +84,19 @@ test.group('InMemoryGatewayRepository', (group) => {
   // findAllActiveOrderedByPriority
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findAllActiveOrderedByPriority() deve retornar apenas gateways ativos ordenados', async ({
+  test('findAllActiveOrderedByPriority() should return only active gateways ordered by priority', async ({
     assert,
   }) => {
     await seed()
     const actives = await repo.findAllActiveOrderedByPriority()
 
-    // gw3 é inativo e não deve aparecer
+    // gw3 is inactive and should not appear
     assert.lengthOf(actives, 2)
     assert.equal(actives[0].priority, 1)
     assert.equal(actives[1].priority, 2)
   })
 
-  test('findAllActiveOrderedByPriority() deve retornar array vazio se todos inativos', async ({
+  test('findAllActiveOrderedByPriority() should return an empty array when all gateways are inactive', async ({
     assert,
   }) => {
     db.insert<GatewayEntity & { id: number }>('gateways', {
@@ -113,21 +113,21 @@ test.group('InMemoryGatewayRepository', (group) => {
   // update
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('update() isActive deve desativar o gateway', async ({ assert }) => {
+  test('update() isActive should deactivate the gateway', async ({ assert }) => {
     const { gw1 } = await seed()
     const updated = await repo.update(gw1.id, { isActive: false })
 
     assert.isFalse(updated.isActive)
   })
 
-  test('update() priority deve alterar a prioridade', async ({ assert }) => {
+  test('update() priority should change the priority', async ({ assert }) => {
     const { gw2 } = await seed()
     const updated = await repo.update(gw2.id, { priority: 99 })
 
     assert.equal(updated.priority, 99)
   })
 
-  test('update() deve lançar erro para id inexistente', async ({ assert }) => {
+  test('update() should throw an error for a non-existent id', async ({ assert }) => {
     await assert.rejects(
       () => repo.update(999, { isActive: false }),
       /not found/i

@@ -22,7 +22,7 @@ test.group('InMemoryProductRepository', (group) => {
   // create
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('create() deve retornar produto com id e timestamps', async ({ assert }) => {
+  test('create() should return the product with an id and timestamps', async ({ assert }) => {
     const product = await repo.create(makeProduct())
 
     assert.equal(product.id, 1)
@@ -32,7 +32,7 @@ test.group('InMemoryProductRepository', (group) => {
     assert.instanceOf(product.createdAt, Date)
   })
 
-  test('create() deve gerar ids incrementais', async ({ assert }) => {
+  test('create() should generate incremental ids', async ({ assert }) => {
     const p1 = await repo.create(makeProduct({ name: 'P1' }))
     const p2 = await repo.create(makeProduct({ name: 'P2' }))
 
@@ -44,7 +44,7 @@ test.group('InMemoryProductRepository', (group) => {
   // findById
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findById() deve retornar o produto correto', async ({ assert }) => {
+  test('findById() should return the correct product', async ({ assert }) => {
     const product = await repo.create(makeProduct())
     const found = await repo.findById(product.id!)
 
@@ -52,7 +52,7 @@ test.group('InMemoryProductRepository', (group) => {
     assert.equal(found?.name, 'Produto A')
   })
 
-  test('findById() deve retornar null para id inexistente', async ({ assert }) => {
+  test('findById() should return null for a non-existent id', async ({ assert }) => {
     assert.isNull(await repo.findById(999))
   })
 
@@ -60,7 +60,7 @@ test.group('InMemoryProductRepository', (group) => {
   // findByIds
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByIds() deve retornar apenas os produtos com os ids informados', async ({ assert }) => {
+  test('findByIds() should return only the products matching the given ids', async ({ assert }) => {
     const p1 = await repo.create(makeProduct({ name: 'P1' }))
     const p2 = await repo.create(makeProduct({ name: 'P2' }))
     await repo.create(makeProduct({ name: 'P3' }))
@@ -71,7 +71,7 @@ test.group('InMemoryProductRepository', (group) => {
     assert.isTrue(found.some((p) => p.name === 'P2'))
   })
 
-  test('findByIds() deve retornar array vazio para ids inexistentes', async ({ assert }) => {
+  test('findByIds() should return an empty array for non-existent ids', async ({ assert }) => {
     assert.isEmpty(await repo.findByIds([999, 1000]))
   })
 
@@ -79,7 +79,7 @@ test.group('InMemoryProductRepository', (group) => {
   // findAll
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findAll() deve retornar todos os produtos', async ({ assert }) => {
+  test('findAll() should return all products', async ({ assert }) => {
     await repo.create(makeProduct({ name: 'P1' }))
     await repo.create(makeProduct({ name: 'P2' }))
 
@@ -87,7 +87,7 @@ test.group('InMemoryProductRepository', (group) => {
     assert.lengthOf(all, 2)
   })
 
-  test('findAll() deve retornar array vazio', async ({ assert }) => {
+  test('findAll() should return an empty array', async ({ assert }) => {
     assert.isEmpty(await repo.findAll())
   })
 
@@ -95,7 +95,7 @@ test.group('InMemoryProductRepository', (group) => {
   // update
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('update() deve atualizar name e amount', async ({ assert }) => {
+  test('update() should update name and amount', async ({ assert }) => {
     const product = await repo.create(makeProduct())
     const updated = await repo.update(product.id!, {
       name: 'Produto Atualizado',
@@ -106,14 +106,14 @@ test.group('InMemoryProductRepository', (group) => {
     assert.equal(updated.amount.cents, 2500)
   })
 
-  test('update() deve desativar o produto', async ({ assert }) => {
+  test('update() should deactivate the product', async ({ assert }) => {
     const product = await repo.create(makeProduct())
     const updated = await repo.update(product.id!, { isActive: false })
 
     assert.isFalse(updated.isActive)
   })
 
-  test('update() deve lançar erro para id inexistente', async ({ assert }) => {
+  test('update() should throw an error for a non-existent id', async ({ assert }) => {
     await assert.rejects(
       () => repo.update(999, { name: 'Ghost' }),
       /not found/i
@@ -124,14 +124,14 @@ test.group('InMemoryProductRepository', (group) => {
   // delete
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('delete() deve remover o produto', async ({ assert }) => {
+  test('delete() should remove the product', async ({ assert }) => {
     const product = await repo.create(makeProduct())
     await repo.delete(product.id!)
 
     assert.isEmpty(await repo.findAll())
   })
 
-  test('delete() deve lançar erro para id inexistente', async ({ assert }) => {
+  test('delete() should throw an error for a non-existent id', async ({ assert }) => {
     await assert.rejects(
       () => repo.delete(999),
       /not found/i

@@ -26,7 +26,7 @@ test.group('InMemoryUserRepository', (group) => {
   // create
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('create() deve retornar o usuário com id atribuído', async ({ assert }) => {
+  test('create() should return the user with an assigned id', async ({ assert }) => {
     const user = await repo.create(makeUser())
 
     assert.equal(user.id, 1)
@@ -38,7 +38,7 @@ test.group('InMemoryUserRepository', (group) => {
     assert.isNull(user.deletedAt)
   })
 
-  test('create() deve incrementar o id para cada novo usuário', async ({ assert }) => {
+  test('create() should increment the id for each new user', async ({ assert }) => {
     const u1 = await repo.create(makeUser({ email: 'a@test.com' }))
     const u2 = await repo.create(makeUser({ email: 'b@test.com' }))
 
@@ -50,7 +50,7 @@ test.group('InMemoryUserRepository', (group) => {
   // findById
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findById() deve retornar o usuário correspondente', async ({ assert }) => {
+  test('findById() should return the matching user', async ({ assert }) => {
     const created = await repo.create(makeUser())
     const found = await repo.findById(created.id!)
 
@@ -58,7 +58,7 @@ test.group('InMemoryUserRepository', (group) => {
     assert.equal(found?.email, created.email)
   })
 
-  test('findById() deve retornar null quando não encontrado', async ({ assert }) => {
+  test('findById() should return null when not found', async ({ assert }) => {
     const result = await repo.findById(999)
     assert.isNull(result)
   })
@@ -67,7 +67,7 @@ test.group('InMemoryUserRepository', (group) => {
   // findByEmail
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByEmail() deve retornar o usuário com o email informado', async ({ assert }) => {
+  test('findByEmail() should return the user with the given email', async ({ assert }) => {
     await repo.create(makeUser({ email: 'alice@test.com' }))
     await repo.create(makeUser({ email: 'bob@test.com' }))
 
@@ -75,7 +75,7 @@ test.group('InMemoryUserRepository', (group) => {
     assert.equal(user?.email, 'bob@test.com')
   })
 
-  test('findByEmail() deve retornar null para email inexistente', async ({ assert }) => {
+  test('findByEmail() should return null for a non-existent email', async ({ assert }) => {
     const result = await repo.findByEmail('ghost@test.com')
     assert.isNull(result)
   })
@@ -84,7 +84,7 @@ test.group('InMemoryUserRepository', (group) => {
   // findAll
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findAll() deve retornar todos os usuários criados', async ({ assert }) => {
+  test('findAll() should return all created users', async ({ assert }) => {
     await repo.create(makeUser({ email: 'a@test.com' }))
     await repo.create(makeUser({ email: 'b@test.com' }))
 
@@ -92,7 +92,7 @@ test.group('InMemoryUserRepository', (group) => {
     assert.lengthOf(users, 2)
   })
 
-  test('findAll() deve retornar array vazio quando não há usuários', async ({ assert }) => {
+  test('findAll() should return an empty array when there are no users', async ({ assert }) => {
     const users = await repo.findAll()
     assert.isEmpty(users)
   })
@@ -101,16 +101,16 @@ test.group('InMemoryUserRepository', (group) => {
   // update
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('update() deve modificar os campos informados', async ({ assert }) => {
+  test('update() should modify the provided fields', async ({ assert }) => {
     const user = await repo.create(makeUser())
     const updated = await repo.update(user.id!, { name: 'Jane Doe', role: Role.ADMIN })
 
     assert.equal(updated.name, 'Jane Doe')
     assert.equal(updated.role, Role.ADMIN)
-    assert.equal(updated.email, 'john@example.com') // campo não alterado
+    assert.equal(updated.email, 'john@example.com') // unchanged field
   })
 
-  test('update() deve lançar erro para id inexistente', async ({ assert }) => {
+  test('update() should throw an error for a non-existent id', async ({ assert }) => {
     await assert.rejects(
       () => repo.update(999, { name: 'Ghost' }),
       /not found/i
@@ -121,7 +121,7 @@ test.group('InMemoryUserRepository', (group) => {
   // delete
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('delete() deve remover o usuário da lista', async ({ assert }) => {
+  test('delete() should remove the user from the list', async ({ assert }) => {
     const user = await repo.create(makeUser())
     await repo.delete(user.id!)
 
@@ -129,7 +129,7 @@ test.group('InMemoryUserRepository', (group) => {
     assert.isEmpty(all)
   })
 
-  test('delete() deve lançar erro para id inexistente', async ({ assert }) => {
+  test('delete() should throw an error for a non-existent id', async ({ assert }) => {
     await assert.rejects(
       () => repo.delete(999),
       /not found/i

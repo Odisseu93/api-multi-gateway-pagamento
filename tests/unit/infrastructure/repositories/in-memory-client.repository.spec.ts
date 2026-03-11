@@ -24,7 +24,7 @@ test.group('InMemoryClientRepository', (group) => {
   // create
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('create() deve retornar o client com id atribuído', async ({ assert }) => {
+  test('create() should return the client with an assigned id', async ({ assert }) => {
     const client = await repo.create(makeClient())
 
     assert.equal(client.id, 1)
@@ -35,7 +35,7 @@ test.group('InMemoryClientRepository', (group) => {
     assert.isNull(client.deletedAt)
   })
 
-  test('create() deve gerar ids incrementais', async ({ assert }) => {
+  test('create() should generate incremental ids', async ({ assert }) => {
     const c1 = await repo.create(makeClient({ email: 'c1@test.com', userId: 1 }))
     const c2 = await repo.create(makeClient({ email: 'c2@test.com', userId: 2 }))
 
@@ -47,14 +47,14 @@ test.group('InMemoryClientRepository', (group) => {
   // findById
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findById() deve retornar o client correto', async ({ assert }) => {
+  test('findById() should return the correct client', async ({ assert }) => {
     const client = await repo.create(makeClient())
     const found = await repo.findById(client.id!)
 
     assert.equal(found?.id, client.id)
   })
 
-  test('findById() deve retornar null para id inexistente', async ({ assert }) => {
+  test('findById() should return null for a non-existent id', async ({ assert }) => {
     assert.isNull(await repo.findById(999))
   })
 
@@ -62,7 +62,7 @@ test.group('InMemoryClientRepository', (group) => {
   // findByEmail
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByEmail() deve encontrar o client pelo email', async ({ assert }) => {
+  test('findByEmail() should find the client by email', async ({ assert }) => {
     await repo.create(makeClient({ email: 'x@test.com', userId: 1 }))
     await repo.create(makeClient({ email: 'y@test.com', userId: 2 }))
 
@@ -71,7 +71,7 @@ test.group('InMemoryClientRepository', (group) => {
     assert.equal(found?.userId, 2)
   })
 
-  test('findByEmail() deve retornar null para email desconhecido', async ({ assert }) => {
+  test('findByEmail() should return null for an unknown email', async ({ assert }) => {
     assert.isNull(await repo.findByEmail('ghost@test.com'))
   })
 
@@ -79,7 +79,7 @@ test.group('InMemoryClientRepository', (group) => {
   // findByUserId
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByUserId() deve encontrar o client pelo userId', async ({ assert }) => {
+  test('findByUserId() should find the client by userId', async ({ assert }) => {
     await repo.create(makeClient({ email: 'a@test.com', userId: 10 }))
     await repo.create(makeClient({ email: 'b@test.com', userId: 20 }))
 
@@ -87,7 +87,7 @@ test.group('InMemoryClientRepository', (group) => {
     assert.equal(found?.userId, 20)
   })
 
-  test('findByUserId() deve retornar null para userId inexistente', async ({ assert }) => {
+  test('findByUserId() should return null for a non-existent userId', async ({ assert }) => {
     assert.isNull(await repo.findByUserId(999))
   })
 
@@ -95,7 +95,7 @@ test.group('InMemoryClientRepository', (group) => {
   // findAll
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findAll() deve retornar todos os clients', async ({ assert }) => {
+  test('findAll() should return all clients', async ({ assert }) => {
     await repo.create(makeClient({ email: 'a@test.com', userId: 1 }))
     await repo.create(makeClient({ email: 'b@test.com', userId: 2 }))
     await repo.create(makeClient({ email: 'c@test.com', userId: 3 }))
@@ -104,7 +104,7 @@ test.group('InMemoryClientRepository', (group) => {
     assert.lengthOf(all, 3)
   })
 
-  test('findAll() deve retornar array vazio quando não há clients', async ({ assert }) => {
+  test('findAll() should return an empty array when there are no clients', async ({ assert }) => {
     assert.isEmpty(await repo.findAll())
   })
 })
