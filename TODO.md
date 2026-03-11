@@ -86,28 +86,51 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 - [x] **feat(domain):** Interface `IClientRepository`
 - [x] **feat(domain):** Interface `IProductRepository`
 - [x] **feat(domain):** Interface `ITransactionRepository`
+- [x] **feat(domain):** Interface `IRefundRepository` (`findById`, `findByTransactionId`, `create`, `updateStatus`)
 - [x] **feat(domain):** Interface `IPaymentGatewayAdapter` (`charge()`, `refund()`)
 
 ---
 
-## 5. Infrastructure – Lucid Models e Repositories
+## 5. Infrastructure – In-Memory Repositories (para testes)
 
-- [x] **feat(infra):** Lucid Model `User` (relação `hasMany` com `AccessToken`)
-- [ ] **feat(infra):** Lucid Model `Gateway`
-- [ ] **feat(infra):** Lucid Model `Client` (relação `hasMany` com `Transaction`)
-- [ ] **feat(infra):** Lucid Model `Product`
-- [ ] **feat(infra):** Lucid Model `Transaction` (relações: `belongsTo(Client)`, `belongsTo(Gateway)`, `hasMany(TransactionProduct)`)
-- [ ] **feat(infra):** Lucid Model `TransactionProduct` (relações: `belongsTo(Transaction)`, `belongsTo(Product)`)
-- [ ] **feat(infra):** Implementar `LucidUserRepository` implementando `IUserRepository`
-- [ ] **feat(infra):** Implementar `LucidGatewayRepository` implementando `IGatewayRepository`
-- [ ] **feat(infra):** Implementar `LucidClientRepository` implementando `IClientRepository`
-- [ ] **feat(infra):** Implementar `LucidProductRepository` implementando `IProductRepository`
-- [ ] **feat(infra):** Implementar `LucidTransactionRepository` implementando `ITransactionRepository`
-- [ ] **feat(infra):** Registrar repos no container de DI do AdonisJS
+> Banco em memória puro TypeScript (`InMemoryDatabase`) + implementações das interfaces de domínio.
+> Usados exclusivamente nos testes unitários de use cases.
+
+- [x] **feat(infra):** `InMemoryDatabase` — store genérico com auto-increment, insert, findById, findMany, update, delete e clearAll
+- [x] **feat(infra/test):** Implementar `InMemoryUserRepository` implementando `IUserRepository`
+- [x] **feat(infra/test):** Implementar `InMemoryGatewayRepository` implementando `IGatewayRepository`
+- [x] **feat(infra/test):** Implementar `InMemoryClientRepository` implementando `IClientRepository`
+- [x] **feat(infra/test):** Implementar `InMemoryProductRepository` implementando `IProductRepository`
+- [x] **feat(infra/test):** Implementar `InMemoryTransactionRepository` implementando `ITransactionRepository`
+- [x] **feat(infra/test):** Implementar `InMemoryRefundRepository` implementando `IRefundRepository`
+- [x] **test(infra):** Testes unitários do `InMemoryUserRepository`
+- [x] **test(infra):** Testes unitários do `InMemoryGatewayRepository`
+- [x] **test(infra):** Testes unitários do `InMemoryClientRepository`
+- [x] **test(infra):** Testes unitários do `InMemoryProductRepository`
+- [x] **test(infra):** Testes unitários do `InMemoryTransactionRepository`
+- [x] **test(infra):** Testes unitários do `InMemoryRefundRepository`
 
 ---
 
-## 6. Infrastructure – Gateway Adapters
+## 6. Infrastructure – Lucid Models e Repositories
+
+- [x] **feat(infra):** Lucid Model `User` (relação `hasMany` com `AccessToken`)
+- [x] **feat(infra):** Lucid Model `Gateway`
+- [x] **feat(infra):** Lucid Model `Client` (relação `hasMany` com `Transaction`)
+- [x] **feat(infra):** Lucid Model `Product`
+- [x] **feat(infra):** Lucid Model `Transaction` (relações: `belongsTo(Client)`, `belongsTo(Gateway)`, `hasMany(TransactionProduct)`)
+- [x] **feat(infra):** Lucid Model `TransactionProduct` (relações: `belongsTo(Transaction)`, `belongsTo(Product)`)
+- [x] **feat(infra):** Implementar `LucidUserRepository` implementando `IUserRepository`
+- [x] **feat(infra):** Implementar `LucidGatewayRepository` implementando `IGatewayRepository`
+- [x] **feat(infra):** Implementar `LucidClientRepository` implementando `IClientRepository`
+- [x] **feat(infra):** Implementar `LucidProductRepository` implementando `IProductRepository`
+- [x] **feat(infra):** Implementar `LucidTransactionRepository` implementando `ITransactionRepository`
+- [x] **feat(infra):** Implementar `LucidRefundRepository` implementando `IRefundRepository`
+- [x] **feat(infra):** Registrar repos no container de DI do AdonisJS (`RepositoryProvider`)
+
+---
+
+## 7. Infrastructure – Gateway Adapters
 
 - [ ] **feat(gateways):** Implementar `Gateway1Adapter` implementando `IPaymentGatewayAdapter`
   - Login via `POST /login` (email + token); armazenar Bearer token para as chamadas seguintes
@@ -122,7 +145,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ---
 
-## 7. Application – DTOs
+## 8. Application – DTOs
 
 - [ ] **feat(application):** `LoginInputDto`, `LoginOutputDto`
 - [ ] **feat(application):** `PurchaseInputDto` (lista de `{ productId, quantity }` + dados do cartão + dados do cliente), `PurchaseOutputDto`
@@ -135,14 +158,14 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ---
 
-## 8. Application – Use Cases (TDD: escrever o teste antes da implementação)
+## 9. Application – Use Cases (TDD: escrever o teste antes da implementação)
 
-### 8.1 Autenticação
+### 9.1 Autenticação
 - [ ] **test(application):** Testes unitários para `LoginUseCase`
   - Cenários: credenciais válidas, email não encontrado, senha incorreta
 - [ ] **feat(application):** Implementar `LoginUseCase` (valida credenciais → gera token via `@adonisjs/auth`)
 
-### 8.2 Usuários
+### 9.2 Usuários
 - [ ] **test(application):** Testes unitários para `CreateUserUseCase`, `UpdateUserUseCase`, `DeleteUserUseCase`, `ListUsersUseCase`, `GetUserUseCase`
 - [ ] **feat(application):** Implementar `CreateUserUseCase` (hash da senha com `@adonisjs/hash`)
 - [ ] **feat(application):** Implementar `UpdateUserUseCase`
@@ -150,7 +173,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 - [ ] **feat(application):** Implementar `ListUsersUseCase`
 - [ ] **feat(application):** Implementar `GetUserUseCase`
 
-### 8.3 Produtos
+### 9.3 Produtos
 - [ ] **test(application):** Testes unitários para CRUD de produtos
 - [ ] **feat(application):** Implementar `CreateProductUseCase`
 - [ ] **feat(application):** Implementar `UpdateProductUseCase`
@@ -158,12 +181,12 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 - [ ] **feat(application):** Implementar `ListProductsUseCase`
 - [ ] **feat(application):** Implementar `GetProductUseCase`
 
-### 8.4 Gateways
+### 9.4 Gateways
 - [ ] **test(application):** Testes unitários para `ToggleGatewayUseCase`, `UpdateGatewayPriorityUseCase`
 - [ ] **feat(application):** Implementar `ToggleGatewayUseCase` (ativar/desativar)
 - [ ] **feat(application):** Implementar `UpdateGatewayPriorityUseCase` (troca de prioridade entre gateways)
 
-### 8.5 Compra / Pagamento (核心)
+### 9.5 Compra / Pagamento (核心)
 - [ ] **test(application):** Testes unitários para `ProcessPurchaseUseCase`
   - Cenário: cobra no gateway de maior prioridade quando tem sucesso
   - Cenário: tenta segundo gateway quando o primeiro falha
@@ -180,17 +203,17 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
   - Persistir transação e transaction_products com snapshot de preço
   - Se todos falharem, retornar erro adequado
 
-### 8.6 Clientes
+### 9.6 Clientes
 - [ ] **test(application):** Testes unitários para `ListClientsUseCase`, `GetClientUseCase`
 - [ ] **feat(application):** Implementar `ListClientsUseCase`
 - [ ] **feat(application):** Implementar `GetClientUseCase` (detalhe + todas as suas transações)
 
-### 8.7 Transações
+### 9.7 Transações
 - [ ] **test(application):** Testes unitários para `ListTransactionsUseCase`, `GetTransactionUseCase`
 - [ ] **feat(application):** Implementar `ListTransactionsUseCase`
 - [ ] **feat(application):** Implementar `GetTransactionUseCase`
 
-### 8.8 Reembolso
+### 9.8 Reembolso
 - [ ] **test(application):** Testes unitários para `RefundTransactionUseCase`
   - Cenário: reembolso bem-sucedido → status = `refunded`
   - Cenário: transação já reembolsada → erro de conflito (409)
@@ -203,21 +226,21 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ---
 
-## 9. Infrastructure – HTTP (Controllers, Middlewares, Rotas)
+## 10. Infrastructure – HTTP (Controllers, Middlewares, Rotas)
 
-### 9.1 Middlewares
+### 10.1 Middlewares
 - [ ] **feat(http):** Middleware `AuthMiddleware` — valida token e injeta usuário na request
 - [ ] **feat(http):** Middleware `AuthorizationMiddleware` (role guard) — verifica role do usuário; retorna 403 se não autorizado
 - [ ] **feat(http):** `ExceptionHandler` global — mapeia `AppError`, `ValidationError`, `AuthenticationError`, erros não tratados para JSON padronizado `{ success, error: { code, message } }`
 
-### 9.2 Validators (VineJS)
+### 10.2 Validators (VineJS)
 - [ ] **feat(http):** `LoginValidator`
 - [ ] **feat(http):** `PurchaseValidator` (array de `{ productId, quantity }`, dados do cartão, dados do cliente)
 - [ ] **feat(http):** `CreateUserValidator`, `UpdateUserValidator`
 - [ ] **feat(http):** `CreateProductValidator`, `UpdateProductValidator`
 - [ ] **feat(http):** `GatewayPriorityValidator`
 
-### 9.3 Controllers
+### 10.3 Controllers
 - [ ] **feat(http):** `AuthController` (`store` — login)
 - [ ] **feat(http):** `PurchaseController` (`store` — realizar compra)
 - [ ] **feat(http):** `UserController` (`index`, `show`, `store`, `update`, `destroy`)
@@ -226,7 +249,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 - [ ] **feat(http):** `ClientController` (`index`, `show`)
 - [ ] **feat(http):** `TransactionController` (`index`, `show`, `refund`)
 
-### 9.4 Rotas (`start/routes.ts`)
+### 10.4 Rotas (`start/routes.ts`)
 - [ ] **feat(http):** Rotas Públicas:
   - `POST /api/v1/login`
   - `POST /api/v1/transactions` (compra)
@@ -251,7 +274,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ---
 
-## 10. Testes de Integração / Http
+## 11. Testes de Integração / Http
 
 - [ ] **test(http):** Testes de integração para rotas de autenticação
   - `POST /api/v1/login` → 200 com token; 401/422 em cenários de erro
@@ -269,9 +292,9 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ---
 
-## 11. Documentação
+## 12. Documentação
 
-### 11.1 README.md
+### 12.1 README.md
 - [ ] **docs:** Criar `README.md` contendo:
   - [ ] Título + descrição do projeto
   - [ ] Tabela de URLs (local e produção): `/health`, `/docs`, `/swagger`
@@ -284,7 +307,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
   - [ ] Tabela completa de endpoints com `curl` de exemplo por rota
   - [ ] Estrutura de pastas resumida
 
-### 11.2 API Docs (`/docs`)
+### 12.2 API Docs (`/docs`)
 - [ ] **docs:** Implementar página `/docs` (HTML servido via rota ou Swagger UI / Scalar / Redoc)
   - [ ] Visão geral da API (multi-gateway, retry, roles)
   - [ ] Arquitetura / fluxo de pagamento (HTTP → Controller → UseCase → Adapter → Gateway)
@@ -295,13 +318,13 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
   - [ ] API Reference por endpoint (body, params, respostas por status code)
   - [ ] Playground interativo ("Try it")
 
-### 11.3 OpenAPI / Swagger
+### 12.3 OpenAPI / Swagger
 - [ ] **docs:** Gerar especificação OpenAPI 3.0 (YAML ou JSON)
 - [ ] **docs:** Expor Swagger UI em `/swagger`
 
 ---
 
-## 12. Qualidade e Finalização
+## 13. Qualidade e Finalização
 
 - [ ] **chore:** Verificar que `npm run lint` passa sem erros em todos os arquivos
 - [ ] **chore:** Verificar que `npx tsc --noEmit` (typecheck) passa sem erros
