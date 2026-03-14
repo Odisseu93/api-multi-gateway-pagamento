@@ -1,12 +1,12 @@
 # Teste Prático Back-end BeTalent
 
-[BeTalent Tech](https://betalent.tech/) é uma software house que conecta *talentos incríveis* a negócios, para criar e desenvolver produtos e serviços digitais eficientes.
+[BeTalent Tech](https://betalent.tech/) é uma software house que conecta _talentos incríveis_ a negócios, para criar e desenvolver produtos e serviços digitais eficientes.
 
-Este é nosso **Teste Prático** para seleção de talentos back-end. É necessário estar participando de um de nossos processos seletivos para submeter este teste para avaliação. 
+Este é nosso **Teste Prático** para seleção de talentos back-end. É necessário estar participando de um de nossos processos seletivos para submeter este teste para avaliação.
 
 > [!WARNING]
 > É necessário estar participando de uma de nossas seleções de talentos para submeter este teste à avaliação. Se você fizer esse teste e nos enviar sem estar participando de um processo seletivo, sua solução não será avaliada.
-  
+
 ## 📋 Sobre o Teste
 
 Este teste foi estruturado em níveis progressivos de complexidade, permitindo que você demonstre suas habilidades de acordo com sua experiência. Você pode optar por implementar um ou mais níveis, e sua avaliação será baseada na qualidade do código e funcionalidades implementadas em cada nível escolhido.
@@ -22,23 +22,30 @@ Deve ser levada em consideração a facilidade de adicionar novos gateways de fo
 Você pode clonar este repositório para facilitar o desenvolvimento.
 
 ### Frameworks aceitos
+
 - [Adonis](https://adonisjs.com/) 5 ou superior (Node.js)
 - [Laravel](https://laravel.com/) 10 ou superior (PHP)
 
 ## 📊 Níveis de implementação
 
 ### Nível 1
+
 Escolha esse nível se você se considera iniciante ou júnior, por exemplo:
+
 - Valor da compra vem direto pela API
 - Gateways sem autenticação
 
 ### Nível 2
+
 Escolha esse nível se você é júnior experiente ou pleno, por exemplo:
+
 - Valor da compra vem do produto e suas quantidades calculada via back
 - Gateways com autenticação
 
 ### Nível 3
+
 Escolha esse nível se você é pleno ou sênior, por exemplo:
+
 - Valor da compra vem de múltiplos produtos e suas quantidades selecionadas e calculada via back
 - Gateways com autenticação
 - Usuários tem roles:
@@ -83,10 +90,12 @@ O banco de dados deve ser estruturado à sua escolha, mas minimamente deve conte
 ## 🛣 Rotas do Sistema
 
 ### Rotas Públicas
+
 - Realizar o login
 - Realizar uma compra informando o produto
 
 ### Rotas Privadas
+
 - Ativar/desativar um gateway
 - Alterar a prioridade de um gateway
 - CRUD de usuários com validação por roles
@@ -100,6 +109,7 @@ O banco de dados deve ser estruturado à sua escolha, mas minimamente deve conte
 ## 🔧 Requisitos Técnicos
 
 ### Obrigatórios
+
 - MySQL como banco de dados
 - Respostas devem ser em JSON
 - ORM para gestão do banco (Eloquent, Lucid, Knex, Bookshelf etc.)
@@ -122,11 +132,13 @@ Para auxiliar no desenvolvimento, disponibilizamos:
 ### Rodando os Mocks
 
 **Com autenticação:**
+
 ```bash
 docker run -p 3001:3001 -p 3002:3002 matheusprotzen/gateways-mock
 ```
 
 **Sem autenticação:**
+
 ```bash
 docker run -p 3001:3001 -p 3002:3002 -e REMOVE_AUTH='true' matheusprotzen/gateways-mock
 ```
@@ -136,26 +148,32 @@ O Gateway 1 ficará disponível em http://localhost:3001 e o Gateway 2 em http:/
 ### Gateway 1 (http://localhost:3001)
 
 #### Login
+
 ```http
 POST /login
 ```
+
 ```json
 {
   "email": "dev@betalent.tech",
   "token": "FEC9BB078BF338F464F96B48089EB498"
 }
 ```
-*Autenticação das seguintes rotas deve ser feita usando o Bearer token retornado da rota de login.*
+
+_Autenticação das seguintes rotas deve ser feita usando o Bearer token retornado da rota de login._
 
 #### Listagem das transações
+
 ```http
 GET /transactions
 ```
 
 #### Criação de uma transação
+
 ```http
 POST /transactions
 ```
+
 ```json
 {
   "amount": 1000,
@@ -165,6 +183,7 @@ POST /transactions
   "cvv": "010"
 }
 ```
+
 - `amount` - valor da compra em centavos
 - `name` - nome do comprador
 - `email` - email do comprador
@@ -172,28 +191,34 @@ POST /transactions
 - `cvv` - cvv do cartão, ao usar cvv 100 ou 200 vai ser retornado um erro simulando dados inválidos do cartão
 
 #### Reembolso de uma transação
+
 ```http
 POST /transactions/:id/charge_back
 ```
+
 `:id` - id da transação
 
 ### Gateway 2 (http://localhost:3002)
 
-*Autenticação das seguintes rotas deve ser feito usando os seguintes dados nos headers:*
+_Autenticação das seguintes rotas deve ser feito usando os seguintes dados nos headers:_
+
 ```
 Gateway-Auth-Token=tk_f2198cc671b5289fa856
 Gateway-Auth-Secret=3d15e8ed6131446ea7e3456728b1211f
 ```
 
 #### Listagem das transações
+
 ```http
 GET /transacoes
 ```
 
 #### Criação de uma transação
+
 ```http
 POST /transacoes
 ```
+
 ```json
 {
   "valor": 1000,
@@ -203,6 +228,7 @@ POST /transacoes
   "cvv": "010"
 }
 ```
+
 - `valor` - valor da compra em centavos
 - `nome` - nome do comprador
 - `email` - email do comprador
@@ -210,19 +236,23 @@ POST /transacoes
 - `cvv` - cvv do cartão, ao usar cvv 200 ou 300 vai ser retornado um erro simulando dados inválidos do cartão
 
 #### Reembolso de uma transação
+
 ```http
 POST /transacoes/reembolso
 ```
+
 ```json
 {
   "id": "3d15e8ed-6131-446e-a7e3-456728b1211f"
 }
 ```
-* `id` - id da transação
+
+- `id` - id da transação
 
 ## 📝 Critérios de Avaliação
 
 Serão critérios para avaliação da solução fornecida:
+
 - Lógica de programação
 - Organização do projeto
 - Legibilidade do código
@@ -235,11 +265,13 @@ Serão critérios para avaliação da solução fornecida:
 ## ⏰ Considerações Finais
 
 Caso não consiga completar o teste até o prazo definido:
+
 - Garanta que tudo que foi construído esteja em funcionamento
 - Relate no README quais foram as dificuldades encontradas
 - Documente o que foi implementado e o que ficou pendente
 
 ## 📤 Envio da Solução
+
 O projeto deverá ser hospedado em um repositório no seu GitHub. O link do repositório deverá ser fornecido por meio do formulário do processo seletivo do qual o(a) candidato(a) está participando. Não serão aceitos links de projetos enviados por outros meios.
 
 ## 🎓 Comunidade BeTalent

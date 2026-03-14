@@ -1,10 +1,10 @@
-import type { IUserRepository } from '#domain/repositories/i-user.repository'
+import type { UserRepository } from '#domain/repositories/user.repository'
 import type { UserEntity, UserEntityProps } from '#domain/entities/user.entity'
 import type { CreateUserInputDto } from '#application/dtos/user.dto'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 
 export class CreateUserUseCase {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async execute(input: CreateUserInputDto): Promise<UserEntity> {
     const existing = await this.userRepository.findByEmail(input.email)

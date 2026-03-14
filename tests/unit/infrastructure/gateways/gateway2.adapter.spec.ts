@@ -1,8 +1,8 @@
 import { test } from '@japa/runner'
 import { Gateway2Adapter } from '#infrastructure/gateways/adapters/gateway2.adapter'
 import { Money } from '#domain/value-objects/money.vo'
-import type { ChargeInput } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
-import { httpClientMock } from '#tests/mocks/http-client.mock'
+import type { ChargeInput } from '#infrastructure/gateways/contracts/payment_gateway.adapter'
+import { httpClientMock } from '#tests/mocks/http_client.mock'
 
 function makeChargeInput(overrides: Partial<ChargeInput> = {}): ChargeInput {
   return {

@@ -1,4 +1,4 @@
-import { AppError } from './app-error.js'
+import { AppError } from './app_error.js'
 
 export class ForbiddenError extends AppError {
   constructor(message = 'You do not have permission to perform this action') {

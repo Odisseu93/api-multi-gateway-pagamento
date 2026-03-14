@@ -1,7 +1,7 @@
-import type { IGatewayRepository } from '#domain/repositories/i-gateway.repository'
+import type { GatewayRepository } from '#domain/repositories/gateway.repository'
 import type { GatewayEntity } from '#domain/entities/gateway.entity'
-import { NotFoundError } from '#shared/errors/not-found.error'
-import { AppError } from '#shared/errors/app-error'
+import { NotFoundError } from '#shared/errors/not_found_error'
+import { AppError } from '#shared/errors/app_error'
 
 export interface UpdateGatewayPriorityResult {
   updatedGateway: GatewayEntity
@@ -15,7 +15,7 @@ export interface UpdateGatewayPriorityResult {
  * If another gateway already has that priority, their priorities are swapped.
  */
 export class UpdateGatewayPriorityUseCase {
-  constructor(private readonly gatewayRepository: IGatewayRepository) {}
+  constructor(private readonly gatewayRepository: GatewayRepository) {}
 
   async execute(id: number, newPriority: number): Promise<UpdateGatewayPriorityResult> {
     if (!Number.isInteger(newPriority) || newPriority < 1) {

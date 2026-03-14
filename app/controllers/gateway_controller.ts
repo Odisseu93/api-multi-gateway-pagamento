@@ -1,10 +1,10 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { gatewayIdValidator, gatewayPriorityValidator } from '#validators/gateway.validator'
-import { ToggleGatewayUseCase } from '#application/use-cases/gateways/toggle-gateway.use-case'
-import { UpdateGatewayPriorityUseCase } from '#application/use-cases/gateways/update-gateway-priority.use-case'
-import { ListGatewaysUseCase } from '#application/use-cases/gateways/list-gateways.use-case'
-import { GetGatewayUseCase } from '#application/use-cases/gateways/get-gateway.use-case'
-import { LucidGatewayRepository } from '#infrastructure/repositories/lucid/lucid-gateway.repository'
+import { ToggleGatewayUseCase } from '#application/use-cases/gateways/toggle_gateway.use_case'
+import { UpdateGatewayPriorityUseCase } from '#application/use-cases/gateways/update_gateway_priority.use_case'
+import { ListGatewaysUseCase } from '#application/use-cases/gateways/list_gateways.use_case'
+import { GetGatewayUseCase } from '#application/use-cases/gateways/get_gateway.use_case'
+import { LucidGatewayRepository } from '#infrastructure/repositories/lucid/lucid_gateway.repository'
 import GatewayTransformer from '#transformers/gateway_transformer'
 
 export default class GatewayController {

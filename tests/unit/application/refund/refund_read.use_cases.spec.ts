@@ -1,9 +1,9 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryRefundRepository } from '#infrastructure/repositories/in-memory/in-memory-refund.repository'
-import { ListRefundsUseCase } from '#application/use-cases/refund/list-refunds.use-case'
-import { GetRefundUseCase } from '#application/use-cases/refund/get-refund.use-case'
-import { RefundStatus } from '#domain/enums/refund-status.enum'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryRefundRepository } from '#infrastructure/repositories/in-memory/in_memory_refund.repository'
+import { ListRefundsUseCase } from '#application/use-cases/refund/list_refunds.use_case'
+import { GetRefundUseCase } from '#application/use-cases/refund/get_refund.use_case'
+import { RefundStatus } from '#domain/enums/refund_status.enum'
 import { Money } from '#domain/value-objects/money.vo'
 
 test.group('Refund Use Cases (Read-only)', (group) => {

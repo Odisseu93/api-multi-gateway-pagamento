@@ -15,7 +15,7 @@ export interface ChargeOutput {
   status: 'paid' | 'failed'
 }
 
-export interface IPaymentGatewayAdapter {
+export interface PaymentGatewayAdapter {
   charge(input: ChargeInput): Promise<ChargeOutput>
   refund(externalId: string): Promise<boolean>
 }

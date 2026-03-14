@@ -1,18 +1,18 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in-memory-transaction.repository'
-import { InMemoryRefundRepository } from '#infrastructure/repositories/in-memory/in-memory-refund.repository'
-import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in-memory-gateway.repository'
-import { RefundTransactionUseCase } from '#application/use-cases/refund/refund-transaction.use-case'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in_memory_transaction.repository'
+import { InMemoryRefundRepository } from '#infrastructure/repositories/in-memory/in_memory_refund.repository'
+import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in_memory_gateway.repository'
+import { RefundTransactionUseCase } from '#application/use-cases/refund/refund_transaction.use_case'
 import { Money } from '#domain/value-objects/money.vo'
-import { TransactionStatus } from '#domain/enums/transaction-status.enum'
+import { TransactionStatus } from '#domain/enums/transaction_status.enum'
 import type {
-  IPaymentGatewayAdapter,
+  PaymentGatewayAdapter,
   ChargeInput,
   ChargeOutput,
-} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+} from '#infrastructure/gateways/contracts/payment_gateway.adapter'
 
-const successRefundAdapter: IPaymentGatewayAdapter = {
+const successRefundAdapter: PaymentGatewayAdapter = {
   async charge(_i: ChargeInput): Promise<ChargeOutput> {
     return { externalId: '', status: 'paid' }
   },
@@ -21,7 +21,7 @@ const successRefundAdapter: IPaymentGatewayAdapter = {
   },
 }
 
-const failRefundAdapter: IPaymentGatewayAdapter = {
+const failRefundAdapter: PaymentGatewayAdapter = {
   async charge(_i: ChargeInput): Promise<ChargeOutput> {
     return { externalId: '', status: 'paid' }
   },
@@ -30,7 +30,7 @@ const failRefundAdapter: IPaymentGatewayAdapter = {
   },
 }
 
-const adapterFactory = (adapter: IPaymentGatewayAdapter) => ({
+const adapterFactory = (adapter: PaymentGatewayAdapter) => ({
   create: (_type: string) => adapter,
 })
 

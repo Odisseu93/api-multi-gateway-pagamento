@@ -1,4 +1,4 @@
-import type { IProductRepository } from '#domain/repositories/i-product.repository'
+import type { ProductRepository } from '#domain/repositories/product.repository'
 import type { ProductEntity } from '#domain/entities/product.entity'
 import { ProductEntity as ProductEntityClass } from '#domain/entities/product.entity'
 import { Money } from '#domain/value-objects/money.vo'
@@ -17,7 +17,7 @@ function toEntity(model: Product): ProductEntity {
   })
 }
 
-export class LucidProductRepository implements IProductRepository {
+export class LucidProductRepository implements ProductRepository {
   async findById(id: number): Promise<ProductEntity | null> {
     const model = await Product.query().where('id', id).whereNull('deleted_at').first()
     return model ? toEntity(model) : null

@@ -1,8 +1,8 @@
-import type { IClientRepository } from '#domain/repositories/i-client.repository'
-import type { ITransactionRepository } from '#domain/repositories/i-transaction.repository'
+import type { ClientRepository } from '#domain/repositories/client.repository'
+import type { TransactionRepository } from '#domain/repositories/transaction.repository'
 import type { ClientEntity } from '#domain/entities/client.entity'
 import type { TransactionEntity } from '#domain/entities/transaction.entity'
-import { NotFoundError } from '#shared/errors/not-found.error'
+import { NotFoundError } from '#shared/errors/not_found_error'
 
 export interface GetClientResult {
   client: ClientEntity
@@ -11,8 +11,8 @@ export interface GetClientResult {
 
 export class GetClientUseCase {
   constructor(
-    private readonly clientRepository: IClientRepository,
-    private readonly transactionRepository: ITransactionRepository
+    private readonly clientRepository: ClientRepository,
+    private readonly transactionRepository: TransactionRepository
   ) {}
 
   async execute(id: number): Promise<GetClientResult> {

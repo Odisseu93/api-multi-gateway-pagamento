@@ -1,10 +1,10 @@
-import type { IUserRepository } from '#domain/repositories/i-user.repository'
+import type { UserRepository } from '#domain/repositories/user.repository'
 import type { UserEntity } from '#domain/entities/user.entity'
 import type { UpdateUserInputDto } from '#application/dtos/user.dto'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 
 export class UpdateUserUseCase {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async execute(id: number, input: UpdateUserInputDto): Promise<UserEntity> {
     const user = await this.userRepository.findById(id)

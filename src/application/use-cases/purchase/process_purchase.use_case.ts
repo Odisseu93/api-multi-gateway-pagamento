@@ -1,22 +1,22 @@
-import type { IProductRepository } from '#domain/repositories/i-product.repository'
-import type { IClientRepository } from '#domain/repositories/i-client.repository'
-import type { IGatewayRepository } from '#domain/repositories/i-gateway.repository'
-import type { ITransactionRepository } from '#domain/repositories/i-transaction.repository'
-import type { IPaymentGatewayAdapter } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+import type { ProductRepository } from '#domain/repositories/product.repository'
+import type { ClientRepository } from '#domain/repositories/client.repository'
+import type { GatewayRepository } from '#domain/repositories/gateway.repository'
+import type { TransactionRepository } from '#domain/repositories/transaction.repository'
+import type { PaymentGatewayAdapter } from '#infrastructure/gateways/contracts/payment_gateway.adapter'
 import type { PurchaseInputDto, PurchaseOutputDto } from '#application/dtos/purchase.dto'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 import { Money } from '#domain/value-objects/money.vo'
 
 interface GatewayAdapterFactory {
-  create(type: string): IPaymentGatewayAdapter
+  create(type: string): PaymentGatewayAdapter
 }
 
 export class ProcessPurchaseUseCase {
   constructor(
-    private readonly productRepository: IProductRepository,
-    private readonly clientRepository: IClientRepository,
-    private readonly gatewayRepository: IGatewayRepository,
-    private readonly transactionRepository: ITransactionRepository,
+    private readonly productRepository: ProductRepository,
+    private readonly clientRepository: ClientRepository,
+    private readonly gatewayRepository: GatewayRepository,
+    private readonly transactionRepository: TransactionRepository,
     private readonly adapterFactory: GatewayAdapterFactory
   ) {}
 

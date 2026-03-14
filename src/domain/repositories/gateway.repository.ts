@@ -1,6 +1,6 @@
 import type { GatewayEntity } from '#domain/entities/gateway.entity'
 
-export interface IGatewayRepository {
+export interface GatewayRepository {
   findById(id: number): Promise<GatewayEntity | null>
   findByType(type: string): Promise<GatewayEntity | null>
   findAllActiveOrderedByPriority(): Promise<GatewayEntity[]>

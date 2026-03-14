@@ -1,23 +1,23 @@
-import type { ITransactionRepository } from '#domain/repositories/i-transaction.repository'
-import type { IRefundRepository } from '#domain/repositories/i-refund.repository'
-import type { IGatewayRepository } from '#domain/repositories/i-gateway.repository'
-import type { IPaymentGatewayAdapter } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+import type { TransactionRepository } from '#domain/repositories/transaction.repository'
+import type { RefundRepository } from '#domain/repositories/refund.repository'
+import type { GatewayRepository } from '#domain/repositories/gateway.repository'
+import type { PaymentGatewayAdapter } from '#infrastructure/gateways/contracts/payment_gateway.adapter'
 import type { RefundOutputDto } from '#application/dtos/refund.dto'
-import { AppError } from '#shared/errors/app-error'
-import { NotFoundError } from '#shared/errors/not-found.error'
+import { AppError } from '#shared/errors/app_error'
+import { NotFoundError } from '#shared/errors/not_found_error'
 import { ConflictError } from '#shared/errors/conflict.error'
-import { RefundStatus } from '#domain/enums/refund-status.enum'
-import { TransactionStatus } from '#domain/enums/transaction-status.enum'
+import { RefundStatus } from '#domain/enums/refund_status.enum'
+import { TransactionStatus } from '#domain/enums/transaction_status.enum'
 
 interface GatewayAdapterFactory {
-  create(type: string): IPaymentGatewayAdapter
+  create(type: string): PaymentGatewayAdapter
 }
 
 export class RefundTransactionUseCase {
   constructor(
-    private readonly transactionRepository: ITransactionRepository,
-    private readonly refundRepository: IRefundRepository,
-    private readonly gatewayRepository: IGatewayRepository,
+    private readonly transactionRepository: TransactionRepository,
+    private readonly refundRepository: RefundRepository,
+    private readonly gatewayRepository: GatewayRepository,
     private readonly adapterFactory: GatewayAdapterFactory
   ) {}
 

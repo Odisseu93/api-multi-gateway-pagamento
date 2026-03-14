@@ -1,7 +1,7 @@
-import type { IProductRepository } from '#domain/repositories/i-product.repository'
+import type { ProductRepository } from '#domain/repositories/product.repository'
 import type { ProductEntity } from '#domain/entities/product.entity'
 import type { UpdateProductInputDto } from '#application/dtos/product.dto'
-import { NotFoundError } from '#shared/errors/not-found.error'
+import { NotFoundError } from '#shared/errors/not_found_error'
 import { Money } from '#domain/value-objects/money.vo'
 
 type ProductUpdateData = {
@@ -11,7 +11,7 @@ type ProductUpdateData = {
 }
 
 export class UpdateProductUseCase {
-  constructor(private readonly productRepository: IProductRepository) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
   async execute(id: number, input: UpdateProductInputDto): Promise<ProductEntity> {
     const existing = await this.productRepository.findById(id)

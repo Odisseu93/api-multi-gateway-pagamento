@@ -1,5 +1,5 @@
 import { test } from '@japa/runner'
-import { GatewayAdapterFactory } from '#infrastructure/gateways/gateway-adapter.factory'
+import { GatewayAdapterFactory } from '#infrastructure/gateways/gateway_adapter_factory'
 import { Gateway1Adapter } from '#infrastructure/gateways/adapters/gateway1.adapter'
 import { Gateway2Adapter } from '#infrastructure/gateways/adapters/gateway2.adapter'
 

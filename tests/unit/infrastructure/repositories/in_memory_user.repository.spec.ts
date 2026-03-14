@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryUserRepository } from '#infrastructure/repositories/in-memory/in-memory-user.repository'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryUserRepository } from '#infrastructure/repositories/in-memory/in_memory_user.repository'
 import { Role } from '#domain/enums/role.enum'
 import { UserEntity } from '#domain/entities/user.entity'
 

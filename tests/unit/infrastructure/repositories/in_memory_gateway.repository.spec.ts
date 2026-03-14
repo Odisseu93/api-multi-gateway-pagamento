@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in-memory-gateway.repository'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in_memory_gateway.repository'
 import type { GatewayEntity } from '#domain/entities/gateway.entity'
 
 const makeGateway = (

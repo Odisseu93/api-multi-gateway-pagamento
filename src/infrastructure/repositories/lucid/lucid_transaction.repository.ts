@@ -1,12 +1,12 @@
 import type {
-  ITransactionRepository,
+  TransactionRepository,
   CreateTransactionData,
-} from '#domain/repositories/i-transaction.repository'
+} from '#domain/repositories/transaction.repository'
 import type { TransactionEntity } from '#domain/entities/transaction.entity'
-import type { TransactionProductEntity } from '#domain/entities/transaction-product.entity'
+import type { TransactionProductEntity } from '#domain/entities/transaction_product.entity'
 import { TransactionEntity as TransactionEntityClass } from '#domain/entities/transaction.entity'
-import { TransactionProductEntity as TransactionProductEntityClass } from '#domain/entities/transaction-product.entity'
-import { type TransactionStatus } from '#domain/enums/transaction-status.enum'
+import { TransactionProductEntity as TransactionProductEntityClass } from '#domain/entities/transaction_product.entity'
+import { type TransactionStatus } from '#domain/enums/transaction_status.enum'
 import { Money } from '#domain/value-objects/money.vo'
 import db from '@adonisjs/lucid/services/db'
 import Transaction from '#models/transaction'
@@ -38,7 +38,7 @@ function toProductEntity(model: TransactionProduct): TransactionProductEntity {
   })
 }
 
-export class LucidTransactionRepository implements ITransactionRepository {
+export class LucidTransactionRepository implements TransactionRepository {
   async findById(id: number): Promise<TransactionEntity | null> {
     const model = await Transaction.find(id)
     return model ? toEntity(model) : null

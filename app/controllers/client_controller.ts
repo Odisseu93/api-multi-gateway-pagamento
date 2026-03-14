@@ -1,8 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { ListClientsUseCase } from '#application/use-cases/clients/list-clients.use-case'
-import { GetClientUseCase } from '#application/use-cases/clients/get-client.use-case'
-import { LucidClientRepository } from '#infrastructure/repositories/lucid/lucid-client.repository'
-import { LucidTransactionRepository } from '#infrastructure/repositories/lucid/lucid-transaction.repository'
+import { ListClientsUseCase } from '#application/use-cases/clients/list_clients.use_case'
+import { GetClientUseCase } from '#application/use-cases/clients/get_client.use_case'
+import { LucidClientRepository } from '#infrastructure/repositories/lucid/lucid_client.repository'
+import { LucidTransactionRepository } from '#infrastructure/repositories/lucid/lucid_transaction.repository'
 
 export default class ClientController {
   /** GET /api/v1/clients */

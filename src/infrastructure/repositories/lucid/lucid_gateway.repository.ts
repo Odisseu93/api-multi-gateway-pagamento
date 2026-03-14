@@ -1,4 +1,4 @@
-import type { IGatewayRepository } from '#domain/repositories/i-gateway.repository'
+import type { GatewayRepository } from '#domain/repositories/gateway.repository'
 import type { GatewayEntity } from '#domain/entities/gateway.entity'
 import { GatewayEntity as GatewayEntityClass } from '#domain/entities/gateway.entity'
 import Gateway from '#models/gateway'
@@ -17,7 +17,7 @@ function toEntity(model: Gateway): GatewayEntity {
   })
 }
 
-export class LucidGatewayRepository implements IGatewayRepository {
+export class LucidGatewayRepository implements GatewayRepository {
   async findById(id: number): Promise<GatewayEntity | null> {
     const model = await Gateway.find(id)
     return model ? toEntity(model) : null

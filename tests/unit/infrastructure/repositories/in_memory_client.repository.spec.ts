@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryClientRepository } from '#infrastructure/repositories/in-memory/in-memory-client.repository'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryClientRepository } from '#infrastructure/repositories/in-memory/in_memory_client.repository'
 import type { ClientEntity } from '#domain/entities/client.entity'
 
 const makeClient = (

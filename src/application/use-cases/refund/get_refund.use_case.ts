@@ -1,9 +1,9 @@
-import type { IRefundRepository } from '#domain/repositories/i-refund.repository'
+import type { RefundRepository } from '#domain/repositories/refund.repository'
 import type { RefundEntity } from '#domain/entities/refund.entity'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 
 export class GetRefundUseCase {
-  constructor(private readonly refundRepository: IRefundRepository) {}
+  constructor(private readonly refundRepository: RefundRepository) {}
 
   async execute(id: number): Promise<RefundEntity> {
     const refund = await this.refundRepository.findById(id)

@@ -1,5 +1,5 @@
 import type { TransactionEntity } from '#domain/entities/transaction.entity'
-import type { TransactionProductEntity } from '#domain/entities/transaction-product.entity'
+import type { TransactionProductEntity } from '#domain/entities/transaction_product.entity'
 
 export interface CreateTransactionData {
   clientId: number
@@ -15,7 +15,7 @@ export interface CreateTransactionData {
   }>
 }
 
-export interface ITransactionRepository {
+export interface TransactionRepository {
   findById(id: number): Promise<TransactionEntity | null>
   findByIdWithProducts(
     id: number

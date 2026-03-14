@@ -1,5 +1,5 @@
 import type { RefundEntity } from '#domain/entities/refund.entity'
-import type { RefundStatus } from '#domain/enums/refund-status.enum'
+import type { RefundStatus } from '#domain/enums/refund_status.enum'
 import type { Money } from '#domain/value-objects/money.vo'
 
 export interface CreateRefundData {
@@ -9,7 +9,7 @@ export interface CreateRefundData {
   amount: Money
 }
 
-export interface IRefundRepository {
+export interface RefundRepository {
   findById(id: number): Promise<RefundEntity | null>
   findByTransactionId(transactionId: number): Promise<RefundEntity[]>
   findAll(): Promise<RefundEntity[]>

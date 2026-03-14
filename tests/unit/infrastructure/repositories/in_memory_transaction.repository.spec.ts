@@ -1,8 +1,8 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in-memory-transaction.repository'
-import { TransactionStatus } from '#domain/enums/transaction-status.enum'
-import type { CreateTransactionData } from '#domain/repositories/i-transaction.repository'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in_memory_transaction.repository'
+import { TransactionStatus } from '#domain/enums/transaction_status.enum'
+import type { CreateTransactionData } from '#domain/repositories/transaction.repository'
 
 const makeTransactionData = (
   overrides: Partial<CreateTransactionData> = {}

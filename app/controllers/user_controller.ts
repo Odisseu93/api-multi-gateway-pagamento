@@ -1,11 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { createUserValidator, updateUserValidator } from '#validators/user.validator'
-import { CreateUserUseCase } from '#application/use-cases/users/create-user.use-case'
-import { UpdateUserUseCase } from '#application/use-cases/users/update-user.use-case'
-import { DeleteUserUseCase } from '#application/use-cases/users/delete-user.use-case'
-import { ListUsersUseCase } from '#application/use-cases/users/list-users.use-case'
-import { GetUserUseCase } from '#application/use-cases/users/get-user.use-case'
-import { LucidUserRepository } from '#infrastructure/repositories/lucid/lucid-user.repository'
+import { CreateUserUseCase } from '#application/use-cases/users/create_user.use_case'
+import { UpdateUserUseCase } from '#application/use-cases/users/update_user.use_case'
+import { DeleteUserUseCase } from '#application/use-cases/users/delete_user.use_case'
+import { ListUsersUseCase } from '#application/use-cases/users/list_users.use_case'
+import { GetUserUseCase } from '#application/use-cases/users/get_user.use_case'
+import { LucidUserRepository } from '#infrastructure/repositories/lucid/lucid_user.repository'
 
 export default class UserController {
   private transform(user: any) {

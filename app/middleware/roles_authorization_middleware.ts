@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 import type { Role } from '#domain/enums/role.enum'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 
 /**
  * RolesAuthorizationMiddleware (Role Guard)

@@ -43,14 +43,8 @@
             },
             "url": {
               "raw": "{{base_url}}/api/v1/login",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "login"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "login"]
             }
           },
           "response": []
@@ -76,14 +70,8 @@
             },
             "url": {
               "raw": "{{base_url}}/api/v1/transactions",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "transactions"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transactions"]
             }
           },
           "response": []
@@ -105,14 +93,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/transactions",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "transactions"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transactions"]
             }
           },
           "response": []
@@ -134,15 +116,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/transactions/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "transactions",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transactions", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -170,16 +145,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/transactions/:id/refund",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "transactions",
-                ":id",
-                "refund"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transactions", ":id", "refund"],
               "variable": [
                 {
                   "key": "id",
@@ -212,14 +179,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/gateways",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "gateways"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "gateways"]
             }
           },
           "response": []
@@ -241,15 +202,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/gateways/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "gateways",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "gateways", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -277,16 +231,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/gateways/:id/toggle",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "gateways",
-                ":id",
-                "toggle"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "gateways", ":id", "toggle"],
               "variable": [
                 {
                   "key": "id",
@@ -323,16 +269,8 @@
             },
             "url": {
               "raw": "{{base_url}}/api/v1/gateways/:id/priority",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "gateways",
-                ":id",
-                "priority"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "gateways", ":id", "priority"],
               "variable": [
                 {
                   "key": "id",
@@ -365,14 +303,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/products",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "products"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"]
             }
           },
           "response": []
@@ -394,15 +326,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/products/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "products",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -439,14 +364,8 @@
             },
             "url": {
               "raw": "{{base_url}}/api/v1/products",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "products"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"]
             }
           },
           "response": []
@@ -477,15 +396,8 @@
             },
             "url": {
               "raw": "{{base_url}}/api/v1/products/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "products",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -513,15 +425,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/products/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "products",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -554,14 +459,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/users",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "users"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users"]
             }
           },
           "response": []
@@ -583,15 +482,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/users/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "users",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -628,14 +520,8 @@
             },
             "url": {
               "raw": "{{base_url}}/api/v1/users",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "users"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users"]
             }
           },
           "response": []
@@ -666,15 +552,8 @@
             },
             "url": {
               "raw": "{{base_url}}/api/v1/users/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "users",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -702,15 +581,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/users/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "users",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -743,14 +615,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/clients",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "clients"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "clients"]
             }
           },
           "response": []
@@ -772,15 +638,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/clients/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "clients",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "clients", ":id"],
               "variable": [
                 {
                   "key": "id",
@@ -813,14 +672,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/refunds",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "refunds"
-              ]
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "refunds"]
             }
           },
           "response": []
@@ -842,15 +695,8 @@
             "header": [],
             "url": {
               "raw": "{{base_url}}/api/v1/refunds/:id",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "refunds",
-                ":id"
-              ],
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "refunds", ":id"],
               "variable": [
                 {
                   "key": "id",

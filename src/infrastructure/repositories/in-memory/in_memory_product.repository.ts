@@ -1,12 +1,12 @@
-import type { IProductRepository } from '#domain/repositories/i-product.repository'
+import type { ProductRepository } from '#domain/repositories/product.repository'
 import type { ProductEntity } from '#domain/entities/product.entity'
-import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
+import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
 
 const TABLE = 'products'
 
 type ProductRow = ProductEntity & { id: number }
 
-export class InMemoryProductRepository implements IProductRepository {
+export class InMemoryProductRepository implements ProductRepository {
   constructor(private readonly db: InMemoryDatabase) {}
 
   async findById(id: number): Promise<ProductEntity | null> {

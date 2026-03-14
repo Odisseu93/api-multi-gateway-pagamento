@@ -1,5 +1,5 @@
 import { test } from '@japa/runner'
-import { CardLastNumbers } from '#domain/value-objects/card-last-numbers.vo'
+import { CardLastNumbers } from '#domain/value-objects/card_last_numbers.vo'
 
 test.group('CardLastNumbers Value Object', () => {
   test('should create with exactly 4 digits', ({ assert }) => {

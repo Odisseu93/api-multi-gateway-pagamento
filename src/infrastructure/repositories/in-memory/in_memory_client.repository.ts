@@ -1,12 +1,12 @@
-import type { IClientRepository } from '#domain/repositories/i-client.repository'
+import type { ClientRepository } from '#domain/repositories/client.repository'
 import type { ClientEntity } from '#domain/entities/client.entity'
-import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
+import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
 
 const TABLE = 'clients'
 
 type ClientRow = ClientEntity & { id: number }
 
-export class InMemoryClientRepository implements IClientRepository {
+export class InMemoryClientRepository implements ClientRepository {
   constructor(private readonly db: InMemoryDatabase) {}
 
   async findById(id: number): Promise<ClientEntity | null> {

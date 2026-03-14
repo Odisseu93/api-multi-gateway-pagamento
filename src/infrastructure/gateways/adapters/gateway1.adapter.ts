@@ -1,11 +1,11 @@
 import type {
-  IPaymentGatewayAdapter,
+  PaymentGatewayAdapter,
   ChargeInput,
   ChargeOutput,
-} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
-import { AppError } from '#shared/errors/app-error'
+} from '#infrastructure/gateways/contracts/payment_gateway.adapter'
+import { AppError } from '#shared/errors/app_error'
 import env from '#start/env'
-import { type IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
+import { type HttpClient } from '#infrastructure/http/client/contracts/http.client'
 
 interface Gateway1ChargeResponse {
   id: string
@@ -25,11 +25,11 @@ interface Gateway1LoginResponse {
  * charge() → POST /transactions
  * refund() → POST /transactions/:id/charge_back
  */
-export class Gateway1Adapter implements IPaymentGatewayAdapter {
+export class Gateway1Adapter implements PaymentGatewayAdapter {
   private baseUrl: string
   private bearerToken: string | null = null
 
-  constructor(private readonly httpClient: IHttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
     this.baseUrl = env.get('GATEWAY_1_URL')
   }
   private async login(): Promise<void> {

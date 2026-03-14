@@ -1,10 +1,10 @@
-import type { IUserRepository } from '#domain/repositories/i-user.repository'
-import { NotFoundError } from '#shared/errors/not-found.error'
+import type { UserRepository } from '#domain/repositories/user.repository'
+import { NotFoundError } from '#shared/errors/not_found_error'
 import { Role } from '#domain/enums/role.enum'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 
 export class DeleteUserUseCase {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async execute(id: number, currentUserId: number, currentUserRole: Role): Promise<void> {
     // 1. Cannot delete yourself

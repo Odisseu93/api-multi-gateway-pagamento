@@ -1,7 +1,7 @@
-import type { IRefundRepository, CreateRefundData } from '#domain/repositories/i-refund.repository'
+import type { RefundRepository, CreateRefundData } from '#domain/repositories/refund.repository'
 import type { RefundEntity } from '#domain/entities/refund.entity'
-import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import type { RefundStatus } from '#domain/enums/refund-status.enum'
+import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import type { RefundStatus } from '#domain/enums/refund_status.enum'
 
 const TABLE = 'refunds'
 
@@ -10,7 +10,7 @@ type RefundRow = RefundEntity & { id: number }
 /** Removes `readonly` modifiers — required when building update objects */
 type Mutable<T> = { -readonly [K in keyof T]?: T[K] }
 
-export class InMemoryRefundRepository implements IRefundRepository {
+export class InMemoryRefundRepository implements RefundRepository {
   constructor(private readonly db: InMemoryDatabase) {}
 
   async findById(id: number): Promise<RefundEntity | null> {

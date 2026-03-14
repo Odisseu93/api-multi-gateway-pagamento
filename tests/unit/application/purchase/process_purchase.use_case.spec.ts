@@ -1,20 +1,20 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryProductRepository } from '#infrastructure/repositories/in-memory/in-memory-product.repository'
-import { InMemoryClientRepository } from '#infrastructure/repositories/in-memory/in-memory-client.repository'
-import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in-memory-gateway.repository'
-import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in-memory-transaction.repository'
-import { ProcessPurchaseUseCase } from '#application/use-cases/purchase/process-purchase.use-case'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryProductRepository } from '#infrastructure/repositories/in-memory/in_memory_product.repository'
+import { InMemoryClientRepository } from '#infrastructure/repositories/in-memory/in_memory_client.repository'
+import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in_memory_gateway.repository'
+import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in_memory_transaction.repository'
+import { ProcessPurchaseUseCase } from '#application/use-cases/purchase/process_purchase.use_case'
 import { Money } from '#domain/value-objects/money.vo'
 import type {
-  IPaymentGatewayAdapter,
+  PaymentGatewayAdapter,
   ChargeInput,
   ChargeOutput,
-} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+} from '#infrastructure/gateways/contracts/payment_gateway.adapter'
 
 // ── Fake Gateway Adapter ──────────────────────────────────────────────────────
 
-function makeSuccessAdapter(externalId = 'ext-001'): IPaymentGatewayAdapter {
+function makeSuccessAdapter(externalId = 'ext-001'): PaymentGatewayAdapter {
   return {
     async charge(_input: ChargeInput): Promise<ChargeOutput> {
       return { externalId, status: 'paid' }
@@ -25,7 +25,7 @@ function makeSuccessAdapter(externalId = 'ext-001'): IPaymentGatewayAdapter {
   }
 }
 
-function makeFailAdapter(): IPaymentGatewayAdapter {
+function makeFailAdapter(): PaymentGatewayAdapter {
   return {
     async charge(_input: ChargeInput): Promise<ChargeOutput> {
       return { externalId: '', status: 'failed' }
@@ -38,8 +38,8 @@ function makeFailAdapter(): IPaymentGatewayAdapter {
 
 // ── Fake Gateway Adapter Factory ──────────────────────────────────────────────
 
-function makeAdapterFactory(map: Record<string, IPaymentGatewayAdapter>): {
-  create: (type: string) => IPaymentGatewayAdapter
+function makeAdapterFactory(map: Record<string, PaymentGatewayAdapter>): {
+  create: (type: string) => PaymentGatewayAdapter
 } {
   return { create: (type: string) => map[type] }
 }
@@ -101,7 +101,7 @@ test.group('ProcessPurchaseUseCase', (group) => {
     db.clearAll()
   })
 
-  function buildUseCase(adapterFactory: { create: (type: string) => IPaymentGatewayAdapter }) {
+  function buildUseCase(adapterFactory: { create: (type: string) => PaymentGatewayAdapter }) {
     return new ProcessPurchaseUseCase(
       productRepo,
       clientRepo,

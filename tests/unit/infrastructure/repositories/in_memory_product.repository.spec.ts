@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryProductRepository } from '#infrastructure/repositories/in-memory/in-memory-product.repository'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryProductRepository } from '#infrastructure/repositories/in-memory/in_memory_product.repository'
 import { Money } from '#domain/value-objects/money.vo'
 
 const makeProduct = (

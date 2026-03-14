@@ -1,9 +1,9 @@
-import type { IGatewayRepository } from '#domain/repositories/i-gateway.repository'
+import type { GatewayRepository } from '#domain/repositories/gateway.repository'
 import type { GatewayEntity } from '#domain/entities/gateway.entity'
-import { NotFoundError } from '#shared/errors/not-found.error'
+import { NotFoundError } from '#shared/errors/not_found_error'
 
 export class GetGatewayUseCase {
-  constructor(private readonly gatewayRepository: IGatewayRepository) {}
+  constructor(private readonly gatewayRepository: GatewayRepository) {}
 
   async execute(id: number): Promise<GatewayEntity> {
     const gateway = await this.gatewayRepository.findById(id)

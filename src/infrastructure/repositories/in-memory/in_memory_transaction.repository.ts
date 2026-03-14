@@ -1,12 +1,12 @@
 import type {
-  ITransactionRepository,
+  TransactionRepository,
   CreateTransactionData,
-} from '#domain/repositories/i-transaction.repository'
+} from '#domain/repositories/transaction.repository'
 import type { TransactionEntity } from '#domain/entities/transaction.entity'
-import type { TransactionProductEntity } from '#domain/entities/transaction-product.entity'
-import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
+import type { TransactionProductEntity } from '#domain/entities/transaction_product.entity'
+import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
 import { Money } from '#domain/value-objects/money.vo'
-import { type TransactionStatus } from '#domain/enums/transaction-status.enum'
+import { type TransactionStatus } from '#domain/enums/transaction_status.enum'
 
 const TRANSACTIONS_TABLE = 'transactions'
 const TX_PRODUCTS_TABLE = 'transaction_products'
@@ -17,7 +17,7 @@ type TransactionProductRow = TransactionProductEntity & { id: number }
 /** Removes `readonly` modifiers from all keys – needed when building partial update objects */
 type Mutable<T> = { -readonly [K in keyof T]?: T[K] }
 
-export class InMemoryTransactionRepository implements ITransactionRepository {
+export class InMemoryTransactionRepository implements TransactionRepository {
   constructor(private readonly db: InMemoryDatabase) {}
 
   async findById(id: number): Promise<TransactionEntity | null> {

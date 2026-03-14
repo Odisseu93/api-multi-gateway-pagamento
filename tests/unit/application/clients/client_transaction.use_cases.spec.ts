@@ -1,11 +1,11 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryClientRepository } from '#infrastructure/repositories/in-memory/in-memory-client.repository'
-import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in-memory-transaction.repository'
-import { ListClientsUseCase } from '#application/use-cases/clients/list-clients.use-case'
-import { GetClientUseCase } from '#application/use-cases/clients/get-client.use-case'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryClientRepository } from '#infrastructure/repositories/in-memory/in_memory_client.repository'
+import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in_memory_transaction.repository'
+import { ListClientsUseCase } from '#application/use-cases/clients/list_clients.use_case'
+import { GetClientUseCase } from '#application/use-cases/clients/get_client.use_case'
 import { Money } from '#domain/value-objects/money.vo'
-import { TransactionStatus } from '#domain/enums/transaction-status.enum'
+import { TransactionStatus } from '#domain/enums/transaction_status.enum'
 
 test.group('Client Use Cases', (group) => {
   let db: InMemoryDatabase
@@ -91,7 +91,7 @@ test.group('Transaction Use Cases', (group) => {
 
   test('ListTransactionsUseCase: should return all transactions', async ({ assert }) => {
     const { ListTransactionsUseCase } =
-      await import('#application/use-cases/transactions/list-transactions.use-case')
+      await import('#application/use-cases/transactions/list_transactions.use_case')
     const useCase = new ListTransactionsUseCase(transactionRepo)
     const txs = await useCase.execute()
     assert.lengthOf(txs, 1)
@@ -99,7 +99,7 @@ test.group('Transaction Use Cases', (group) => {
 
   test('GetTransactionUseCase: should return transaction with products', async ({ assert }) => {
     const { GetTransactionUseCase } =
-      await import('#application/use-cases/transactions/get-transaction.use-case')
+      await import('#application/use-cases/transactions/get_transaction.use_case')
     const useCase = new GetTransactionUseCase(transactionRepo)
     const result = await useCase.execute(1)
     assert.equal(result.transaction.externalId, 'ext-001')
@@ -108,7 +108,7 @@ test.group('Transaction Use Cases', (group) => {
 
   test('GetTransactionUseCase: should throw 404 when not found', async ({ assert }) => {
     const { GetTransactionUseCase } =
-      await import('#application/use-cases/transactions/get-transaction.use-case')
+      await import('#application/use-cases/transactions/get_transaction.use_case')
     const useCase = new GetTransactionUseCase(transactionRepo)
     await assert.rejects(() => useCase.execute(9999), /not found/i)
   })

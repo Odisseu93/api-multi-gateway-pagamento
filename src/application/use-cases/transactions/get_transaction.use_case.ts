@@ -1,7 +1,7 @@
-import type { ITransactionRepository } from '#domain/repositories/i-transaction.repository'
+import type { TransactionRepository } from '#domain/repositories/transaction.repository'
 import type { TransactionEntity } from '#domain/entities/transaction.entity'
-import type { TransactionProductEntity } from '#domain/entities/transaction-product.entity'
-import { NotFoundError } from '#shared/errors/not-found.error'
+import type { TransactionProductEntity } from '#domain/entities/transaction_product.entity'
+import { NotFoundError } from '#shared/errors/not_found_error'
 
 export interface GetTransactionResult {
   transaction: TransactionEntity
@@ -9,7 +9,7 @@ export interface GetTransactionResult {
 }
 
 export class GetTransactionUseCase {
-  constructor(private readonly transactionRepository: ITransactionRepository) {}
+  constructor(private readonly transactionRepository: TransactionRepository) {}
 
   async execute(id: number): Promise<GetTransactionResult> {
     const result = await this.transactionRepository.findByIdWithProducts(id)

@@ -1,4 +1,4 @@
-import type { IUserRepository } from '#domain/repositories/i-user.repository'
+import type { UserRepository } from '#domain/repositories/user.repository'
 import type { UserEntity } from '#domain/entities/user.entity'
 import type { UserEntityProps } from '#domain/entities/user.entity'
 import { UserEntity as UserEntityClass } from '#domain/entities/user.entity'
@@ -19,7 +19,7 @@ function toEntity(model: User): UserEntity {
   })
 }
 
-export class LucidUserRepository implements IUserRepository {
+export class LucidUserRepository implements UserRepository {
   async findById(id: number): Promise<UserEntity | null> {
     const model = await User.query().where('id', id).whereNull('deleted_at').first()
     return model ? toEntity(model) : null

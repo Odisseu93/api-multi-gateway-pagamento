@@ -1,9 +1,9 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in-memory-gateway.repository'
-import { GetGatewayUseCase } from '#application/use-cases/gateways/get-gateway.use-case'
-import { ListGatewaysUseCase } from '#application/use-cases/gateways/list-gateways.use-case'
-import { UpdateGatewayPriorityUseCase } from '#application/use-cases/gateways/update-gateway-priority.use-case'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memory/in_memory_gateway.repository'
+import { GetGatewayUseCase } from '#application/use-cases/gateways/get_gateway.use_case'
+import { ListGatewaysUseCase } from '#application/use-cases/gateways/list_gateways.use_case'
+import { UpdateGatewayPriorityUseCase } from '#application/use-cases/gateways/update_gateway_priority.use_case'
 
 test.group('Gateway Use Cases', (group) => {
   let db: InMemoryDatabase

@@ -1,6 +1,6 @@
-import { type IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
+import { type HttpClient } from '#infrastructure/http/client/contracts/http.client'
 
-export function httpClientMock(responses: unknown[]): IHttpClient & { getCallCount(): number } {
+export function httpClientMock(responses: unknown[]): HttpClient & { getCallCount(): number } {
   let callCount = 0
 
   return {

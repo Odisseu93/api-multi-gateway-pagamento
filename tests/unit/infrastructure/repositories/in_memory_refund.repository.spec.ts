@@ -1,9 +1,9 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryRefundRepository } from '#infrastructure/repositories/in-memory/in-memory-refund.repository'
-import { RefundStatus } from '#domain/enums/refund-status.enum'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryRefundRepository } from '#infrastructure/repositories/in-memory/in_memory_refund.repository'
+import { RefundStatus } from '#domain/enums/refund_status.enum'
 import { Money } from '#domain/value-objects/money.vo'
-import type { CreateRefundData } from '#domain/repositories/i-refund.repository'
+import type { CreateRefundData } from '#domain/repositories/refund.repository'
 
 const makeRefundData = (overrides: Partial<CreateRefundData> = {}): CreateRefundData => ({
   transactionId: overrides.transactionId ?? 1,

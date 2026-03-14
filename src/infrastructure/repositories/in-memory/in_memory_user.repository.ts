@@ -1,12 +1,12 @@
-import type { IUserRepository } from '#domain/repositories/i-user.repository'
+import type { UserRepository } from '#domain/repositories/user.repository'
 import type { UserEntity, UserEntityProps } from '#domain/entities/user.entity'
-import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
+import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
 
 const TABLE = 'users'
 
 type UserRow = UserEntity & { id: number }
 
-export class InMemoryUserRepository implements IUserRepository {
+export class InMemoryUserRepository implements UserRepository {
   constructor(private readonly db: InMemoryDatabase) {}
 
   async findById(id: number): Promise<UserEntity | null> {

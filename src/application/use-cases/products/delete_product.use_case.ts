@@ -1,8 +1,8 @@
-import type { IProductRepository } from '#domain/repositories/i-product.repository'
-import { NotFoundError } from '#shared/errors/not-found.error'
+import type { ProductRepository } from '#domain/repositories/product.repository'
+import { NotFoundError } from '#shared/errors/not_found_error'
 
 export class DeleteProductUseCase {
-  constructor(private readonly productRepository: IProductRepository) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
   async execute(id: number): Promise<void> {
     const existing = await this.productRepository.findById(id)

@@ -1,12 +1,12 @@
-import type { IGatewayRepository } from '#domain/repositories/i-gateway.repository'
+import type { GatewayRepository } from '#domain/repositories/gateway.repository'
 import type { GatewayEntity } from '#domain/entities/gateway.entity'
-import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
+import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
 
 const TABLE = 'gateways'
 
 type GatewayRow = GatewayEntity & { id: number }
 
-export class InMemoryGatewayRepository implements IGatewayRepository {
+export class InMemoryGatewayRepository implements GatewayRepository {
   constructor(private readonly db: InMemoryDatabase) {}
 
   async findById(id: number): Promise<GatewayEntity | null> {

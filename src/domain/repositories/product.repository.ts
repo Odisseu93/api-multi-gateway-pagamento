@@ -1,6 +1,6 @@
 import type { ProductEntity } from '#domain/entities/product.entity'
 
-export interface IProductRepository {
+export interface ProductRepository {
   findById(id: number): Promise<ProductEntity | null>
   findByIds(ids: number[]): Promise<ProductEntity[]>
   findAll(): Promise<ProductEntity[]>
