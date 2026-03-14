@@ -1,6 +1,6 @@
-import type { IUserRepository } from '#domain/repositories/i-user.repository'
+import type { UserRepository } from '#domain/repositories/user.repository'
 import type { LoginInputDto, LoginOutputDto } from '#application/dtos/auth.dto'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 
 export interface HashService {
   verify(hashedValue: string, plainValue: string): Promise<boolean>
@@ -17,7 +17,7 @@ export interface HashService {
  */
 export class LoginUseCase {
   constructor(
-    private readonly userRepository: IUserRepository,
+    private readonly userRepository: UserRepository,
     private readonly hash: HashService
   ) {}
 

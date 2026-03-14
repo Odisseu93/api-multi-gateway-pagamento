@@ -1,6 +1,6 @@
 import app from '@adonisjs/core/services/app'
 import { type HttpContext, ExceptionHandler } from '@adonisjs/core/http'
-import { AppError } from '#shared/errors/app-error'
+import { AppError } from '#shared/errors/app_error'
 import { errors as vineErrors } from '@vinejs/vine'
 import { errors as limiterErrors } from '@adonisjs/limiter'
 

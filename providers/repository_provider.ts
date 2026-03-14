@@ -1,10 +1,10 @@
 import type { ApplicationService } from '@adonisjs/core/types'
-import { LucidUserRepository } from '#infrastructure/repositories/lucid/lucid-user.repository'
-import { LucidGatewayRepository } from '#infrastructure/repositories/lucid/lucid-gateway.repository'
-import { LucidClientRepository } from '#infrastructure/repositories/lucid/lucid-client.repository'
-import { LucidProductRepository } from '#infrastructure/repositories/lucid/lucid-product.repository'
-import { LucidTransactionRepository } from '#infrastructure/repositories/lucid/lucid-transaction.repository'
-import { LucidRefundRepository } from '#infrastructure/repositories/lucid/lucid-refund.repository'
+import { LucidUserRepository } from '#infrastructure/repositories/lucid/lucid_user.repository'
+import { LucidGatewayRepository } from '#infrastructure/repositories/lucid/lucid_gateway.repository'
+import { LucidClientRepository } from '#infrastructure/repositories/lucid/lucid_client.repository'
+import { LucidProductRepository } from '#infrastructure/repositories/lucid/lucid_product.repository'
+import { LucidTransactionRepository } from '#infrastructure/repositories/lucid/lucid_transaction.repository'
+import { LucidRefundRepository } from '#infrastructure/repositories/lucid/lucid_refund.repository'
 
 /**
  * Repository Provider

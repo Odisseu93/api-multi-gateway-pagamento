@@ -1,6 +1,6 @@
 import { Money } from '#domain/value-objects/money.vo'
-import { TransactionStatus } from '#domain/enums/transaction-status.enum'
-import type { TransactionProductEntity } from './transaction-product.entity.js'
+import { TransactionStatus } from '#domain/enums/transaction_status.enum'
+import type { TransactionProductEntity } from './transaction_product.entity.js'
 
 export interface TransactionEntityProps {
   readonly id?: number

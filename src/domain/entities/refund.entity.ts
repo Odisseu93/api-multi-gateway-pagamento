@@ -1,5 +1,5 @@
 import { type Money } from '#domain/value-objects/money.vo'
-import { RefundStatus } from '#domain/enums/refund-status.enum'
+import { RefundStatus } from '#domain/enums/refund_status.enum'
 
 export interface RefundEntityProps {
   readonly id?: number

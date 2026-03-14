@@ -1,11 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { createProductValidator, updateProductValidator } from '#validators/product.validator'
-import { CreateProductUseCase } from '#application/use-cases/products/create-product.use-case'
-import { UpdateProductUseCase } from '#application/use-cases/products/update-product.use-case'
-import { DeleteProductUseCase } from '#application/use-cases/products/delete-product.use-case'
-import { ListProductsUseCase } from '#application/use-cases/products/list-products.use-case'
-import { GetProductUseCase } from '#application/use-cases/products/get-product.use-case'
-import { LucidProductRepository } from '#infrastructure/repositories/lucid/lucid-product.repository'
+import { CreateProductUseCase } from '#application/use-cases/products/create_product.use_case'
+import { UpdateProductUseCase } from '#application/use-cases/products/update_product.use_case'
+import { DeleteProductUseCase } from '#application/use-cases/products/delete_product.use_case'
+import { ListProductsUseCase } from '#application/use-cases/products/list_products.use_case'
+import { GetProductUseCase } from '#application/use-cases/products/get_product.use_case'
+import { LucidProductRepository } from '#infrastructure/repositories/lucid/lucid_product.repository'
 
 export default class ProductController {
   /** GET /api/v1/products */

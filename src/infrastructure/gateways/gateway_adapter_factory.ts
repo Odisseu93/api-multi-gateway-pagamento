@@ -1,0 +1,42 @@
+import type { PaymentGatewayAdapter } from '#infrastructure/gateways/contracts/payment_gateway.adapter'
+import { Gateway1Adapter } from '#infrastructure/gateways/adapters/gateway1.adapter'
+import { Gateway2Adapter } from '#infrastructure/gateways/adapters/gateway2.adapter'
+import { AppError } from '#shared/errors/app_error'
+import { AxiosHttpClientAdapter } from '#infrastructure/http/client/adapters/axios_http_client.adapter'
+
+/**
+ * Factory that resolves the correct PaymentGatewayAdapter by the gateway `type` slug.
+ *
+ * The `type` column in the gateways table must match the keys registered here.
+ * Adding a new gateway only requires:
+ *   1. Creating a new adapter class implementing PaymentGatewayAdapter
+ *   2. Registering it here with a new type key
+ */
+export class GatewayAdapterFactory {
+  private static readonly adapters: Record<string, () => PaymentGatewayAdapter> = {
+    gateway_1: () => new Gateway1Adapter(new AxiosHttpClientAdapter()),
+    gateway_2: () => new Gateway2Adapter(new AxiosHttpClientAdapter()),
+  }
+
+  static create(type: string): PaymentGatewayAdapter {
+    const factory = GatewayAdapterFactory.adapters[type]
+
+    if (!factory) {
+      throw new AppError(
+        `No adapter found for gateway type "${type}"`,
+        500,
+        'GATEWAY_ADAPTER_NOT_FOUND'
+      )
+    }
+
+    return factory()
+  }
+
+  /**
+   * Returns all registered gateway type slugs.
+   * Useful for seeding or validation.
+   */
+  static registeredTypes(): string[] {
+    return Object.keys(GatewayAdapterFactory.adapters)
+  }
+}

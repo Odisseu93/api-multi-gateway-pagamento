@@ -1,11 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { ListTransactionsUseCase } from '#application/use-cases/transactions/list-transactions.use-case'
-import { GetTransactionUseCase } from '#application/use-cases/transactions/get-transaction.use-case'
-import { RefundTransactionUseCase } from '#application/use-cases/refund/refund-transaction.use-case'
-import { LucidTransactionRepository } from '#infrastructure/repositories/lucid/lucid-transaction.repository'
-import { LucidRefundRepository } from '#infrastructure/repositories/lucid/lucid-refund.repository'
-import { LucidGatewayRepository } from '#infrastructure/repositories/lucid/lucid-gateway.repository'
-import { GatewayAdapterFactory } from '#infrastructure/gateways/gateway-adapter.factory'
+import { ListTransactionsUseCase } from '#application/use-cases/transactions/list_transactions.use_case'
+import { GetTransactionUseCase } from '#application/use-cases/transactions/get_transaction.use_case'
+import { RefundTransactionUseCase } from '#application/use-cases/refund/refund_transaction.use_case'
+import { LucidTransactionRepository } from '#infrastructure/repositories/lucid/lucid_transaction.repository'
+import { LucidRefundRepository } from '#infrastructure/repositories/lucid/lucid_refund.repository'
+import { LucidGatewayRepository } from '#infrastructure/repositories/lucid/lucid_gateway.repository'
+import { GatewayAdapterFactory } from '#infrastructure/gateways/gateway_adapter_factory'
 
 export default class TransactionController {
   /** GET /api/v1/transactions */

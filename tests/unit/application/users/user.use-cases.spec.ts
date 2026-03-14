@@ -1,12 +1,12 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryUserRepository } from '#infrastructure/repositories/in-memory/in-memory-user.repository'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryUserRepository } from '#infrastructure/repositories/in-memory/in_memory_user.repository'
 import { Role } from '#domain/enums/role.enum'
-import { CreateUserUseCase } from '#application/use-cases/users/create-user.use-case'
-import { UpdateUserUseCase } from '#application/use-cases/users/update-user.use-case'
-import { DeleteUserUseCase } from '#application/use-cases/users/delete-user.use-case'
-import { ListUsersUseCase } from '#application/use-cases/users/list-users.use-case'
-import { GetUserUseCase } from '#application/use-cases/users/get-user.use-case'
+import { CreateUserUseCase } from '#application/use-cases/users/create_user.use_case'
+import { UpdateUserUseCase } from '#application/use-cases/users/update_user.use_case'
+import { DeleteUserUseCase } from '#application/use-cases/users/delete_user.use_case'
+import { ListUsersUseCase } from '#application/use-cases/users/list_users.use_case'
+import { GetUserUseCase } from '#application/use-cases/users/get_user.use_case'
 
 test.group('User Use Cases', (group) => {
   let db: InMemoryDatabase

@@ -46,8 +46,10 @@ test.group('RBAC (Integration)', (group) => {
     const user = await TestHelper.createUser()
     const authHeader = await TestHelper.getAuthHeader(client, user)
 
-    await (await client.get('/api/v1/products').headers(authHeader)).assertStatus(403)
-    await (await client.get('/api/v1/users').headers(authHeader)).assertStatus(403)
+    const productsResponse = await client.get('/api/v1/products').headers(authHeader)
+    productsResponse.assertStatus(403)
+    const usersResponse = await client.get('/api/v1/users').headers(authHeader)
+    usersResponse.assertStatus(403)
   })
 
   test('FINANCE can access refunds', async ({ client }) => {
@@ -62,8 +64,10 @@ test.group('RBAC (Integration)', (group) => {
     const user = await TestHelper.createUser()
     const authHeader = await TestHelper.getAuthHeader(client, user)
 
-    await (await client.get('/api/v1/transactions').headers(authHeader)).assertStatus(200)
-    await (await client.get('/api/v1/clients').headers(authHeader)).assertStatus(200)
+    const transactionsResponse = await client.get('/api/v1/transactions').headers(authHeader)
+    transactionsResponse.assertStatus(200)
+    const clientsResponse = await client.get('/api/v1/clients').headers(authHeader)
+    clientsResponse.assertStatus(200)
   })
 
   test('unauthenticated request returns 401', async ({ client }) => {

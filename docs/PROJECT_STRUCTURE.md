@@ -125,6 +125,7 @@ HTTP Response
 
 ---
 
+```json
 {
   "imports": {
     "#domain/*": "./src/domain/*.js",
@@ -140,15 +141,17 @@ HTTP Response
 ## Regras de Dependência (Clean Architecture)
 
 ```
-domain  ←────────  application  ←────────  infrastructure
-  (nenhuma           (importa só             (importa domain,
-  dependência         domain e                application e
-  externa)            shared)                 shared)
-                                                    ↑
-                                              app/ (HTTP layer)
-                                              importa application
-                                              e shared via DI
-```
+
+domain ←──────── application ←──────── infrastructure
+(nenhuma (importa só (importa domain,
+dependência domain e application e
+externa) shared) shared)
+↑
+app/ (HTTP layer)
+importa application
+e shared via DI
+
+````
 
 - **`domain/`** — nunca importa de `application`, `infrastructure`, `app/` ou pacotes externos.
 - **`application/`** — importa apenas de `domain/` e `shared/`.
@@ -173,7 +176,7 @@ node ace test           # Roda todas as suítes
 node ace test unit      # Apenas testes unitários
 node ace test functional # Apenas testes de integração
 npm run test            # Alias para node ace test
-```
+````
 
 ---
 
@@ -184,4 +187,4 @@ npm run test            # Alias para node ace test
 - [VineJS](https://vinejs.dev)
 - [Japa (Test Runner)](https://japa.dev)
 - [Regra de Arquitetura](.agent/rules/02-arquitetura.mdc)
-- [Modelagem do Banco](docs/DATABASE_MODEL.md)
+- [Modelagem do Banco](docs/DATABASE_MODELING.md)

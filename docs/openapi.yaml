@@ -479,11 +479,11 @@ components:
           properties:
             name:
               type: string
-              example: "João Silva"
+              example: 'João Silva'
             email:
               type: string
               format: email
-              example: "joao@example.com"
+              example: 'joao@example.com'
         items:
           type: array
           items:
@@ -508,12 +508,12 @@ components:
               type: string
               minLength: 16
               maxLength: 16
-              example: "1234567812345678"
+              example: '1234567812345678'
             cvv:
               type: string
               minLength: 3
               maxLength: 3
-              example: "123"
+              example: '123'
 
     ProductRequest:
       type: object
@@ -523,7 +523,7 @@ components:
       properties:
         name:
           type: string
-          example: "Plano Premium"
+          example: 'Plano Premium'
         amount:
           type: integer
           description: Valor em centavos

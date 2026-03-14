@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { ListRefundsUseCase } from '#application/use-cases/refund/list-refunds.use-case'
-import { GetRefundUseCase } from '#application/use-cases/refund/get-refund.use-case'
-import { LucidRefundRepository } from '#infrastructure/repositories/lucid/lucid-refund.repository'
+import { ListRefundsUseCase } from '#application/use-cases/refund/list_refunds.use_case'
+import { GetRefundUseCase } from '#application/use-cases/refund/get_refund.use_case'
+import { LucidRefundRepository } from '#infrastructure/repositories/lucid/lucid_refund.repository'
 
 export default class RefundController {
   /** GET /api/v1/refunds */

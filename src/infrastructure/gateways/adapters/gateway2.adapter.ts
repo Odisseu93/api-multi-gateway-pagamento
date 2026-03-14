@@ -1,10 +1,10 @@
 import type {
-  IPaymentGatewayAdapter,
+  PaymentGatewayAdapter,
   ChargeInput,
   ChargeOutput,
-} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+} from '#infrastructure/gateways/contracts/payment_gateway.adapter'
 import env from '#start/env'
-import { type IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
+import { type HttpClient } from '#infrastructure/http/client/contracts/http.client'
 
 interface Gateway2ChargeResponse {
   id: string
@@ -19,10 +19,10 @@ interface Gateway2ChargeResponse {
  * charge() → POST /transacoes (Portuguese field names: valor, nome, numeroCartao)
  * refund() → POST /transacoes/reembolso with body { id: externalId }
  */
-export class Gateway2Adapter implements IPaymentGatewayAdapter {
+export class Gateway2Adapter implements PaymentGatewayAdapter {
   private baseUrl: string
 
-  constructor(private readonly httpClient: IHttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
     this.baseUrl = env.get('GATEWAY_2_URL')
   }
 

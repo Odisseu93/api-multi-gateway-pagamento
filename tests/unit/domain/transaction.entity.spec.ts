@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
 import { TransactionEntity } from '#domain/entities/transaction.entity'
-import { TransactionProductEntity } from '#domain/entities/transaction-product.entity'
-import { TransactionStatus } from '#domain/enums/transaction-status.enum'
+import { TransactionProductEntity } from '#domain/entities/transaction_product.entity'
+import { TransactionStatus } from '#domain/enums/transaction_status.enum'
 import { Money } from '#domain/value-objects/money.vo'
 
 test.group('Transaction Entity', () => {

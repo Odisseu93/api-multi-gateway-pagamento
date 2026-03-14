@@ -93,6 +93,7 @@ node ace test unit
 ## Referencia da API
 
 A documentação interativa da API pode ser acessada via Swagger/Scalar:
+
 - **Swagger/Scalar UI**: [http://localhost:3333/docs](http://localhost:3333/docs)
 - **OpenAPI Spec (YAML)**: [http://localhost:3333/openapi.yaml](http://localhost:3333/openapi.yaml)
 

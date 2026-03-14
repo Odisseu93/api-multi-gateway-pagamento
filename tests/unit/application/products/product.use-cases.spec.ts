@@ -1,11 +1,11 @@
 import { test } from '@japa/runner'
-import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
-import { InMemoryProductRepository } from '#infrastructure/repositories/in-memory/in-memory-product.repository'
-import { CreateProductUseCase } from '#application/use-cases/products/create-product.use-case'
-import { UpdateProductUseCase } from '#application/use-cases/products/update-product.use-case'
-import { DeleteProductUseCase } from '#application/use-cases/products/delete-product.use-case'
-import { ListProductsUseCase } from '#application/use-cases/products/list-products.use-case'
-import { GetProductUseCase } from '#application/use-cases/products/get-product.use-case'
+import { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+import { InMemoryProductRepository } from '#infrastructure/repositories/in-memory/in_memory_product.repository'
+import { CreateProductUseCase } from '#application/use-cases/products/create_product.use_case'
+import { UpdateProductUseCase } from '#application/use-cases/products/update_product.use_case'
+import { DeleteProductUseCase } from '#application/use-cases/products/delete_product.use_case'
+import { ListProductsUseCase } from '#application/use-cases/products/list_products.use_case'
+import { GetProductUseCase } from '#application/use-cases/products/get_product.use_case'
 
 test.group('Product Use Cases', (group) => {
   let db: InMemoryDatabase

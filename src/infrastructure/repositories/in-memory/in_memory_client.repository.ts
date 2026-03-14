@@ -1,0 +1,35 @@
+import type { ClientRepository } from '#domain/repositories/client.repository'
+import type { ClientEntity } from '#domain/entities/client.entity'
+import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in_memory_database'
+
+const TABLE = 'clients'
+
+type ClientRow = ClientEntity & { id: number }
+
+export class InMemoryClientRepository implements ClientRepository {
+  constructor(private readonly db: InMemoryDatabase) {}
+
+  async findById(id: number): Promise<ClientEntity | null> {
+    return this.db.findById<ClientRow>(TABLE, id)
+  }
+
+  async findByEmail(email: string): Promise<ClientEntity | null> {
+    return this.db.findOne<ClientRow>(TABLE, (c) => c.email === email)
+  }
+
+  async findAll(): Promise<ClientEntity[]> {
+    return this.db.findAll<ClientRow>(TABLE)
+  }
+
+  async create(
+    client: Omit<ClientEntity, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>
+  ): Promise<ClientEntity> {
+    const now = new Date()
+    return this.db.insert<ClientRow>(TABLE, {
+      ...client,
+      createdAt: now,
+      updatedAt: null,
+      deletedAt: null,
+    } as Omit<ClientRow, 'id'>)
+  }
+}
