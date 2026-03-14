@@ -63,7 +63,9 @@ test.group('Transactions (Integration)', (group) => {
     const transactionId = createResponse.body().data.transactionId
 
     // Refund
-    const response = await client.post(`/api/v1/transactions/${transactionId}/refund`).headers(authHeader)
+    const response = await client
+      .post(`/api/v1/transactions/${transactionId}/refund`)
+      .headers(authHeader)
 
     response.assertStatus(200)
     assert.equal(response.body().data.status, 'refunded')

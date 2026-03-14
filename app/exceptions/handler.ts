@@ -2,6 +2,7 @@ import app from '@adonisjs/core/services/app'
 import { type HttpContext, ExceptionHandler } from '@adonisjs/core/http'
 import { AppError } from '#shared/errors/app-error'
 import { errors as vineErrors } from '@vinejs/vine'
+import { errors as limiterErrors } from '@adonisjs/limiter'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   protected debug = !app.inProduction
@@ -30,10 +31,22 @@ export default class HttpExceptionHandler extends ExceptionHandler {
       })
     }
 
+    // ── AdonisJS Limiter rate limit error → 429 ──────────────────────────
+    if (error instanceof limiterErrors.E_TOO_MANY_REQUESTS) {
+      return ctx.response.status(429).json({
+        success: false,
+        error: {
+          code: 'RATE_LIMIT_EXCEEDED',
+          message: 'Too many requests. Please slow down.',
+          retryAfter: error.response.availableIn,
+        },
+      })
+    }
+
     // ── AdonisJS auth, validation or generic Error with .status ───────────
     if (error instanceof Error && 'status' in error) {
       const httpError = error as Error & { status: number }
-      
+
       // Map standard HTTP status codes to consistent error structures
       const statusMapping: Record<number, { code: string; message: string }> = {
         400: { code: 'BAD_REQUEST', message: 'Bad request' },
@@ -85,7 +98,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
         },
       })
     }
-    
+
     // ── Fallback: delegate to AdonisJS default handler ───────────────────
     return super.handle(error, ctx)
   }

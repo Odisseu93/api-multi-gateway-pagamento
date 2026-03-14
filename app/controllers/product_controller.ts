@@ -45,7 +45,7 @@ export default class ProductController {
   /** DELETE /api/v1/products/:id */
   async destroy({ params, response }: HttpContext) {
     const useCase = new DeleteProductUseCase(new LucidProductRepository())
-    
+
     await useCase.execute(Number(params.id))
     return response.noContent()
   }

@@ -75,5 +75,8 @@ services:
       GATEWAY_2_AUTH_TOKEN: ${GATEWAY_2_AUTH_TOKEN}
       GATEWAY_2_AUTH_SECRET: ${GATEWAY_2_AUTH_SECRET}
 
+      # Rate Limiting
+      LIMITER_STORE: ${LIMITER_STORE}
+
 volumes:
   db_data:

@@ -5,7 +5,7 @@ import type {
 } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
 import { AppError } from '#shared/errors/app-error'
 import env from '#start/env'
-import { IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
+import { type IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
 
 interface Gateway1ChargeResponse {
   id: string
@@ -33,7 +33,6 @@ export class Gateway1Adapter implements IPaymentGatewayAdapter {
     this.baseUrl = env.get('GATEWAY_1_URL')
   }
   private async login(): Promise<void> {
-
     const response = await this.httpClient.post(
       `${this.baseUrl}/login`,
       {

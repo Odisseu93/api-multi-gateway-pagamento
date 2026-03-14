@@ -5,7 +5,10 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import { DateTime } from 'luxon'
 
-export default class User extends compose(BaseModel, withAuthFinder(() => hash as any)) {
+export default class User extends compose(
+  BaseModel,
+  withAuthFinder(() => hash as any)
+) {
   static table = 'users'
 
   @beforeSave()

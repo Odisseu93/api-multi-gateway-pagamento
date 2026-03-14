@@ -8,7 +8,18 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AuthAccessTokenSchema extends BaseModel {
-  static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
+  static $columns = [
+    'abilities',
+    'createdAt',
+    'expiresAt',
+    'hash',
+    'id',
+    'lastUsedAt',
+    'name',
+    'tokenableId',
+    'type',
+    'updatedAt',
+  ] as const
   $columns = AuthAccessTokenSchema.$columns
   @column()
   declare abilities: string
@@ -50,7 +61,16 @@ export class ClientSchema extends BaseModel {
 }
 
 export class GatewaySchema extends BaseModel {
-  static $columns = ['createdAt', 'credentials', 'id', 'isActive', 'name', 'priority', 'type', 'updatedAt'] as const
+  static $columns = [
+    'createdAt',
+    'credentials',
+    'id',
+    'isActive',
+    'name',
+    'priority',
+    'type',
+    'updatedAt',
+  ] as const
   $columns = GatewaySchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -71,7 +91,15 @@ export class GatewaySchema extends BaseModel {
 }
 
 export class ProductSchema extends BaseModel {
-  static $columns = ['amount', 'createdAt', 'deletedAt', 'id', 'isActive', 'name', 'updatedAt'] as const
+  static $columns = [
+    'amount',
+    'createdAt',
+    'deletedAt',
+    'id',
+    'isActive',
+    'name',
+    'updatedAt',
+  ] as const
   $columns = ProductSchema.$columns
   @column()
   declare amount: bigint | number
@@ -107,7 +135,14 @@ export class RefundSchema extends BaseModel {
 }
 
 export class TransactionProductSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'productId', 'quantity', 'transactionId', 'unitAmount'] as const
+  static $columns = [
+    'createdAt',
+    'id',
+    'productId',
+    'quantity',
+    'transactionId',
+    'unitAmount',
+  ] as const
   $columns = TransactionProductSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -124,7 +159,17 @@ export class TransactionProductSchema extends BaseModel {
 }
 
 export class TransactionSchema extends BaseModel {
-  static $columns = ['amount', 'cardLastNumbers', 'clientId', 'createdAt', 'externalId', 'gatewayId', 'id', 'status', 'updatedAt'] as const
+  static $columns = [
+    'amount',
+    'cardLastNumbers',
+    'clientId',
+    'createdAt',
+    'externalId',
+    'gatewayId',
+    'id',
+    'status',
+    'updatedAt',
+  ] as const
   $columns = TransactionSchema.$columns
   @column()
   declare amount: bigint | number
@@ -147,7 +192,16 @@ export class TransactionSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'email', 'id', 'name', 'password', 'role', 'updatedAt'] as const
+  static $columns = [
+    'createdAt',
+    'deletedAt',
+    'email',
+    'id',
+    'name',
+    'password',
+    'role',
+    'updatedAt',
+  ] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

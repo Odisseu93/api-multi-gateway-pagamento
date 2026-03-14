@@ -22,10 +22,10 @@ test.group('Refund Use Cases (Read-only)', (group) => {
       status: RefundStatus.APPROVED,
       amount: Money.fromCents(100),
     })
-    
+
     const useCase = new ListRefundsUseCase(refundRepo)
     const result = await useCase.execute()
-    
+
     assert.lengthOf(result, 1)
     assert.equal(result[0].externalId, 'ext-1')
   })
@@ -37,10 +37,10 @@ test.group('Refund Use Cases (Read-only)', (group) => {
       status: RefundStatus.APPROVED,
       amount: Money.fromCents(100),
     })
-    
+
     const useCase = new GetRefundUseCase(refundRepo)
     const result = await useCase.execute(created.id!)
-    
+
     assert.equal(result.externalId, 'ext-find')
   })
 

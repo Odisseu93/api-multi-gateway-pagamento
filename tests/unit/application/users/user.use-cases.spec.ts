@@ -8,7 +8,6 @@ import { DeleteUserUseCase } from '#application/use-cases/users/delete-user.use-
 import { ListUsersUseCase } from '#application/use-cases/users/list-users.use-case'
 import { GetUserUseCase } from '#application/use-cases/users/get-user.use-case'
 
-
 test.group('User Use Cases', (group) => {
   let db: InMemoryDatabase
   let userRepo: InMemoryUserRepository
@@ -101,7 +100,9 @@ test.group('User Use Cases', (group) => {
 
   // ── DeleteUserUseCase ──────────────────────────────────────────────────────
 
-  test('DeleteUserUseCase: should delete an existing user when requested by ADMIN', async ({ assert }) => {
+  test('DeleteUserUseCase: should delete an existing user when requested by ADMIN', async ({
+    assert,
+  }) => {
     const createUseCase = new CreateUserUseCase(userRepo)
     const created = await createUseCase.execute({
       name: 'Carol',
@@ -134,15 +135,16 @@ test.group('User Use Cases', (group) => {
     assert.isNull(found)
   })
 
-  test('DeleteUserUseCase: should throw 403 when user tries to delete themselves', async ({ assert }) => {
+  test('DeleteUserUseCase: should throw 403 when user tries to delete themselves', async ({
+    assert,
+  }) => {
     const useCase = new DeleteUserUseCase(userRepo)
-    await assert.rejects(
-      () => useCase.execute(1, 1, Role.ADMIN),
-      /cannot delete your own account/i
-    )
+    await assert.rejects(() => useCase.execute(1, 1, Role.ADMIN), /cannot delete your own account/i)
   })
 
-  test('DeleteUserUseCase: should throw 403 when MANAGER tries to delete an ADMIN', async ({ assert }) => {
+  test('DeleteUserUseCase: should throw 403 when MANAGER tries to delete an ADMIN', async ({
+    assert,
+  }) => {
     const createUseCase = new CreateUserUseCase(userRepo)
     const admin = await createUseCase.execute({
       name: 'Admin',

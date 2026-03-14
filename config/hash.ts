@@ -1,8 +1,6 @@
 import { defineConfig, drivers } from '@adonisjs/core/hash'
 
-
 const hashConfig = defineConfig({
-
   default: 'argon2',
 
   list: {
@@ -54,7 +52,6 @@ const hashConfig = defineConfig({
        */
       maxMemory: 33554432,
     }),
-
 
     argon2: drivers.argon2({
       variant: 'id',

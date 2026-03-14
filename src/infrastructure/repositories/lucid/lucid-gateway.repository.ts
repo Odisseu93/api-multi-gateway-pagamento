@@ -29,9 +29,7 @@ export class LucidGatewayRepository implements IGatewayRepository {
   }
 
   async findAllActiveOrderedByPriority(): Promise<GatewayEntity[]> {
-    const models = await Gateway.query()
-      .where('is_active', true)
-      .orderBy('priority', 'asc')
+    const models = await Gateway.query().where('is_active', true).orderBy('priority', 'asc')
     return models.map(toEntity)
   }
 

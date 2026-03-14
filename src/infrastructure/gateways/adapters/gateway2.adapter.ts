@@ -4,7 +4,7 @@ import type {
   ChargeOutput,
 } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
 import env from '#start/env'
-import { IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
+import { type IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
 
 interface Gateway2ChargeResponse {
   id: string
@@ -61,7 +61,6 @@ export class Gateway2Adapter implements IPaymentGatewayAdapter {
   }
 
   async refund(externalId: string): Promise<boolean> {
-
     const response = await this.httpClient.post(
       `${this.baseUrl}/transacoes/reembolso`,
       {

@@ -1,5 +1,5 @@
-import { IHttpClient } from '../contracts/i-http-client.js'
-import axios, { AxiosRequestConfig } from 'axios'
+import { type IHttpClient } from '../contracts/i-http-client.js'
+import axios, { type AxiosRequestConfig } from 'axios'
 
 export class AxiosHttpClientAdapter implements IHttpClient {
   async post(url: string, data?: unknown, config?: unknown) {

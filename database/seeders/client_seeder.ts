@@ -7,7 +7,6 @@ export default class ClientSeeder extends BaseSeeder {
 
   async run() {
     if (app.inProduction) {
-
       return
     }
 
@@ -21,7 +20,5 @@ export default class ClientSeeder extends BaseSeeder {
     for (const client of clients) {
       await Client.updateOrCreate({ email: client.email }, client)
     }
-
-
   }
 }

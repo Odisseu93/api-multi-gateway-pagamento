@@ -6,16 +6,28 @@ import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memor
 import { RefundTransactionUseCase } from '#application/use-cases/refund/refund-transaction.use-case'
 import { Money } from '#domain/value-objects/money.vo'
 import { TransactionStatus } from '#domain/enums/transaction-status.enum'
-import type { IPaymentGatewayAdapter, ChargeInput, ChargeOutput } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+import type {
+  IPaymentGatewayAdapter,
+  ChargeInput,
+  ChargeOutput,
+} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
 
 const successRefundAdapter: IPaymentGatewayAdapter = {
-  async charge(_i: ChargeInput): Promise<ChargeOutput> { return { externalId: '', status: 'paid' } },
-  async refund(_id: string): Promise<boolean> { return true },
+  async charge(_i: ChargeInput): Promise<ChargeOutput> {
+    return { externalId: '', status: 'paid' }
+  },
+  async refund(_id: string): Promise<boolean> {
+    return true
+  },
 }
 
 const failRefundAdapter: IPaymentGatewayAdapter = {
-  async charge(_i: ChargeInput): Promise<ChargeOutput> { return { externalId: '', status: 'paid' } },
-  async refund(_id: string): Promise<boolean> { return false },
+  async charge(_i: ChargeInput): Promise<ChargeOutput> {
+    return { externalId: '', status: 'paid' }
+  },
+  async refund(_id: string): Promise<boolean> {
+    return false
+  },
 }
 
 const adapterFactory = (adapter: IPaymentGatewayAdapter) => ({

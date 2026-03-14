@@ -15,7 +15,11 @@ export class UpdateUserUseCase {
     if (input.email && input.email !== user.email) {
       const alreadyTaken = await this.userRepository.findByEmail(input.email)
       if (alreadyTaken) {
-        throw new AppError(`Email '${input.email}' is already in use by another user`, 409, 'CONFLICT')
+        throw new AppError(
+          `Email '${input.email}' is already in use by another user`,
+          409,
+          'CONFLICT'
+        )
       }
     }
 

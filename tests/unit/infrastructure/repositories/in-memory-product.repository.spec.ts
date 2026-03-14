@@ -3,7 +3,9 @@ import { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-d
 import { InMemoryProductRepository } from '#infrastructure/repositories/in-memory/in-memory-product.repository'
 import { Money } from '#domain/value-objects/money.vo'
 
-const makeProduct = (overrides: { name?: string; amountCents?: number; isActive?: boolean } = {}) => ({
+const makeProduct = (
+  overrides: { name?: string; amountCents?: number; isActive?: boolean } = {}
+) => ({
   name: overrides.name ?? 'Produto A',
   amount: Money.fromCents(overrides.amountCents ?? 1000),
   isActive: overrides.isActive ?? true,
@@ -114,10 +116,7 @@ test.group('InMemoryProductRepository', (group) => {
   })
 
   test('update() should throw an error for a non-existent id', async ({ assert }) => {
-    await assert.rejects(
-      () => repo.update(999, { name: 'Ghost' }),
-      /not found/i
-    )
+    await assert.rejects(() => repo.update(999, { name: 'Ghost' }), /not found/i)
   })
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -132,9 +131,6 @@ test.group('InMemoryProductRepository', (group) => {
   })
 
   test('delete() should throw an error for a non-existent id', async ({ assert }) => {
-    await assert.rejects(
-      () => repo.delete(999),
-      /not found/i
-    )
+    await assert.rejects(() => repo.delete(999), /not found/i)
   })
 })

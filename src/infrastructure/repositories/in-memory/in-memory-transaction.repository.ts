@@ -1,9 +1,12 @@
-import type { ITransactionRepository, CreateTransactionData } from '#domain/repositories/i-transaction.repository'
+import type {
+  ITransactionRepository,
+  CreateTransactionData,
+} from '#domain/repositories/i-transaction.repository'
 import type { TransactionEntity } from '#domain/entities/transaction.entity'
 import type { TransactionProductEntity } from '#domain/entities/transaction-product.entity'
 import type { InMemoryDatabase } from '#infrastructure/database/in-memory/in-memory-database'
 import { Money } from '#domain/value-objects/money.vo'
-import { TransactionStatus } from '#domain/enums/transaction-status.enum'
+import { type TransactionStatus } from '#domain/enums/transaction-status.enum'
 
 const TRANSACTIONS_TABLE = 'transactions'
 const TX_PRODUCTS_TABLE = 'transaction_products'
@@ -78,6 +81,10 @@ export class InMemoryTransactionRepository implements ITransactionRepository {
     const updates: Mutable<TransactionRow> = { status: status as TransactionStatus }
     if (gatewayId !== undefined) updates.gatewayId = gatewayId
     if (externalId !== undefined) updates.externalId = externalId
-    return this.db.update<TransactionRow>(TRANSACTIONS_TABLE, id, updates as Partial<TransactionRow>)
+    return this.db.update<TransactionRow>(
+      TRANSACTIONS_TABLE,
+      id,
+      updates as Partial<TransactionRow>
+    )
   }
 }

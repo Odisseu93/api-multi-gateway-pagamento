@@ -1,4 +1,4 @@
-import { Money } from '#domain/value-objects/money.vo'
+import { type Money } from '#domain/value-objects/money.vo'
 import { RefundStatus } from '#domain/enums/refund-status.enum'
 
 export interface RefundEntityProps {

@@ -46,10 +46,18 @@ test.group('InMemoryTransactionRepository', (group) => {
     assert.instanceOf(transaction.createdAt, Date)
   })
 
-  test('create() should persist transaction_products in the in-memory database', async ({ assert }) => {
+  test('create() should persist transaction_products in the in-memory database', async ({
+    assert,
+  }) => {
     await repo.create(makeTransactionData())
 
-    const products = db.findAll<{ id: number; transactionId: number; productId: number; quantity: number; unitAmount: any }>('transaction_products')
+    const products = db.findAll<{
+      id: number
+      transactionId: number
+      productId: number
+      quantity: number
+      unitAmount: any
+    }>('transaction_products')
 
     assert.lengthOf(products, 2)
     assert.equal(products[0].productId, 1)
@@ -89,7 +97,9 @@ test.group('InMemoryTransactionRepository', (group) => {
   // findByIdWithProducts
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByIdWithProducts() should return the transaction with its products', async ({ assert }) => {
+  test('findByIdWithProducts() should return the transaction with its products', async ({
+    assert,
+  }) => {
     const created = await repo.create(makeTransactionData())
     const result = await repo.findByIdWithProducts(created.id!)
 
@@ -102,12 +112,20 @@ test.group('InMemoryTransactionRepository', (group) => {
     assert.isNull(await repo.findByIdWithProducts(999))
   })
 
-  test('findByIdWithProducts() should not mix products from different transactions', async ({ assert }) => {
+  test('findByIdWithProducts() should not mix products from different transactions', async ({
+    assert,
+  }) => {
     const t1 = await repo.create(
-      makeTransactionData({ clientId: 1, products: [{ productId: 10, quantity: 1, unitAmount: 500 }] })
+      makeTransactionData({
+        clientId: 1,
+        products: [{ productId: 10, quantity: 1, unitAmount: 500 }],
+      })
     )
     const t2 = await repo.create(
-      makeTransactionData({ clientId: 2, products: [{ productId: 20, quantity: 3, unitAmount: 200 }] })
+      makeTransactionData({
+        clientId: 2,
+        products: [{ productId: 20, quantity: 3, unitAmount: 200 }],
+      })
     )
 
     const result1 = await repo.findByIdWithProducts(t1.id!)
@@ -140,7 +158,9 @@ test.group('InMemoryTransactionRepository', (group) => {
   // findByClientId
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByClientId() should return only the transactions for the given client', async ({ assert }) => {
+  test('findByClientId() should return only the transactions for the given client', async ({
+    assert,
+  }) => {
     await repo.create(makeTransactionData({ clientId: 1 }))
     await repo.create(makeTransactionData({ clientId: 1 }))
     await repo.create(makeTransactionData({ clientId: 2 }))
@@ -150,7 +170,9 @@ test.group('InMemoryTransactionRepository', (group) => {
     assert.isTrue(transactions.every((t) => t.clientId === 1))
   })
 
-  test('findByClientId() should return an empty array for a client with no transactions', async ({ assert }) => {
+  test('findByClientId() should return an empty array for a client with no transactions', async ({
+    assert,
+  }) => {
     assert.isEmpty(await repo.findByClientId(999))
   })
 
@@ -159,13 +181,17 @@ test.group('InMemoryTransactionRepository', (group) => {
   // ──────────────────────────────────────────────────────────────────────────
 
   test('updateStatus() should change the transaction status', async ({ assert }) => {
-    const transaction = await repo.create(makeTransactionData({ status: TransactionStatus.PENDING }))
+    const transaction = await repo.create(
+      makeTransactionData({ status: TransactionStatus.PENDING })
+    )
     const updated = await repo.updateStatus(transaction.id!, TransactionStatus.PAID)
 
     assert.equal(updated.status, TransactionStatus.PAID)
   })
 
-  test('updateStatus() should update gatewayId and externalId when provided', async ({ assert }) => {
+  test('updateStatus() should update gatewayId and externalId when provided', async ({
+    assert,
+  }) => {
     const transaction = await repo.create(
       makeTransactionData({ status: TransactionStatus.PENDING, gatewayId: null, externalId: null })
     )
@@ -184,9 +210,6 @@ test.group('InMemoryTransactionRepository', (group) => {
   })
 
   test('updateStatus() should throw an error for a non-existent id', async ({ assert }) => {
-    await assert.rejects(
-      () => repo.updateStatus(999, TransactionStatus.PAID),
-      /not found/i
-    )
+    await assert.rejects(() => repo.updateStatus(999, TransactionStatus.PAID), /not found/i)
   })
 })

@@ -33,7 +33,7 @@ test.group('Clients (Integration)', (group) => {
 
     await TestHelper.createGateway()
     const product = await TestHelper.createProduct()
-    
+
     // First purchase
     await client.post('/api/v1/transactions').json({
       items: [{ productId: product.id, quantity: 1 }],

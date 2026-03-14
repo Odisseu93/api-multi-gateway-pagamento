@@ -19,10 +19,7 @@ export default class extends BaseSchema {
       table.string('external_id', 100).nullable()
 
       // Status: requested | approved | failed
-      table
-        .enum('status', ['requested', 'approved', 'failed'])
-        .notNullable()
-        .defaultTo('requested')
+      table.enum('status', ['requested', 'approved', 'failed']).notNullable().defaultTo('requested')
 
       // Refunded amount in cents
       table.bigInteger('amount').unsigned().notNullable()

@@ -40,6 +40,8 @@ paths:
           description: Dados inválidos
         '401':
           description: Credenciais inválidas
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /transactions:
     post:
@@ -58,6 +60,8 @@ paths:
           description: Transação processada
         '422':
           description: Erro de validação ou processamento
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
     get:
       tags:
@@ -113,6 +117,8 @@ paths:
       responses:
         '200':
           description: Lista de gateways
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /gateways/{id}:
     get:
@@ -130,6 +136,8 @@ paths:
       responses:
         '200':
           description: Dados do gateway
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /gateways/{id}/toggle:
     patch:
@@ -147,6 +155,8 @@ paths:
       responses:
         '200':
           description: Status alterado
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /gateways/{id}/priority:
     patch:
@@ -173,6 +183,8 @@ paths:
       responses:
         '200':
           description: Prioridade atualizada
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /products:
     get:
@@ -184,6 +196,8 @@ paths:
       responses:
         '200':
           description: Lista de produtos
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Produtos
@@ -199,6 +213,8 @@ paths:
       responses:
         '201':
           description: Produto criado
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /products/{id}:
     get:
@@ -216,6 +232,8 @@ paths:
       responses:
         '200':
           description: Dados do produto
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     put:
       tags:
         - Produtos
@@ -237,6 +255,8 @@ paths:
       responses:
         '200':
           description: Produto atualizado
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Produtos
@@ -252,6 +272,8 @@ paths:
       responses:
         '204':
           description: Produto excluído
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /users:
     get:
@@ -263,6 +285,8 @@ paths:
       responses:
         '200':
           description: Lista de usuários
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Usuários
@@ -278,6 +302,8 @@ paths:
       responses:
         '201':
           description: Usuário criado
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /users/{id}:
     get:
@@ -295,6 +321,8 @@ paths:
       responses:
         '200':
           description: Dados do usuário
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     put:
       tags:
         - Usuários
@@ -318,6 +346,8 @@ paths:
       responses:
         '200':
           description: Usuário atualizado
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Usuários
@@ -333,6 +363,8 @@ paths:
       responses:
         '204':
           description: Usuário excluído
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /clients:
     get:
@@ -344,6 +376,8 @@ paths:
       responses:
         '200':
           description: Lista de clientes
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /clients/{id}:
     get:
@@ -361,6 +395,8 @@ paths:
       responses:
         '200':
           description: Dados do cliente
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /refunds:
     get:
@@ -372,6 +408,8 @@ paths:
       responses:
         '200':
           description: Lista de reembolsos
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
 components:
   securitySchemes:
@@ -379,7 +417,33 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  responses:
+    TooManyRequests:
+      description: Limite de requisições excedido.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RateLimitError'
   schemas:
+    RateLimitError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: RATE_LIMIT_EXCEEDED
+            message:
+              type: string
+              example: Too many requests. Please slow down.
+            retryAfter:
+              type: integer
+              example: 60
+              description: Segundos até o reset do limite.
     AuthResponse:
       type: object
       properties:

@@ -22,15 +22,18 @@ export class ProcessPurchaseUseCase {
 
   async execute(input: PurchaseInputDto): Promise<PurchaseOutputDto> {
     // ── 1. Consolidate and validate products ──────────────────────────────────
-    const consolidatedItems = input.items.reduce((acc, current) => {
-      const existing = acc.find((item) => item.productId === current.productId)
-      if (existing) {
-        existing.quantity += current.quantity
-      } else {
-        acc.push({ ...current })
-      }
-      return acc
-    }, [] as typeof input.items)
+    const consolidatedItems = input.items.reduce(
+      (acc, current) => {
+        const existing = acc.find((item) => item.productId === current.productId)
+        if (existing) {
+          existing.quantity += current.quantity
+        } else {
+          acc.push({ ...current })
+        }
+        return acc
+      },
+      [] as typeof input.items
+    )
 
     const uniqueProductIds = consolidatedItems.map((i) => i.productId)
     const products = await this.productRepository.findByIds(uniqueProductIds)

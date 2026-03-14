@@ -1,9 +1,7 @@
 import { defineConfig } from '@adonisjs/core/bodyparser'
 
 const bodyParserConfig = defineConfig({
-
   allowedMethods: ['POST', 'PUT', 'PATCH', 'DELETE'],
-
 
   form: {
     /**
@@ -17,9 +15,7 @@ const bodyParserConfig = defineConfig({
     types: ['application/x-www-form-urlencoded'],
   },
 
-
   json: {
-
     convertEmptyStringsToNull: true,
 
     /**
@@ -33,13 +29,11 @@ const bodyParserConfig = defineConfig({
     ],
   },
 
-
   multipart: {
     /**
      * Automatically process uploaded files into the system tmp directory.
      */
     autoProcess: true,
-
 
     convertEmptyStringsToNull: true,
 

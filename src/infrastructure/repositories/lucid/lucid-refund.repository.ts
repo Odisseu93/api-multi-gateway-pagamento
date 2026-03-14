@@ -1,7 +1,7 @@
 import type { IRefundRepository, CreateRefundData } from '#domain/repositories/i-refund.repository'
 import type { RefundEntity } from '#domain/entities/refund.entity'
 import { RefundEntity as RefundEntityClass } from '#domain/entities/refund.entity'
-import { RefundStatus } from '#domain/enums/refund-status.enum'
+import { type RefundStatus } from '#domain/enums/refund-status.enum'
 import { Money } from '#domain/value-objects/money.vo'
 import Refund from '#models/refund'
 

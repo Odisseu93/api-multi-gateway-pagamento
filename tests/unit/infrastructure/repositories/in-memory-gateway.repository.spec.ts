@@ -128,9 +128,6 @@ test.group('InMemoryGatewayRepository', (group) => {
   })
 
   test('update() should throw an error for a non-existent id', async ({ assert }) => {
-    await assert.rejects(
-      () => repo.update(999, { isActive: false }),
-      /not found/i
-    )
+    await assert.rejects(() => repo.update(999, { isActive: false }), /not found/i)
   })
 })

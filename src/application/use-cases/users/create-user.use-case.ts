@@ -3,7 +3,6 @@ import type { UserEntity, UserEntityProps } from '#domain/entities/user.entity'
 import type { CreateUserInputDto } from '#application/dtos/user.dto'
 import { AppError } from '#shared/errors/app-error'
 
-
 export class CreateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
