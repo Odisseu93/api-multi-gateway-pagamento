@@ -88,6 +88,19 @@ test.group('InMemoryRefundRepository', (group) => {
   })
 
   // ──────────────────────────────────────────────────────────────────────────
+  // findAll
+  // ──────────────────────────────────────────────────────────────────────────
+
+  test('findAll() should return all refunds', async ({ assert }) => {
+    await repo.create(makeRefundData({ transactionId: 10 }))
+    await repo.create(makeRefundData({ transactionId: 20 }))
+    await repo.create(makeRefundData({ transactionId: 30 }))
+
+    const all = await repo.findAll()
+    assert.lengthOf(all, 3)
+  })
+
+  // ──────────────────────────────────────────────────────────────────────────
   // updateStatus
   // ──────────────────────────────────────────────────────────────────────────
 

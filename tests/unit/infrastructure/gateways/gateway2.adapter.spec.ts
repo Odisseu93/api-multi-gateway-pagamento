@@ -2,6 +2,7 @@ import { test } from '@japa/runner'
 import { Gateway2Adapter } from '#infrastructure/gateways/adapters/gateway2.adapter'
 import { Money } from '#domain/value-objects/money.vo'
 import type { ChargeInput } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+import { httpClientMock } from '#tests/mocks/http-client.mock'
 
 function makeChargeInput(overrides: Partial<ChargeInput> = {}): ChargeInput {
   return {
@@ -13,29 +14,7 @@ function makeChargeInput(overrides: Partial<ChargeInput> = {}): ChargeInput {
   }
 }
 
-function mockFetch(responses: Array<{ ok: boolean; body: unknown }>) {
-  let callCount = 0
-  return async (_url: string | URL | Request, _init?: RequestInit): Promise<Response> => {
-    const resp = responses[callCount] ?? responses[responses.length - 1]
-    callCount++
-    return new Response(JSON.stringify(resp.body), {
-      status: resp.ok ? 200 : 400,
-      headers: { 'Content-Type': 'application/json' },
-    })
-  }
-}
-
-test.group('Gateway2Adapter', (group) => {
-  let originalFetch: typeof fetch
-
-  group.each.setup(() => {
-    originalFetch = globalThis.fetch
-  })
-
-  group.each.teardown(() => {
-    globalThis.fetch = originalFetch
-  })
-
+test.group('Gateway2Adapter', () => {
   // ──────────────────────────────────────────────────────────────────────────
   // charge()
   // ──────────────────────────────────────────────────────────────────────────
@@ -43,9 +22,9 @@ test.group('Gateway2Adapter', (group) => {
   test('charge() should return externalId and status "paid" on success', async ({
     assert,
   }) => {
-    globalThis.fetch = mockFetch([{ ok: true, body: { id: 'gw2-ext-456', status: 'approved' } }])
+    const httpMock = httpClientMock([{ data: { ok: true, id: 'gw2-ext-456', status: 'approved' } }])
 
-    const adapter = new Gateway2Adapter()
+    const adapter = new Gateway2Adapter(httpMock)
     const result = await adapter.charge(makeChargeInput())
 
     assert.equal(result.externalId, 'gw2-ext-456')
@@ -55,9 +34,9 @@ test.group('Gateway2Adapter', (group) => {
   test('charge() should return status "failed" when the gateway returns an error', async ({
     assert,
   }) => {
-    globalThis.fetch = mockFetch([{ ok: false, body: { error: 'cartão inválido' } }])
+    const httpMock = httpClientMock([{ data: { ok: false, error: 'cartão inválido' } }])
 
-    const adapter = new Gateway2Adapter()
+    const adapter = new Gateway2Adapter(httpMock)
     const result = await adapter.charge(makeChargeInput())
 
     assert.equal(result.status, 'failed')
@@ -65,20 +44,13 @@ test.group('Gateway2Adapter', (group) => {
   })
 
   test('charge() should not make a login call (stateless)', async ({ assert }) => {
-    let fetchCallCount = 0
-    globalThis.fetch = async (_url: string | URL | Request, _init?: RequestInit) => {
-      fetchCallCount++
-      return new Response(JSON.stringify({ id: 'gw2-ext', status: 'approved' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      })
-    }
+    const httpMock = httpClientMock([{ data: { ok: true, id: 'gw2-ext', status: 'approved' } }])
 
-    const adapter = new Gateway2Adapter()
+    const adapter = new Gateway2Adapter(httpMock)
     await adapter.charge(makeChargeInput())
 
     // Only 1 call for charge (no login step)
-    assert.equal(fetchCallCount, 1)
+    assert.equal(httpMock.getCallCount(), 1)
   })
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -86,18 +58,18 @@ test.group('Gateway2Adapter', (group) => {
   // ──────────────────────────────────────────────────────────────────────────
 
   test('refund() should return true when the gateway confirms the refund', async ({ assert }) => {
-    globalThis.fetch = mockFetch([{ ok: true, body: {} }])
+    const httpMock = httpClientMock([{ data: { ok: true, body: {} } }])
 
-    const adapter = new Gateway2Adapter()
+    const adapter = new Gateway2Adapter(httpMock)
     const result = await adapter.refund('gw2-ext-456')
 
     assert.isTrue(result)
   })
 
   test('refund() should return false when the gateway rejects the refund', async ({ assert }) => {
-    globalThis.fetch = mockFetch([{ ok: false, body: { error: 'not found' } }])
+    const httpMock = httpClientMock([{ data: { ok: false, error: 'not found' } }])
 
-    const adapter = new Gateway2Adapter()
+    const adapter = new Gateway2Adapter(httpMock)
     const result = await adapter.refund('gw2-ext-456')
 
     assert.isFalse(result)
