@@ -2,6 +2,7 @@ import type { IPaymentGatewayAdapter } from '#infrastructure/gateways/contracts/
 import { Gateway1Adapter } from '#infrastructure/gateways/adapters/gateway1.adapter'
 import { Gateway2Adapter } from '#infrastructure/gateways/adapters/gateway2.adapter'
 import { AppError } from '#shared/errors/app-error'
+import { AxiosHttpClientAdapter } from '#infrastructure/http/client/adapters/axios-http-client.adapter'
 
 /**
  * Factory that resolves the correct IPaymentGatewayAdapter by the gateway `type` slug.
@@ -13,8 +14,8 @@ import { AppError } from '#shared/errors/app-error'
  */
 export class GatewayAdapterFactory {
   private static readonly adapters: Record<string, () => IPaymentGatewayAdapter> = {
-    gateway_1: () => new Gateway1Adapter(),
-    gateway_2: () => new Gateway2Adapter(),
+    gateway_1: () => new Gateway1Adapter(new AxiosHttpClientAdapter()),
+    gateway_2: () => new Gateway2Adapter(new AxiosHttpClientAdapter()),
   }
 
   static create(type: string): IPaymentGatewayAdapter {

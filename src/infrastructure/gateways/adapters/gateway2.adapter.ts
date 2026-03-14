@@ -1,5 +1,10 @@
-import type { IPaymentGatewayAdapter, ChargeInput, ChargeOutput } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+import type {
+  IPaymentGatewayAdapter,
+  ChargeInput,
+  ChargeOutput,
+} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
 import env from '#start/env'
+import { IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
 
 interface Gateway2ChargeResponse {
   id: string
@@ -17,7 +22,7 @@ interface Gateway2ChargeResponse {
 export class Gateway2Adapter implements IPaymentGatewayAdapter {
   private baseUrl: string
 
-  constructor() {
+  constructor(private readonly httpClient: IHttpClient) {
     this.baseUrl = env.get('GATEWAY_2_URL')
   }
 
@@ -30,23 +35,24 @@ export class Gateway2Adapter implements IPaymentGatewayAdapter {
   }
 
   async charge(input: ChargeInput): Promise<ChargeOutput> {
-    const response = await fetch(`${this.baseUrl}/transacoes`, {
-      method: 'POST',
-      headers: this.authHeaders(),
-      body: JSON.stringify({
+    const response = await this.httpClient.post(
+      `${this.baseUrl}/transacoes`,
+      {
         valor: input.amount.cents,
         nome: input.name,
         email: input.email,
         numeroCartao: input.cardNumber,
         cvv: input.cvv,
-      }),
-    })
+      },
+      {
+        headers: this.authHeaders(),
+      }
+    )
 
-    if (!response.ok) {
+    const data = response.data as Gateway2ChargeResponse
+    if (!data?.id) {
       return { externalId: '', status: 'failed' }
     }
-
-    const data = (await response.json()) as Gateway2ChargeResponse
 
     return {
       externalId: data.id,
@@ -55,12 +61,21 @@ export class Gateway2Adapter implements IPaymentGatewayAdapter {
   }
 
   async refund(externalId: string): Promise<boolean> {
-    const response = await fetch(`${this.baseUrl}/transacoes/reembolso`, {
-      method: 'POST',
-      headers: this.authHeaders(),
-      body: JSON.stringify({ id: externalId }),
-    })
 
-    return response.ok
+    const response = await this.httpClient.post(
+      `${this.baseUrl}/transacoes/reembolso`,
+      {
+        id: externalId,
+      },
+      {
+        headers: this.authHeaders(),
+      }
+    )
+
+    if (!response?.data?.ok) {
+      return false
+    }
+
+    return true
   }
 }

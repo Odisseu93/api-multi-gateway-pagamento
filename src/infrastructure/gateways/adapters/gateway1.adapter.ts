@@ -1,6 +1,11 @@
-import type { IPaymentGatewayAdapter, ChargeInput, ChargeOutput } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+import type {
+  IPaymentGatewayAdapter,
+  ChargeInput,
+  ChargeOutput,
+} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
 import { AppError } from '#shared/errors/app-error'
 import env from '#start/env'
+import { IHttpClient } from '#infrastructure/http/client/contracts/i-http-client'
 
 interface Gateway1ChargeResponse {
   id: string
@@ -24,29 +29,27 @@ export class Gateway1Adapter implements IPaymentGatewayAdapter {
   private baseUrl: string
   private bearerToken: string | null = null
 
-  constructor() {
+  constructor(private readonly httpClient: IHttpClient) {
     this.baseUrl = env.get('GATEWAY_1_URL')
   }
-
   private async login(): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+
+    const response = await this.httpClient.post(
+      `${this.baseUrl}/login`,
+      {
         email: env.get('GATEWAY_1_EMAIL'),
         token: env.get('GATEWAY_1_TOKEN').release(),
-      }),
-    })
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    )
 
-    if (!response.ok) {
-      throw new AppError(
-        'Failed to authenticate with Gateway 1',
-        502,
-        'GATEWAY_1_AUTH_ERROR'
-      )
+    const data = response.data as Gateway1LoginResponse
+    if (!data?.token) {
+      throw new AppError('Failed to authenticate with Gateway 1', 502, 'GATEWAY_1_AUTH_ERROR')
     }
 
-    const data = (await response.json()) as Gateway1LoginResponse
     this.bearerToken = data.token
   }
 
@@ -59,44 +62,72 @@ export class Gateway1Adapter implements IPaymentGatewayAdapter {
   async charge(input: ChargeInput): Promise<ChargeOutput> {
     await this.ensureAuthenticated()
 
-    const response = await fetch(`${this.baseUrl}/transactions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.bearerToken}`,
-      },
-      body: JSON.stringify({
-        amount: input.amount.cents,
-        name: input.name,
-        email: input.email,
-        cardNumber: input.cardNumber,
-        cvv: input.cvv,
-      }),
-    })
+    try {
+      const response = await this.httpClient.post(
+        `${this.baseUrl}/transactions`,
+        {
+          amount: input.amount.cents,
+          name: input.name,
+          email: input.email,
+          cardNumber: input.cardNumber,
+          cvv: input.cvv,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.bearerToken}`,
+          },
+        }
+      )
 
-    if (!response.ok) {
+      const data = response.data as Gateway1ChargeResponse
+
+      if (!data?.id) {
+        return { externalId: '', status: 'failed' }
+      }
+
+      return {
+        externalId: data.id,
+        status: 'paid',
+      }
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        // Token expired? Re-login once and retry
+        await this.login()
+        return this.charge(input)
+      }
       return { externalId: '', status: 'failed' }
-    }
-
-    const data = (await response.json()) as Gateway1ChargeResponse
-
-    return {
-      externalId: data.id,
-      status: 'paid',
     }
   }
 
   async refund(externalId: string): Promise<boolean> {
     await this.ensureAuthenticated()
 
-    const response = await fetch(`${this.baseUrl}/transactions/${externalId}/charge_back`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.bearerToken}`,
-      },
-    })
+    try {
+      const response = await this.httpClient.post(
+        `${this.baseUrl}/transactions/${externalId}/charge_back`,
+        null,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.bearerToken}`,
+          },
+        }
+      )
 
-    return response.ok
+      // Gateway 1 returns 201 Created for charge back
+      return (
+        response?.status === 201 ||
+        response?.status === 200 ||
+        response?.data?.ok === true ||
+        !!response?.data?.id
+      )
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        await this.login()
+        return this.refund(externalId)
+      }
+      return false
+    }
   }
 }
