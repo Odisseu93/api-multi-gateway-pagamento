@@ -92,9 +92,13 @@ node ace test unit
 
 ## Referencia da API
 
+A documentação interativa da API pode ser acessada via Swagger/Scalar:
+- **Swagger/Scalar UI**: [http://localhost:3333/docs](http://localhost:3333/docs)
+- **OpenAPI Spec (YAML)**: [http://localhost:3333/openapi.yaml](http://localhost:3333/openapi.yaml)
+
 ### Lista de Endpoints
 
-> para facilitar a visualizacao dos endpoints, utilize a colecao do postman disponivel em:
+> para facilitar a visualizacao dos endpoints, utilize o Swagger acima ou a colecao do postman disponivel em:
 > [docs/postman/API de Pagamentos Multi-Gateway.postman_collection.json](./docs/postman/API%20de%20Pagamentos%20Multi-Gateway.postman_collection.json)
 
 ##### Autenticacao

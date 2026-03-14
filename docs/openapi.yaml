@@ -1,0 +1,485 @@
+openapi: 3.0.3
+info:
+  title: API de Pagamentos Multi-Gateway
+  description: API para gerenciamento de pagamentos através de múltiplos gateways com sistema de prioridades e RBAC.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3333/api/v1
+    description: Servidor Local
+paths:
+  /login:
+    post:
+      tags:
+        - Autenticação
+      summary: Autenticação de Usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: admin@example.com
+                password:
+                  type: string
+                  example: Password@123
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Dados inválidos
+        '401':
+          description: Credenciais inválidas
+
+  /transactions:
+    post:
+      tags:
+        - Transações
+      summary: Criar Nova Transação
+      description: Inicia um processo de pagamento. O sistema tentará processar através do gateway de maior prioridade ativo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+      responses:
+        '201':
+          description: Transação processada
+        '422':
+          description: Erro de validação ou processamento
+
+    get:
+      tags:
+        - Transações
+      summary: Listar Transações
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de transações
+
+  /transactions/{id}:
+    get:
+      tags:
+        - Transações
+      summary: Buscar Transação por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dados da transação
+
+  /transactions/{id}/refund:
+    post:
+      tags:
+        - Transações
+      summary: Reembolsar Transação
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reembolso solicitado
+
+  /gateways:
+    get:
+      tags:
+        - Gateways
+      summary: Listar Gateways
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de gateways
+
+  /gateways/{id}:
+    get:
+      tags:
+        - Gateways
+      summary: Buscar Gateway por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dados do gateway
+
+  /gateways/{id}/toggle:
+    patch:
+      tags:
+        - Gateways
+      summary: Alternar Status do Gateway (Ativo/Inativo)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Status alterado
+
+  /gateways/{id}/priority:
+    patch:
+      tags:
+        - Gateways
+      summary: Atualizar Prioridade do Gateway
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priority:
+                  type: integer
+                  minimum: 1
+      responses:
+        '200':
+          description: Prioridade atualizada
+
+  /products:
+    get:
+      tags:
+        - Produtos
+      summary: Listar Produtos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de produtos
+    post:
+      tags:
+        - Produtos
+      summary: Criar Produto
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '201':
+          description: Produto criado
+
+  /products/{id}:
+    get:
+      tags:
+        - Produtos
+      summary: Buscar Produto por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dados do produto
+    put:
+      tags:
+        - Produtos
+      summary: Atualizar Produto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: Produto atualizado
+    delete:
+      tags:
+        - Produtos
+      summary: Excluir Produto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Produto excluído
+
+  /users:
+    get:
+      tags:
+        - Usuários
+      summary: Listar Usuários
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuários
+    post:
+      tags:
+        - Usuários
+      summary: Criar Usuário
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '201':
+          description: Usuário criado
+
+  /users/{id}:
+    get:
+      tags:
+        - Usuários
+      summary: Buscar Usuário por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dados do usuário
+    put:
+      tags:
+        - Usuários
+      summary: Atualizar Usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Usuário atualizado
+    delete:
+      tags:
+        - Usuários
+      summary: Excluir Usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Usuário excluído
+
+  /clients:
+    get:
+      tags:
+        - Clientes
+      summary: Listar Clientes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de clientes
+
+  /clients/{id}:
+    get:
+      tags:
+        - Clientes
+      summary: Buscar Cliente por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dados do cliente
+
+  /refunds:
+    get:
+      tags:
+        - Reembolsos
+      summary: Listar Todos os Reembolsos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de reembolsos
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+            token:
+              type: string
+            abilities:
+              type: array
+              items:
+                type: string
+            expiresAt:
+              type: string
+              format: date-time
+
+    CreateTransactionRequest:
+      type: object
+      required:
+        - client
+        - items
+        - card
+      properties:
+        client:
+          type: object
+          required:
+            - name
+            - email
+          properties:
+            name:
+              type: string
+              example: "João Silva"
+            email:
+              type: string
+              format: email
+              example: "joao@example.com"
+        items:
+          type: array
+          items:
+            type: object
+            required:
+              - productId
+              - quantity
+            properties:
+              productId:
+                type: integer
+                example: 1
+              quantity:
+                type: integer
+                example: 2
+        card:
+          type: object
+          required:
+            - number
+            - cvv
+          properties:
+            number:
+              type: string
+              minLength: 16
+              maxLength: 16
+              example: "1234567812345678"
+            cvv:
+              type: string
+              minLength: 3
+              maxLength: 3
+              example: "123"
+
+    ProductRequest:
+      type: object
+      required:
+        - name
+        - amount
+      properties:
+        name:
+          type: string
+          example: "Plano Premium"
+        amount:
+          type: integer
+          description: Valor em centavos
+          example: 9990
+
+    UserRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - role
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        role:
+          type: string
+          enum: [ADMIN, MANAGER, FINANCE, USER]

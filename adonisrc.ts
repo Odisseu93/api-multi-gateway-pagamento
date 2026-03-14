@@ -104,7 +104,7 @@ export default defineConfig({
   | the production build.
   |
   */
-  metaFiles: [],
+  metaFiles: ['docs/**/*.yaml', 'docs/**/*.json'],
 
   hooks: {
     init: [

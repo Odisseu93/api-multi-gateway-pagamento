@@ -8,8 +8,13 @@
 */
 
 import { middleware } from '#start/kernel'
+const DocsController = () => import('#controllers/docs_controller')
+
 import router from '@adonisjs/core/services/router'
 import { Role } from '#domain/enums/role.enum'
+
+router.get('/docs', [DocsController, 'index'])
+router.get('/openapi.yaml', [DocsController, 'getSpec'] as any)
 
 // ── Health check ──────────────────────────────────────────────────────────────
 router.get('/health', () => ({ status: 'ok' }))

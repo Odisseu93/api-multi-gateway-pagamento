@@ -36,6 +36,7 @@ COPY --from=builder /app/build ./build
 # Copy migrations so they can run at startup inside the container
 COPY --from=builder /app/database ./database
 
+
 EXPOSE 3333
 
 # Run migrations then start the server
