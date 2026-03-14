@@ -1,10 +1,7 @@
 import { defineConfig } from '@adonisjs/shield'
 
 const shieldConfig = defineConfig({
-  /**
-   * Configure CSP policies for your app. Refer documentation
-   * to learn more.
-   */
+
   csp: {
     /**
      * Enable the Content-Security-Policy header.

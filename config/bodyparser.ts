@@ -1,16 +1,10 @@
 import { defineConfig } from '@adonisjs/core/bodyparser'
 
 const bodyParserConfig = defineConfig({
-  /**
-   * Parse request bodies for these HTTP methods.
-   * Keep this aligned with methods that receive payloads in your routes.
-   */
+
   allowedMethods: ['POST', 'PUT', 'PATCH', 'DELETE'],
 
-  /**
-   * Config for the "application/x-www-form-urlencoded"
-   * content-type parser.
-   */
+
   form: {
     /**
      * Normalize empty string values to null.
@@ -23,13 +17,9 @@ const bodyParserConfig = defineConfig({
     types: ['application/x-www-form-urlencoded'],
   },
 
-  /**
-   * Config for the JSON parser.
-   */
+
   json: {
-    /**
-     * Normalize empty string values to null.
-     */
+
     convertEmptyStringsToNull: true,
 
     /**
@@ -43,19 +33,14 @@ const bodyParserConfig = defineConfig({
     ],
   },
 
-  /**
-   * Config for the "multipart/form-data" content-type parser.
-   * File uploads are handled by the multipart parser.
-   */
+
   multipart: {
     /**
      * Automatically process uploaded files into the system tmp directory.
      */
     autoProcess: true,
 
-    /**
-     * Normalize empty string values to null.
-     */
+
     convertEmptyStringsToNull: true,
 
     /**

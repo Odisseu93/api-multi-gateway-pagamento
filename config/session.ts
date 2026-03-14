@@ -3,9 +3,7 @@ import app from '@adonisjs/core/services/app'
 import { defineConfig, stores } from '@adonisjs/session'
 
 const sessionConfig = defineConfig({
-  /**
-   * Enable or disable session support globally.
-   */
+
   enabled: true,
 
   /**
@@ -56,7 +54,7 @@ const sessionConfig = defineConfig({
    * variable in order to infer the store name without any
    * errors.
    */
-  store: env.get('SESSION_DRIVER'),
+  store: env.get('SESSION_DRIVER') as 'cookie' | 'database' | 'memory',
 
   /**
    * List of configured stores. Refer documentation to see

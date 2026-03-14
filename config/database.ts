@@ -2,13 +2,10 @@ import env from '#start/env'
 import app from '@adonisjs/core/services/app'
 import { defineConfig } from '@adonisjs/lucid'
 
+
+
 const dbConfig = defineConfig({
-  /*
-  |--------------------------------------------------------------------------
-  | Default connection
-  |--------------------------------------------------------------------------
-  | MySQL is the required database for this project (briefing).
-  */
+
   connection: 'mysql',
 
   connections: {
