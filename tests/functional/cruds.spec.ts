@@ -53,20 +53,21 @@ test.group('CRUD Operations (Integration)', (group) => {
     const productId = createResponse.body().data.id
 
     // Update
-    await (
-      await client.put(`/api/v1/products/${productId}`).headers(authHeader).json({
+    const updateResponse = await client
+      .put(`/api/v1/products/${productId}`)
+      .headers(authHeader)
+      .json({
         amount: 5000,
       })
-    ).assertStatus(200)
+    updateResponse.assertStatus(200)
 
     // Check soft-delete requires ADMIN/MANAGER (FINANCE only has GET/POST/PUT in routes.ts use logic)
     // Wait, let's check routes.ts for product destroy role
     // .delete('/:id', [() => import('#controllers/product_controller'), 'destroy'])
     // .use(middleware.roles({ roles: [Role.ADMIN, Role.MANAGER] }))
 
-    await (
-      await client.delete(`/api/v1/products/${productId}`).headers(authHeader)
-    ).assertStatus(403)
+    const deleteResponse = await client.delete(`/api/v1/products/${productId}`).headers(authHeader)
+    deleteResponse.assertStatus(403)
   })
 
   test('MANAGER can soft-delete a product', async ({ client, assert }) => {
@@ -74,9 +75,8 @@ test.group('CRUD Operations (Integration)', (group) => {
     const authHeader = await TestHelper.getAuthHeader(client, manager)
     const product = await TestHelper.createProduct()
 
-    await (
-      await client.delete(`/api/v1/products/${product.id}`).headers(authHeader)
-    ).assertStatus(204)
+    const deleteResponse = await client.delete(`/api/v1/products/${product.id}`).headers(authHeader)
+    deleteResponse.assertStatus(204)
 
     const p = await Product.findOrFail(product.id)
     assert.isNotNull(p.deletedAt)
@@ -89,18 +89,21 @@ test.group('CRUD Operations (Integration)', (group) => {
     const gateway = await TestHelper.createGateway({ isActive: true, priority: 10 })
 
     // Toggle
-    await (
-      await client.patch(`/api/v1/gateways/${gateway.id}/toggle`).headers(authHeader)
-    ).assertStatus(200)
+    const toggleResponse = await client
+      .patch(`/api/v1/gateways/${gateway.id}/toggle`)
+      .headers(authHeader)
+    toggleResponse.assertStatus(200)
     await gateway.refresh()
     assert.isFalse(Boolean(gateway.isActive))
 
     // Priority
-    await (
-      await client.patch(`/api/v1/gateways/${gateway.id}/priority`).headers(authHeader).json({
+    const priorityResponse = await client
+      .patch(`/api/v1/gateways/${gateway.id}/priority`)
+      .headers(authHeader)
+      .json({
         priority: 5,
       })
-    ).assertStatus(200)
+    priorityResponse.assertStatus(200)
     await gateway.refresh()
     assert.equal(gateway.priority, 5)
   })
