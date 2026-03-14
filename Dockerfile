@@ -39,4 +39,4 @@ COPY --from=builder /app/database ./database
 EXPOSE 3333
 
 # Run migrations then start the server
-CMD ["sh", "-c", "node ace migration:run --compiled && node build/bin/server.js"]
+CMD ["sh", "-c", "node build/ace.js migration:run --force && node build/bin/server.js"]

@@ -1,4 +1,4 @@
-# TODO – API Multi-Gateway de Pagamentos (Nível 3)
+# TODO - API Multi-Gateway de Pagamentos (Nivel 3)
 
 Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Architecture + DDD + SOLID + TDD).
 
@@ -32,8 +32,8 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
   - `db` — MySQL 8 com healthcheck e volume de persistência
   - `api` — build da aplicação; `depends_on: db (service_healthy)`; migrations no startup
   - `gateways-mock` — imagem `matheusprotzen/gateways-mock` (com autenticação, sem `REMOVE_AUTH`)
-- [ ] **chore(docker):** Validar que `docker compose up --build` sobe os 3 serviços corretamente
-- [ ] **chore(docker):** Validar que Gateway 1 responde em `http://localhost:3001` e Gateway 2 em `http://localhost:3002`
+- [x] **chore(docker):** Validar que `docker compose up --build` sobe os 3 serviços corretamente
+- [x] **chore(docker):** Validar que Gateway 1 responde em `http://localhost:3001` e Gateway 2 em `http://localhost:3002`
 
 ---
 
@@ -132,62 +132,62 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ## 7. Infrastructure – Gateway Adapters
 
-- [ ] **feat(gateways):** Implementar `Gateway1Adapter` implementando `IPaymentGatewayAdapter`
+- [x] **feat(gateways):** Implementar `Gateway1Adapter` implementando `IPaymentGatewayAdapter`
   - Login via `POST /login` (email + token); armazenar Bearer token para as chamadas seguintes
   - `charge()` → `POST /transactions` (amount, name, email, cardNumber, cvv)
   - `refund()` → `POST /transactions/:id/charge_back`
-- [ ] **feat(gateways):** Implementar `Gateway2Adapter` implementando `IPaymentGatewayAdapter`
+- [x] **feat(gateways):** Implementar `Gateway2Adapter` implementando `IPaymentGatewayAdapter`
   - Autenticação via headers `Gateway-Auth-Token` e `Gateway-Auth-Secret`
   - `charge()` → `POST /transacoes` (valor, nome, email, numeroCartao, cvv)
   - `refund()` → `POST /transacoes/reembolso` ({ id })
-- [ ] **feat(gateways):** Implementar `GatewayAdapterFactory` — resolve adapter pelo `slug` do gateway
-- [ ] **feat(gateways):** Registrar adapters no container de DI
+- [x] **feat(gateways):** Implementar `GatewayAdapterFactory` — resolve adapter pelo `slug` do gateway
+- [x] **feat(gateways):** Registrar adapters no container de DI
 
 ---
 
 ## 8. Application – DTOs
 
-- [ ] **feat(application):** `LoginInputDto`, `LoginOutputDto`
-- [ ] **feat(application):** `PurchaseInputDto` (lista de `{ productId, quantity }` + dados do cartão + dados do cliente), `PurchaseOutputDto`
-- [ ] **feat(application):** `RefundInputDto`, `RefundOutputDto`
-- [ ] **feat(application):** `CreateUserInputDto`, `UpdateUserInputDto`, `UserOutputDto`
-- [ ] **feat(application):** `CreateProductInputDto`, `UpdateProductInputDto`, `ProductOutputDto`
-- [ ] **feat(application):** `ClientOutputDto` (com lista de transações no detalhe)
-- [ ] **feat(application):** `TransactionOutputDto` (com produtos)
-- [ ] **feat(application):** `GatewayOutputDto`
+- [x] **feat(application):** `LoginInputDto`, `LoginOutputDto`
+- [x] **feat(application):** `PurchaseInputDto` (lista de `{ productId, quantity }` + dados do cartão + dados do cliente), `PurchaseOutputDto`
+- [x] **feat(application):** `RefundInputDto`, `RefundOutputDto`
+- [x] **feat(application):** `CreateUserInputDto`, `UpdateUserInputDto`, `UserOutputDto`
+- [x] **feat(application):** `CreateProductInputDto`, `UpdateProductInputDto`, `ProductOutputDto`
+- [x] **feat(application):** `ClientOutputDto` (com lista de transações no detalhe)
+- [x] **feat(application):** `TransactionOutputDto` (com produtos)
+- [x] **feat(application):** `GatewayOutputDto`
 
 ---
 
 ## 9. Application – Use Cases (TDD: escrever o teste antes da implementação)
 
 ### 9.1 Autenticação
-- [ ] **test(application):** Testes unitários para `LoginUseCase`
+- [x] **test(application):** Testes unitários para `LoginUseCase`
   - Cenários: credenciais válidas, email não encontrado, senha incorreta
-- [ ] **feat(application):** Implementar `LoginUseCase` (valida credenciais → gera token via `@adonisjs/auth`)
+- [x] **feat(application):** Implementar `LoginUseCase` (valida credenciais → gera token via `@adonisjs/auth`)
 
 ### 9.2 Usuários
-- [ ] **test(application):** Testes unitários para `CreateUserUseCase`, `UpdateUserUseCase`, `DeleteUserUseCase`, `ListUsersUseCase`, `GetUserUseCase`
-- [ ] **feat(application):** Implementar `CreateUserUseCase` (hash da senha com `@adonisjs/hash`)
-- [ ] **feat(application):** Implementar `UpdateUserUseCase`
-- [ ] **feat(application):** Implementar `DeleteUserUseCase`
-- [ ] **feat(application):** Implementar `ListUsersUseCase`
-- [ ] **feat(application):** Implementar `GetUserUseCase`
+- [x] **test(application):** Testes unitários para `CreateUserUseCase`, `UpdateUserUseCase`, `DeleteUserUseCase`, `ListUsersUseCase`, `GetUserUseCase`
+- [x] **feat(application):** Implementar `CreateUserUseCase` (hash da senha com `@adonisjs/hash`)
+- [x] **feat(application):** Implementar `UpdateUserUseCase`
+- [x] **feat(application):** Implementar `DeleteUserUseCase`
+- [x] **feat(application):** Implementar `ListUsersUseCase`
+- [x] **feat(application):** Implementar `GetUserUseCase`
 
 ### 9.3 Produtos
-- [ ] **test(application):** Testes unitários para CRUD de produtos
-- [ ] **feat(application):** Implementar `CreateProductUseCase`
-- [ ] **feat(application):** Implementar `UpdateProductUseCase`
-- [ ] **feat(application):** Implementar `DeleteProductUseCase`
-- [ ] **feat(application):** Implementar `ListProductsUseCase`
-- [ ] **feat(application):** Implementar `GetProductUseCase`
+- [x] **test(application):** Testes unitários para CRUD de produtos
+- [x] **feat(application):** Implementar `CreateProductUseCase`
+- [x] **feat(application):** Implementar `UpdateProductUseCase`
+- [x] **feat(application):** Implementar `DeleteProductUseCase`
+- [x] **feat(application):** Implementar `ListProductsUseCase`
+- [x] **feat(application):** Implementar `GetProductUseCase`
 
 ### 9.4 Gateways
-- [ ] **test(application):** Testes unitários para `ToggleGatewayUseCase`, `UpdateGatewayPriorityUseCase`
-- [ ] **feat(application):** Implementar `ToggleGatewayUseCase` (ativar/desativar)
-- [ ] **feat(application):** Implementar `UpdateGatewayPriorityUseCase` (troca de prioridade entre gateways)
+- [x] **test(application):** Testes unitários para `ToggleGatewayUseCase`, `UpdateGatewayPriorityUseCase`
+- [x] **feat(application):** Implementar `ToggleGatewayUseCase` (ativar/desativar)
+- [x] **feat(application):** Implementar `UpdateGatewayPriorityUseCase` (troca de prioridade entre gateways)
 
-### 9.5 Compra / Pagamento (核心)
-- [ ] **test(application):** Testes unitários para `ProcessPurchaseUseCase`
+### 9.5 Compra / Pagamento (Core)
+- [x] **test(application):** Testes unitários para `ProcessPurchaseUseCase`
   - Cenário: cobra no gateway de maior prioridade quando tem sucesso
   - Cenário: tenta segundo gateway quando o primeiro falha
   - Cenário: retorna erro quando todos os gateways falham
@@ -195,7 +195,7 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
   - Cenário: cria/rerusa client por email
   - Cenário: salva snapshot `unit_amount` em `transaction_products`
   - Cenário: persiste apenas os últimos 4 dígitos do cartão
-- [ ] **feat(application):** Implementar `ProcessPurchaseUseCase`
+- [x] **feat(application):** Implementar `ProcessPurchaseUseCase`
   - Buscar produtos do DB e calcular valor total no back-end
   - Criar/reusar client pelo email
   - Carregar gateways ativos ordenados por priority
@@ -204,22 +204,22 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
   - Se todos falharem, retornar erro adequado
 
 ### 9.6 Clientes
-- [ ] **test(application):** Testes unitários para `ListClientsUseCase`, `GetClientUseCase`
-- [ ] **feat(application):** Implementar `ListClientsUseCase`
-- [ ] **feat(application):** Implementar `GetClientUseCase` (detalhe + todas as suas transações)
+- [x] **test(application):** Testes unitários para `ListClientsUseCase`, `GetClientUseCase`
+- [x] **feat(application):** Implementar `ListClientsUseCase`
+- [x] **feat(application):** Implementar `GetClientUseCase` (detalhe + todas as suas transações)
 
 ### 9.7 Transações
-- [ ] **test(application):** Testes unitários para `ListTransactionsUseCase`, `GetTransactionUseCase`
-- [ ] **feat(application):** Implementar `ListTransactionsUseCase`
-- [ ] **feat(application):** Implementar `GetTransactionUseCase`
+- [x] **test(application):** Testes unitários para `ListTransactionsUseCase`, `GetTransactionUseCase`
+- [x] **feat(application):** Implementar `ListTransactionsUseCase`
+- [x] **feat(application):** Implementar `GetTransactionUseCase`
 
 ### 9.8 Reembolso
-- [ ] **test(application):** Testes unitários para `RefundTransactionUseCase`
+- [x] **test(application):** Testes unitários para `RefundTransactionUseCase`
   - Cenário: reembolso bem-sucedido → status = `refunded`
   - Cenário: transação já reembolsada → erro de conflito (409)
   - Cenário: transação não encontrada → 404
   - Cenário: gateway retorna erro → mapear para erro adequado
-- [ ] **feat(application):** Implementar `RefundTransactionUseCase`
+- [x] **feat(application):** Implementar `RefundTransactionUseCase`
   - Validar que transação existe e está em status `completed`
   - Chamar `adapter.refund()` do gateway que processou
   - Atualizar status da transação para `refunded`
@@ -229,31 +229,31 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 ## 10. Infrastructure – HTTP (Controllers, Middlewares, Rotas)
 
 ### 10.1 Middlewares
-- [ ] **feat(http):** Middleware `AuthMiddleware` — valida token e injeta usuário na request
-- [ ] **feat(http):** Middleware `AuthorizationMiddleware` (role guard) — verifica role do usuário; retorna 403 se não autorizado
-- [ ] **feat(http):** `ExceptionHandler` global — mapeia `AppError`, `ValidationError`, `AuthenticationError`, erros não tratados para JSON padronizado `{ success, error: { code, message } }`
+- [x] **feat(http):** Middleware `AuthMiddleware` — valida token e injeta usuário na request
+- [x] **feat(http):** Middleware `AuthorizationMiddleware` (role guard) — verifica role do usuário; retorna 403 se não autorizado
+- [x] **feat(http):** `ExceptionHandler` global — mapeia `AppError`, `ValidationError`, `AuthenticationError`, erros não tratados para JSON padronizado `{ success, error: { code, message } }`
 
 ### 10.2 Validators (VineJS)
-- [ ] **feat(http):** `LoginValidator`
-- [ ] **feat(http):** `PurchaseValidator` (array de `{ productId, quantity }`, dados do cartão, dados do cliente)
-- [ ] **feat(http):** `CreateUserValidator`, `UpdateUserValidator`
-- [ ] **feat(http):** `CreateProductValidator`, `UpdateProductValidator`
-- [ ] **feat(http):** `GatewayPriorityValidator`
+- [x] **feat(http):** `LoginValidator`
+- [x] **feat(http):** `PurchaseValidator` (array de `{ productId, quantity }`, dados do cartão, dados do cliente)
+- [x] **feat(http):** `CreateUserValidator`, `UpdateUserValidator`
+- [x] **feat(http):** `CreateProductValidator`, `UpdateProductValidator`
+- [x] **feat(http):** `GatewayPriorityValidator`
 
 ### 10.3 Controllers
-- [ ] **feat(http):** `AuthController` (`store` — login)
-- [ ] **feat(http):** `PurchaseController` (`store` — realizar compra)
-- [ ] **feat(http):** `UserController` (`index`, `show`, `store`, `update`, `destroy`)
-- [ ] **feat(http):** `ProductController` (`index`, `show`, `store`, `update`, `destroy`)
-- [ ] **feat(http):** `GatewayController` (`update` toggle ativo, `update` prioridade)
-- [ ] **feat(http):** `ClientController` (`index`, `show`)
-- [ ] **feat(http):** `TransactionController` (`index`, `show`, `refund`)
+- [x] **feat(http):** `AuthController` (`store` — login)
+- [x] **feat(http):** `PurchaseController` (`store` — realizar compra)
+- [x] **feat(http):** `UserController` (`index`, `show`, `store`, `update`, `destroy`)
+- [x] **feat(http):** `ProductController` (`index`, `show`, `store`, `update`, `destroy`)
+- [x] **feat(http):** `GatewayController` (`update` toggle ativo, `update` prioridade)
+- [x] **feat(http):** `ClientController` (`index`, `show`)
+- [x] **feat(http):** `TransactionController` (`index`, `show`, `refund`)
 
 ### 10.4 Rotas (`start/routes.ts`)
-- [ ] **feat(http):** Rotas Públicas:
+- [x] **feat(http):** Rotas Públicas:
   - `POST /api/v1/login`
   - `POST /api/v1/transactions` (compra)
-- [ ] **feat(http):** Rotas Privadas (autenticadas):
+- [x] **feat(http):** Rotas Privadas (autenticadas):
   - `PATCH /api/v1/gateways/:id/toggle` — ADMIN
   - `PATCH /api/v1/gateways/:id/priority` — ADMIN
   - `GET /api/v1/users` — ADMIN, MANAGER
@@ -276,17 +276,17 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 
 ## 11. Testes de Integração / Http
 
-- [ ] **test(http):** Testes de integração para rotas de autenticação
+- [x] **test(http):** Testes de integração para rotas de autenticação
   - `POST /api/v1/login` → 200 com token; 401/422 em cenários de erro
-- [ ] **test(http):** Testes de integração para rotas de compra
+- [x] **test(http):** Testes de integração para rotas de compra
   - `POST /api/v1/transactions` → 201; 400 produtos inválidos
-- [ ] **test(http):** Testes de integração para CRUD de usuários com validação de roles
+- [x] **test(http):** Testes de integração para CRUD de usuários com validação de roles
   - 401 sem token; 403 role incorreta; 201/200/204 com role correta
-- [ ] **test(http):** Testes de integração para CRUD de produtos com validação de roles
-- [ ] **test(http):** Testes de integração para gerenciamento de gateways (toggle, prioridade)
-- [ ] **test(http):** Testes de integração para listagem e detalhe de clientes
-- [ ] **test(http):** Testes de integração para listagem, detalhe e reembolso de transações
-- [ ] **test(http):** Testes de integração para adapters dos gateways (usando mock HTTP — nock ou msw)
+- [x] **test(http):** Testes de integração para CRUD de produtos com validação de roles
+- [x] **test(http):** Testes de integração para gerenciamento de gateways (toggle, prioridade)
+- [x] **test(http):** Testes de integração para listagem e detalhe de clientes
+- [x] **test(http):** Testes de integração para listagem, detalhe e reembolso de transações
+- [x] **test(http):** Testes de integração para adapters dos gateways (usando mock HTTP — nock ou msw)
   - Gateway 1: login, charge com sucesso, charge com erro, refund
   - Gateway 2: charge com sucesso, charge com erro, refund
 
@@ -295,17 +295,17 @@ Checklist de desenvolvimento completo seguindo as regras do projeto (Clean Archi
 ## 12. Documentação
 
 ### 12.1 README.md
-- [ ] **docs:** Criar `README.md` contendo:
-  - [ ] Título + descrição do projeto
-  - [ ] Tabela de URLs (local e produção): `/health`, `/docs`, `/swagger`
-  - [ ] Tabela de decisões arquiteturais (AdonisJS, Lucid, VineJS, Clean Arch, Docker, TDD)
-  - [ ] Pré-requisitos (Node.js versão, Docker, Docker Compose)
-  - [ ] Tabela de variáveis de ambiente (nome, obrigatória, descrição, padrão)
-  - [ ] Instalação e execução com Docker (passo a passo)
-  - [ ] Instalação e execução local sem Docker da aplicação
-  - [ ] Comandos de testes (`npm test`, `npm run test:coverage`)
-  - [ ] Tabela completa de endpoints com `curl` de exemplo por rota
-  - [ ] Estrutura de pastas resumida
+- [x] **docs:** Criar `README.md` contendo:
+  - [x] Título + descrição do projeto
+  - [x] Tabela de URLs (local e produção): `/health`, `/docs`, `/swagger`
+  - [x] Tabela de decisões arquiteturais (AdonisJS, Lucid, VineJS, Clean Arch, Docker, TDD)
+  - [x] Pré-requisitos (Node.js versão, Docker, Docker Compose)
+  - [x] Tabela de variáveis de ambiente (nome, obrigatória, descrição, padrão)
+  - [x] Instalação e execução com Docker (passo a passo)
+  - [x] Instalação e execução local sem Docker da aplicação
+  - [x] Comandos de testes (`npm test`, `npm run test:coverage`)
+  - [x] Tabela completa de endpoints com `curl` de exemplo por rota
+  - [x] Estrutura de pastas resumida
 
 ### 12.2 API Docs (`/docs`)
 - [ ] **docs:** Implementar página `/docs` (HTML servido via rota ou Swagger UI / Scalar / Redoc)
