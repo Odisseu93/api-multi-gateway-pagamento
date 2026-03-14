@@ -15,7 +15,7 @@ export default class ProductSeeder extends BaseSeeder {
 
   async run() {
     if (app.inProduction) {
-      console.warn('[ProductSeeder] Skipped — must not run in production.')
+
       return
     }
 
@@ -34,6 +34,6 @@ export default class ProductSeeder extends BaseSeeder {
       await Product.updateOrCreate({ name: product.name }, { ...product, isActive: true })
     }
 
-    console.log(`[ProductSeeder] ${products.length} products seeded.`)
+
   }
 }

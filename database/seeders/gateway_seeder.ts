@@ -21,9 +21,12 @@ export default class GatewaySeeder extends BaseSeeder {
 
   async run() {
     if (app.inProduction) {
-      console.warn('[GatewaySeeder] Skipped — must not run in production.')
+
       return
     }
+
+    // Reset priorities to avoid UNIQUE constraint violations during update
+    await Gateway.query().update({ priority: 0 })
 
     // Gateway 1: Bearer auth — adapter calls POST /login to obtain a token
     await Gateway.updateOrCreate(
@@ -59,6 +62,6 @@ export default class GatewaySeeder extends BaseSeeder {
       }
     )
 
-    console.log('[GatewaySeeder] Gateway 1 and Gateway 2 seeded.')
+
   }
 }
