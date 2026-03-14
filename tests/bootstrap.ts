@@ -4,6 +4,8 @@ import app from '@adonisjs/core/services/app'
 import type { Config } from '@japa/runner/types'
 import { pluginAdonisJS } from '@japa/plugin-adonisjs'
 import testUtils from '@adonisjs/core/services/test_utils'
+import limiter from '@adonisjs/limiter/services/main'
+
 import { authApiClient } from '@adonisjs/auth/plugins/api_client'
 import { sessionApiClient } from '@adonisjs/session/plugins/api_client'
 import type { Registry } from '../.adonisjs/client/registry/schema.d.ts'
@@ -39,10 +41,7 @@ export const plugins: Config['plugins'] = [
  * The teardown functions are executed after all the tests
  */
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
-  setup: [
-    () => testUtils.db().migrate(),
-    () => testUtils.db().truncate(),
-  ],
+  setup: [() => testUtils.db().migrate(), () => testUtils.db().truncate(), () => limiter.clear()],
   teardown: [],
 }
 
@@ -52,6 +51,13 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
  */
 export const configureSuite: Config['configureSuite'] = (suite) => {
   if (['browser', 'functional', 'e2e'].includes(suite.name)) {
-    return suite.setup(() => testUtils.httpServer().start())
+    suite.setup(() => testUtils.httpServer().start())
   }
+
+  // Register a setup hook for every test within the suite to clear rate limits
+  suite.onTest((test) => {
+    test.setup(async () => {
+      await limiter.clear()
+    })
+  })
 }
