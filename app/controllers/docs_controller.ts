@@ -27,26 +27,27 @@ export default class DocsController {
     // In production (Docker), app.makePath refers to the build/ directory
     // docs/ will be inside build/ because of metaFiles in adonisrc.ts
     const specPath = app.makePath('docs', 'openapi.yaml')
-    
+
     try {
       console.log('[DocsController] Searching for spec at:', specPath)
       const content = await fs.readFile(specPath, 'utf8')
       return response.header('Content-Type', 'text/yaml').send(content)
     } catch (err: any) {
       console.error('[DocsController] Error reading spec at:', specPath, err.message)
-      
+
       try {
-          const fallbackPath = join(app.appRoot.pathname, 'docs', 'openapi.yaml')
-          const normalizedPath = fallbackPath.startsWith('/') && fallbackPath.includes(':') 
-              ? fallbackPath.substring(1) 
-              : fallbackPath
-          
-          console.log('[DocsController] Trying fallback path:', normalizedPath)
-          const content = await fs.readFile(normalizedPath, 'utf8')
-          return response.header('Content-Type', 'text/yaml').send(content)
+        const fallbackPath = join(app.appRoot.pathname, 'docs', 'openapi.yaml')
+        const normalizedPath =
+          fallbackPath.startsWith('/') && fallbackPath.includes(':')
+            ? fallbackPath.substring(1)
+            : fallbackPath
+
+        console.log('[DocsController] Trying fallback path:', normalizedPath)
+        const content = await fs.readFile(normalizedPath, 'utf8')
+        return response.header('Content-Type', 'text/yaml').send(content)
       } catch (fallbackErr: any) {
-          console.error('[DocsController] Fallback also failed:', fallbackErr.message)
-          return response.status(404).send('Specification file not found')
+        console.error('[DocsController] Fallback also failed:', fallbackErr.message)
+        return response.status(404).send('Specification file not found')
       }
     }
   }

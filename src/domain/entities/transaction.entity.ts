@@ -44,9 +44,6 @@ export class TransactionEntity {
 
   /** Calculate total amount from a list of transaction products */
   static calculateTotalAmount(products: TransactionProductEntity[]): Money {
-    return products.reduce(
-      (total, product) => total.add(product.subtotal()),
-      Money.fromCents(0)
-    )
+    return products.reduce((total, product) => total.add(product.subtotal()), Money.fromCents(0))
   }
 }

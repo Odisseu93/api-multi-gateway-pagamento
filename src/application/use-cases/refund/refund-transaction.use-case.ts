@@ -69,11 +69,7 @@ export class RefundTransactionUseCase {
         amount: tx.amount,
       })
 
-      throw new AppError(
-        'Gateway refund call failed',
-        502,
-        'GATEWAY_REFUND_FAILED'
-      )
+      throw new AppError('Gateway refund call failed', 502, 'GATEWAY_REFUND_FAILED')
     }
 
     // ── 5. Persist approved refund and update transaction status ──────────

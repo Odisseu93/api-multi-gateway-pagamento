@@ -11,7 +11,7 @@ export default class TransactionController {
   /** GET /api/v1/transactions */
   async index({ response }: HttpContext) {
     const useCase = new ListTransactionsUseCase(new LucidTransactionRepository())
-    
+
     const transactions = await useCase.execute()
     return response.ok({ success: true, data: transactions })
   }
@@ -19,7 +19,7 @@ export default class TransactionController {
   /** GET /api/v1/transactions/:id */
   async show({ params, response }: HttpContext) {
     const useCase = new GetTransactionUseCase(new LucidTransactionRepository())
-    
+
     const result = await useCase.execute(Number(params.id))
     return response.ok({ success: true, data: result })
   }
@@ -32,7 +32,7 @@ export default class TransactionController {
       new LucidGatewayRepository(),
       GatewayAdapterFactory
     )
-    
+
     const result = await useCase.execute(Number(params.id))
     return response.ok({ success: true, data: result })
   }

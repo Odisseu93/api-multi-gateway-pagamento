@@ -42,7 +42,10 @@ export class InMemoryDatabase {
   }
 
   /** Find a single record matching a predicate */
-  findOne<T extends { id?: number }>(tableName: string, predicate: (record: T) => boolean): T | null {
+  findOne<T extends { id?: number }>(
+    tableName: string,
+    predicate: (record: T) => boolean
+  ): T | null {
     const table = this.getTable<T>(tableName)
     return table.records.find(predicate) ?? null
   }

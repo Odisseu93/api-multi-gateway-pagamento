@@ -21,7 +21,6 @@ export default class GatewaySeeder extends BaseSeeder {
 
   async run() {
     if (app.inProduction) {
-
       return
     }
 
@@ -61,7 +60,5 @@ export default class GatewaySeeder extends BaseSeeder {
         ),
       }
     )
-
-
   }
 }

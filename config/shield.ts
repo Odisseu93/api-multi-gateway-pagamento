@@ -1,7 +1,6 @@
 import { defineConfig } from '@adonisjs/shield'
 
 const shieldConfig = defineConfig({
-
   csp: {
     /**
      * Enable the Content-Security-Policy header.

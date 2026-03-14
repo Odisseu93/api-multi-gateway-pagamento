@@ -21,8 +21,9 @@ export class InMemoryUserRepository implements IUserRepository {
     return this.db.findAll<UserRow>(TABLE)
   }
 
-  async create(user: Pick<UserEntityProps, 'name' | 'email' | 'password' | 'role'>): Promise<UserEntity> {
-
+  async create(
+    user: Pick<UserEntityProps, 'name' | 'email' | 'password' | 'role'>
+  ): Promise<UserEntity> {
     const now = new Date()
     return this.db.insert<UserRow>(TABLE, {
       ...user,

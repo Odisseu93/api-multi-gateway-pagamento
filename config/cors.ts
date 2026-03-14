@@ -1,9 +1,7 @@
 import app from '@adonisjs/core/services/app'
 import { defineConfig } from '@adonisjs/cors'
 
-
 const corsConfig = defineConfig({
-
   enabled: true,
 
   /**

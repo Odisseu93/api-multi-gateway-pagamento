@@ -7,7 +7,6 @@ import { ListUsersUseCase } from '#application/use-cases/users/list-users.use-ca
 import { GetUserUseCase } from '#application/use-cases/users/get-user.use-case'
 import { LucidUserRepository } from '#infrastructure/repositories/lucid/lucid-user.repository'
 
-
 export default class UserController {
   private transform(user: any) {
     const { password, ...rest } = user
@@ -17,7 +16,7 @@ export default class UserController {
   /** GET /api/v1/users */
   async index({ response }: HttpContext) {
     const useCase = new ListUsersUseCase(new LucidUserRepository())
-    
+
     const users = await useCase.execute()
     return response.ok({ success: true, data: users.map((u) => this.transform(u)) })
   }
@@ -25,7 +24,7 @@ export default class UserController {
   /** GET /api/v1/users/:id */
   async show({ params, response }: HttpContext) {
     const useCase = new GetUserUseCase(new LucidUserRepository())
-    
+
     const user = await useCase.execute(Number(params.id))
     return response.ok({ success: true, data: this.transform(user) })
   }
@@ -34,7 +33,7 @@ export default class UserController {
   async store({ request, response }: HttpContext) {
     const input = await request.validateUsing(createUserValidator)
     const useCase = new CreateUserUseCase(new LucidUserRepository())
-    
+
     const user = await useCase.execute(input as any)
     return response.created({ success: true, data: this.transform(user) })
   }
@@ -43,7 +42,7 @@ export default class UserController {
   async update({ params, request, response }: HttpContext) {
     const input = await request.validateUsing(updateUserValidator)
     const useCase = new UpdateUserUseCase(new LucidUserRepository())
-    
+
     const user = await useCase.execute(Number(params.id), input as any)
     return response.ok({ success: true, data: this.transform(user) })
   }
@@ -52,7 +51,7 @@ export default class UserController {
   async destroy({ params, auth, response }: HttpContext) {
     const useCase = new DeleteUserUseCase(new LucidUserRepository())
     const currentUser = auth.user!
-    
+
     await useCase.execute(Number(params.id), currentUser.id, currentUser.role as any)
     return response.noContent()
   }

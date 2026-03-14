@@ -26,7 +26,9 @@ test.group('InMemoryRefundRepository', (group) => {
   // create
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('create() should return the refund with an assigned id and correct data', async ({ assert }) => {
+  test('create() should return the refund with an assigned id and correct data', async ({
+    assert,
+  }) => {
     const refund = await repo.create(makeRefundData())
 
     assert.equal(refund.id, 1)
@@ -71,7 +73,9 @@ test.group('InMemoryRefundRepository', (group) => {
   // findByTransactionId
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('findByTransactionId() should return all refunds for the transaction', async ({ assert }) => {
+  test('findByTransactionId() should return all refunds for the transaction', async ({
+    assert,
+  }) => {
     await repo.create(makeRefundData({ transactionId: 10 }))
     await repo.create(makeRefundData({ transactionId: 10 }))
     await repo.create(makeRefundData({ transactionId: 20 }))
@@ -127,9 +131,6 @@ test.group('InMemoryRefundRepository', (group) => {
   })
 
   test('updateStatus() should throw an error for a non-existent id', async ({ assert }) => {
-    await assert.rejects(
-      () => repo.updateStatus(999, RefundStatus.APPROVED),
-      /not found/i
-    )
+    await assert.rejects(() => repo.updateStatus(999, RefundStatus.APPROVED), /not found/i)
   })
 })

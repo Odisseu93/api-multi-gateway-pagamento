@@ -4,7 +4,9 @@ import { InMemoryUserRepository } from '#infrastructure/repositories/in-memory/i
 import { Role } from '#domain/enums/role.enum'
 import { UserEntity } from '#domain/entities/user.entity'
 
-const makeUser = (overrides: Partial<{ name: string; email: string; password: string; role: Role }> = {}): UserEntity => {
+const makeUser = (
+  overrides: Partial<{ name: string; email: string; password: string; role: Role }> = {}
+): UserEntity => {
   return new UserEntity({
     name: overrides.name ?? 'John Doe',
     email: overrides.email ?? 'john@example.com',
@@ -111,10 +113,7 @@ test.group('InMemoryUserRepository', (group) => {
   })
 
   test('update() should throw an error for a non-existent id', async ({ assert }) => {
-    await assert.rejects(
-      () => repo.update(999, { name: 'Ghost' }),
-      /not found/i
-    )
+    await assert.rejects(() => repo.update(999, { name: 'Ghost' }), /not found/i)
   })
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -130,9 +129,6 @@ test.group('InMemoryUserRepository', (group) => {
   })
 
   test('delete() should throw an error for a non-existent id', async ({ assert }) => {
-    await assert.rejects(
-      () => repo.delete(999),
-      /not found/i
-    )
+    await assert.rejects(() => repo.delete(999), /not found/i)
   })
 })

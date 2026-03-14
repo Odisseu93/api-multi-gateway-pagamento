@@ -19,9 +19,7 @@ test.group('Gateway2Adapter', () => {
   // charge()
   // ──────────────────────────────────────────────────────────────────────────
 
-  test('charge() should return externalId and status "paid" on success', async ({
-    assert,
-  }) => {
+  test('charge() should return externalId and status "paid" on success', async ({ assert }) => {
     const httpMock = httpClientMock([{ data: { ok: true, id: 'gw2-ext-456', status: 'approved' } }])
 
     const adapter = new Gateway2Adapter(httpMock)

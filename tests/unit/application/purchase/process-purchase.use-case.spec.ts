@@ -6,7 +6,11 @@ import { InMemoryGatewayRepository } from '#infrastructure/repositories/in-memor
 import { InMemoryTransactionRepository } from '#infrastructure/repositories/in-memory/in-memory-transaction.repository'
 import { ProcessPurchaseUseCase } from '#application/use-cases/purchase/process-purchase.use-case'
 import { Money } from '#domain/value-objects/money.vo'
-import type { IPaymentGatewayAdapter, ChargeInput, ChargeOutput } from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
+import type {
+  IPaymentGatewayAdapter,
+  ChargeInput,
+  ChargeOutput,
+} from '#infrastructure/gateways/contracts/i-payment-gateway.adapter'
 
 // ── Fake Gateway Adapter ──────────────────────────────────────────────────────
 
@@ -34,9 +38,9 @@ function makeFailAdapter(): IPaymentGatewayAdapter {
 
 // ── Fake Gateway Adapter Factory ──────────────────────────────────────────────
 
-function makeAdapterFactory(
-  map: Record<string, IPaymentGatewayAdapter>
-): { create: (type: string) => IPaymentGatewayAdapter } {
+function makeAdapterFactory(map: Record<string, IPaymentGatewayAdapter>): {
+  create: (type: string) => IPaymentGatewayAdapter
+} {
   return { create: (type: string) => map[type] }
 }
 
@@ -55,7 +59,6 @@ test.group('ProcessPurchaseUseCase', (group) => {
     clientRepo = new InMemoryClientRepository(db)
     gatewayRepo = new InMemoryGatewayRepository(db)
     transactionRepo = new InMemoryTransactionRepository(db)
-
 
     // Seed products
     db.insert('products', {
@@ -196,7 +199,6 @@ test.group('ProcessPurchaseUseCase', (group) => {
   test('should create a new client when email does not exist yet', async ({ assert }) => {
     const factory = makeAdapterFactory({ gateway_1: makeSuccessAdapter() })
     const useCase = buildUseCase(factory)
-
 
     await useCase.execute({
       client: { name: 'Jane', email: 'jane@example.com' },

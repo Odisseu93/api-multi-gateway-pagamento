@@ -17,9 +17,16 @@ export interface CreateTransactionData {
 
 export interface ITransactionRepository {
   findById(id: number): Promise<TransactionEntity | null>
-  findByIdWithProducts(id: number): Promise<{ transaction: TransactionEntity; products: TransactionProductEntity[] } | null>
+  findByIdWithProducts(
+    id: number
+  ): Promise<{ transaction: TransactionEntity; products: TransactionProductEntity[] } | null>
   findAll(): Promise<TransactionEntity[]>
   findByClientId(clientId: number): Promise<TransactionEntity[]>
   create(data: CreateTransactionData): Promise<TransactionEntity>
-  updateStatus(id: number, status: string, gatewayId?: number, externalId?: string): Promise<TransactionEntity>
+  updateStatus(
+    id: number,
+    status: string,
+    gatewayId?: number,
+    externalId?: string
+  ): Promise<TransactionEntity>
 }

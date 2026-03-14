@@ -39,4 +39,11 @@ export default await Env.create(new URL('../', import.meta.url), {
   GATEWAY_2_URL: Env.schema.string({ format: 'url', tld: false }),
   GATEWAY_2_AUTH_TOKEN: Env.schema.secret(),
   GATEWAY_2_AUTH_SECRET: Env.schema.secret(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring the limiter package
+  |----------------------------------------------------------
+  */
+  LIMITER_STORE: Env.schema.enum(['database', 'memory'] as const),
 })

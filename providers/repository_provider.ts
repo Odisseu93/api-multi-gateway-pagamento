@@ -25,7 +25,10 @@ export default class RepositoryProvider {
     this.app.container.bind(LucidGatewayRepository, async () => new LucidGatewayRepository())
     this.app.container.bind(LucidClientRepository, async () => new LucidClientRepository())
     this.app.container.bind(LucidProductRepository, async () => new LucidProductRepository())
-    this.app.container.bind(LucidTransactionRepository, async () => new LucidTransactionRepository())
+    this.app.container.bind(
+      LucidTransactionRepository,
+      async () => new LucidTransactionRepository()
+    )
     this.app.container.bind(LucidRefundRepository, async () => new LucidRefundRepository())
   }
 }

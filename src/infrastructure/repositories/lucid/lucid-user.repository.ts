@@ -2,7 +2,7 @@ import type { IUserRepository } from '#domain/repositories/i-user.repository'
 import type { UserEntity } from '#domain/entities/user.entity'
 import type { UserEntityProps } from '#domain/entities/user.entity'
 import { UserEntity as UserEntityClass } from '#domain/entities/user.entity'
-import { Role } from '#domain/enums/role.enum'
+import { type Role } from '#domain/enums/role.enum'
 import User from '#models/user'
 import { DateTime } from 'luxon'
 
@@ -35,7 +35,9 @@ export class LucidUserRepository implements IUserRepository {
     return models.map(toEntity)
   }
 
-  async create(user: Pick<UserEntityProps, 'name' | 'email' | 'password' | 'role'>): Promise<UserEntity> {
+  async create(
+    user: Pick<UserEntityProps, 'name' | 'email' | 'password' | 'role'>
+  ): Promise<UserEntity> {
     const model = await User.create({
       name: user.name,
       email: user.email,

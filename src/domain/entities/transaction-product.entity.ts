@@ -1,4 +1,4 @@
-import { Money } from '#domain/value-objects/money.vo'
+import { type Money } from '#domain/value-objects/money.vo'
 
 export interface TransactionProductEntityProps {
   readonly id?: number
