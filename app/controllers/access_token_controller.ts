@@ -1,5 +1,5 @@
 import User from '#models/user'
-import { loginValidator } from '#validators/user'
+import { loginValidator } from '#validators/auth.validator'
 import type { HttpContext } from '@adonisjs/core/http'
 import UserTransformer from '#transformers/user_transformer'
 
