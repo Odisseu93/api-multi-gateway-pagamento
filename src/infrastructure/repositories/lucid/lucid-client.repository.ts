@@ -6,7 +6,6 @@ import Client from '#models/client'
 function toEntity(model: Client): ClientEntity {
   return new ClientEntityClass({
     id: model.id,
-    userId: model.userId,
     name: model.name,
     email: model.email,
     createdAt: model.createdAt?.toJSDate(),
@@ -17,22 +16,17 @@ function toEntity(model: Client): ClientEntity {
 
 export class LucidClientRepository implements IClientRepository {
   async findById(id: number): Promise<ClientEntity | null> {
-    const model = await Client.find(id)
+    const model = await Client.query().where('id', id).whereNull('deleted_at').first()
     return model ? toEntity(model) : null
   }
 
   async findByEmail(email: string): Promise<ClientEntity | null> {
-    const model = await Client.findBy('email', email)
-    return model ? toEntity(model) : null
-  }
-
-  async findByUserId(userId: number): Promise<ClientEntity | null> {
-    const model = await Client.findBy('user_id', userId)
+    const model = await Client.query().where('email', email).whereNull('deleted_at').first()
     return model ? toEntity(model) : null
   }
 
   async findAll(): Promise<ClientEntity[]> {
-    const models = await Client.all()
+    const models = await Client.query().whereNull('deleted_at')
     return models.map(toEntity)
   }
 
@@ -40,7 +34,6 @@ export class LucidClientRepository implements IClientRepository {
     client: Omit<ClientEntity, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>
   ): Promise<ClientEntity> {
     const model = await Client.create({
-      userId: client.userId,
       name: client.name,
       email: client.email,
     })

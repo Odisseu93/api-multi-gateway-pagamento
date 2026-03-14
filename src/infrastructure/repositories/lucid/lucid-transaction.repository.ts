@@ -8,8 +8,10 @@ import { TransactionEntity as TransactionEntityClass } from '#domain/entities/tr
 import { TransactionProductEntity as TransactionProductEntityClass } from '#domain/entities/transaction-product.entity'
 import { TransactionStatus } from '#domain/enums/transaction-status.enum'
 import { Money } from '#domain/value-objects/money.vo'
+import db from '@adonisjs/lucid/services/db'
 import Transaction from '#models/transaction'
 import TransactionProduct from '#models/transaction_product'
+import type { TransactionClientContract } from '@adonisjs/lucid/types/database'
 
 function toEntity(model: Transaction): TransactionEntity {
   return new TransactionEntityClass({
@@ -63,25 +65,31 @@ export class LucidTransactionRepository implements ITransactionRepository {
   }
 
   async create(data: CreateTransactionData): Promise<TransactionEntity> {
-    const transaction = await Transaction.create({
-      clientId: data.clientId,
-      gatewayId: data.gatewayId,
-      externalId: data.externalId,
-      status: data.status,
-      amount: data.amount,
-      cardLastNumbers: data.cardLastNumbers,
+    return await db.transaction(async (trx: TransactionClientContract) => {
+      const transaction = await Transaction.create(
+        {
+          clientId: data.clientId,
+          gatewayId: data.gatewayId,
+          externalId: data.externalId,
+          status: data.status,
+          amount: data.amount,
+          cardLastNumbers: data.cardLastNumbers,
+        },
+        { client: trx }
+      )
+
+      await TransactionProduct.createMany(
+        data.products.map((p) => ({
+          transactionId: transaction.id,
+          productId: p.productId,
+          quantity: p.quantity,
+          unitAmount: p.unitAmount,
+        })),
+        { client: trx }
+      )
+
+      return toEntity(transaction)
     })
-
-    await TransactionProduct.createMany(
-      data.products.map((p) => ({
-        transactionId: transaction.id,
-        productId: p.productId,
-        quantity: p.quantity,
-        unitAmount: p.unitAmount,
-      }))
-    )
-
-    return toEntity(transaction)
   }
 
   async updateStatus(

@@ -1,21 +1,46 @@
-import { UserSchema } from '#database/schema'
+import { BaseModel, column, beforeSave } from '@adonisjs/lucid/orm'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { column } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { DateTime } from 'luxon'
 
-export default class User extends compose(UserSchema, withAuthFinder(hash)) {
+export default class User extends compose(BaseModel, withAuthFinder(() => hash as any)) {
+  static table = 'users'
+
+  @beforeSave()
+  public static async hashPassword(user: any) {
+    if (user.password && !user.password.startsWith('$argon2')) {
+      user.password = await hash.make(user.password)
+    }
+  }
+
   static accessTokens = DbAccessTokensProvider.forModel(User)
   declare currentAccessToken?: AccessToken
 
-  // Override 'fullName' from auto-generated schema to match the renamed column 'name'.
-  // This override will become unnecessary once `node ace migration:fresh` regenerates schema.ts.
+  @column({ isPrimary: true })
+  declare id: number
+
+  @column()
+  declare email: string
+
+  @column({ serializeAs: null })
+  declare password: string
+
   @column()
   declare name: string
 
   @column()
   declare role: string
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+
+  @column.dateTime()
+  declare deletedAt: DateTime | null
 
   get initials() {
     const [first, last] = this.name ? this.name.split(' ') : this.email.split('@')

@@ -1,7 +1,6 @@
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import User from '#models/user'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Transaction from '#models/transaction'
 
 export default class Client extends BaseModel {
@@ -9,9 +8,6 @@ export default class Client extends BaseModel {
 
   @column({ isPrimary: true })
   declare id: number
-
-  @column()
-  declare userId: number
 
   @column()
   declare name: string
@@ -27,9 +23,6 @@ export default class Client extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null
-
-  @belongsTo(() => User)
-  declare user: BelongsTo<typeof User>
 
   @hasMany(() => Transaction)
   declare transactions: HasMany<typeof Transaction>

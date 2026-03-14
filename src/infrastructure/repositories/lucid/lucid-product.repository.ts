@@ -3,6 +3,7 @@ import type { ProductEntity } from '#domain/entities/product.entity'
 import { ProductEntity as ProductEntityClass } from '#domain/entities/product.entity'
 import { Money } from '#domain/value-objects/money.vo'
 import Product from '#models/product'
+import { DateTime } from 'luxon'
 
 function toEntity(model: Product): ProductEntity {
   return new ProductEntityClass({
@@ -18,17 +19,17 @@ function toEntity(model: Product): ProductEntity {
 
 export class LucidProductRepository implements IProductRepository {
   async findById(id: number): Promise<ProductEntity | null> {
-    const model = await Product.find(id)
+    const model = await Product.query().where('id', id).whereNull('deleted_at').first()
     return model ? toEntity(model) : null
   }
 
   async findByIds(ids: number[]): Promise<ProductEntity[]> {
-    const models = await Product.query().whereIn('id', ids)
+    const models = await Product.query().whereIn('id', ids).whereNull('deleted_at')
     return models.map(toEntity)
   }
 
   async findAll(): Promise<ProductEntity[]> {
-    const models = await Product.all()
+    const models = await Product.query().whereNull('deleted_at')
     return models.map(toEntity)
   }
 
@@ -57,6 +58,7 @@ export class LucidProductRepository implements IProductRepository {
 
   async delete(id: number): Promise<void> {
     const model = await Product.findOrFail(id)
-    await model.delete()
+    model.deletedAt = DateTime.now()
+    await model.save()
   }
 }

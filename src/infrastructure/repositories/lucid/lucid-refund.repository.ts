@@ -27,6 +27,11 @@ export class LucidRefundRepository implements IRefundRepository {
     return models.map(toEntity)
   }
 
+  async findAll(): Promise<RefundEntity[]> {
+    const models = await Refund.all()
+    return models.map(toEntity)
+  }
+
   async create(data: CreateRefundData): Promise<RefundEntity> {
     const model = await Refund.create({
       transactionId: data.transactionId,
