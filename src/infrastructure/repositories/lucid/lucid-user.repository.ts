@@ -4,6 +4,7 @@ import type { UserEntityProps } from '#domain/entities/user.entity'
 import { UserEntity as UserEntityClass } from '#domain/entities/user.entity'
 import { Role } from '#domain/enums/role.enum'
 import User from '#models/user'
+import { DateTime } from 'luxon'
 
 function toEntity(model: User): UserEntity {
   return new UserEntityClass({
@@ -20,17 +21,17 @@ function toEntity(model: User): UserEntity {
 
 export class LucidUserRepository implements IUserRepository {
   async findById(id: number): Promise<UserEntity | null> {
-    const model = await User.find(id)
+    const model = await User.query().where('id', id).whereNull('deleted_at').first()
     return model ? toEntity(model) : null
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
-    const model = await User.findBy('email', email)
+    const model = await User.query().where('email', email).whereNull('deleted_at').first()
     return model ? toEntity(model) : null
   }
 
   async findAll(): Promise<UserEntity[]> {
-    const models = await User.all()
+    const models = await User.query().whereNull('deleted_at')
     return models.map(toEntity)
   }
 
@@ -56,6 +57,7 @@ export class LucidUserRepository implements IUserRepository {
 
   async delete(id: number): Promise<void> {
     const model = await User.findOrFail(id)
-    await model.delete()
+    model.deletedAt = DateTime.now()
+    await model.save()
   }
 }

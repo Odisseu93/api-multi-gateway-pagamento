@@ -12,6 +12,7 @@ export interface CreateRefundData {
 export interface IRefundRepository {
   findById(id: number): Promise<RefundEntity | null>
   findByTransactionId(transactionId: number): Promise<RefundEntity[]>
+  findAll(): Promise<RefundEntity[]>
   create(data: CreateRefundData): Promise<RefundEntity>
   updateStatus(id: number, status: RefundStatus, externalId?: string): Promise<RefundEntity>
 }

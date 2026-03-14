@@ -1,6 +1,5 @@
 export interface ClientEntityProps {
   readonly id?: number
-  readonly userId: number
   readonly name: string
   readonly email: string
   readonly createdAt?: Date
@@ -10,7 +9,6 @@ export interface ClientEntityProps {
 
 export class ClientEntity {
   public readonly id?: number
-  public readonly userId: number
   public readonly name: string
   public readonly email: string
   public readonly createdAt?: Date
@@ -19,7 +17,6 @@ export class ClientEntity {
 
   constructor(props: ClientEntityProps) {
     this.id = props.id
-    this.userId = props.userId
     this.name = props.name
     this.email = props.email
     this.createdAt = props.createdAt
