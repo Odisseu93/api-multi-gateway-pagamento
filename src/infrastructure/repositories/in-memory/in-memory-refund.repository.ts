@@ -21,6 +21,10 @@ export class InMemoryRefundRepository implements IRefundRepository {
     return this.db.findMany<RefundRow>(TABLE, (r) => r.transactionId === transactionId)
   }
 
+  async findAll(): Promise<RefundEntity[]> {
+    return this.db.findAll<RefundRow>(TABLE)
+  }
+
   async create(data: CreateRefundData): Promise<RefundEntity> {
     const now = new Date()
     return this.db.insert<RefundRow>(TABLE, {

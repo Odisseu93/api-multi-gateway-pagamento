@@ -17,9 +17,6 @@ export class InMemoryClientRepository implements IClientRepository {
     return this.db.findOne<ClientRow>(TABLE, (c) => c.email === email)
   }
 
-  async findByUserId(userId: number): Promise<ClientEntity | null> {
-    return this.db.findOne<ClientRow>(TABLE, (c) => c.userId === userId)
-  }
 
   async findAll(): Promise<ClientEntity[]> {
     return this.db.findAll<ClientRow>(TABLE)
