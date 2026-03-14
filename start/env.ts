@@ -17,6 +17,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   PORT: Env.schema.number(),
   HOST: Env.schema.string({ format: 'host' }),
   LOG_LEVEL: Env.schema.string(),
+  SESSION_DRIVER: Env.schema.enum(['cookie', 'database', 'memory'] as const),
 
   // App
   APP_KEY: Env.schema.secret(),

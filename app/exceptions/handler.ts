@@ -1,27 +1,95 @@
 import app from '@adonisjs/core/services/app'
 import { type HttpContext, ExceptionHandler } from '@adonisjs/core/http'
+import { AppError } from '#shared/errors/app-error'
+import { errors as vineErrors } from '@vinejs/vine'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
-  /**
-   * In debug mode, the exception handler will display verbose errors
-   * with pretty printed stack traces.
-   */
   protected debug = !app.inProduction
 
-  /**
-   * The method is used for handling errors and returning
-   * response to the client
-   */
   async handle(error: unknown, ctx: HttpContext) {
+    // ── AppError (our domain/application errors) ───────────────────────────
+    if (error instanceof AppError) {
+      return ctx.response.status(error.statusCode).json({
+        success: false,
+        error: {
+          code: error.code,
+          message: error.message,
+        },
+      })
+    }
+
+    // ── VineJS validation errors → 422 ────────────────────────────────────
+    if (error instanceof vineErrors.E_VALIDATION_ERROR) {
+      return ctx.response.status(422).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Validation failed',
+          details: error.messages,
+        },
+      })
+    }
+
+    // ── AdonisJS auth, validation or generic Error with .status ───────────
+    if (error instanceof Error && 'status' in error) {
+      const httpError = error as Error & { status: number }
+      
+      // Map standard HTTP status codes to consistent error structures
+      const statusMapping: Record<number, { code: string; message: string }> = {
+        400: { code: 'BAD_REQUEST', message: 'Bad request' },
+        401: { code: 'UNAUTHENTICATED', message: 'Authentication required' },
+        403: { code: 'FORBIDDEN', message: 'You do not have permission to perform this action' },
+        404: { code: 'NOT_FOUND', message: 'The requested resource was not found' },
+        409: { code: 'CONFLICT', message: 'The request conflicts with existing data' },
+      }
+
+      const mapping = statusMapping[httpError.status]
+      if (mapping) {
+        // Special case: Invalid credentials should return 401 instead of 400
+        if ('code' in httpError && httpError.code === 'E_INVALID_CREDENTIALS') {
+          return ctx.response.status(401).json({
+            success: false,
+            error: {
+              code: 'UNAUTHENTICATED',
+              message: 'Invalid user credentials',
+            },
+          })
+        }
+
+        return ctx.response.status(httpError.status).json({
+          success: false,
+          error: mapping,
+        })
+      }
+
+      // If status >= 500, return a sanitized generic error to avoid leaking details
+      if (httpError.status >= 500) {
+        return ctx.response.status(httpError.status).json({
+          success: false,
+          error: {
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'An unexpected error occurred. Please try again later.',
+          },
+        })
+      }
+    }
+
+    // ── Fallback: generic 500 for anything else that might have leaked ─────
+    const status = (error as any)?.status || 500
+    if (status >= 500) {
+      return ctx.response.status(status).json({
+        success: false,
+        error: {
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An unexpected error occurred. Please try again later.',
+        },
+      })
+    }
+    
+    // ── Fallback: delegate to AdonisJS default handler ───────────────────
     return super.handle(error, ctx)
   }
 
-  /**
-   * The method is used to report error to the logging service or
-   * the a third party error monitoring service.
-   *
-   * @note You should not attempt to send a response from this method.
-   */
   async report(error: unknown, ctx: HttpContext) {
     return super.report(error, ctx)
   }

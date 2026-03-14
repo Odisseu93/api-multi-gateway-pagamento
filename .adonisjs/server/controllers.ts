@@ -5,6 +5,14 @@
 
 export const controllers = {
   AccessToken: () => import('#controllers/access_token_controller'),
+  Auth: () => import('#controllers/auth_controller'),
+  Client: () => import('#controllers/client_controller'),
+  Gateway: () => import('#controllers/gateway_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
+  Product: () => import('#controllers/product_controller'),
   Profile: () => import('#controllers/profile_controller'),
+  Purchase: () => import('#controllers/purchase_controller'),
+  Refund: () => import('#controllers/refund_controller'),
+  Transaction: () => import('#controllers/transaction_controller'),
+  User: () => import('#controllers/user_controller'),
 }
